@@ -17,8 +17,15 @@ class BookViewModel (application: Application) : AndroidViewModel(application) {
     var books by mutableStateOf(listOf<BookEntity>())
         private set
 
+    var isAdminMode by mutableStateOf(false)
+        private set
+
     init {
         refresh()
+    }
+
+    fun updateRole(){
+        isAdminMode = !isAdminMode
     }
 
     fun refresh() = viewModelScope.launch {
@@ -32,15 +39,34 @@ class BookViewModel (application: Application) : AndroidViewModel(application) {
             title = title,
             author = author,
             isbn = isbn,
-            isAvailable = true
+            isAvailable = true,
+            borrowedBy = null
         )
-        bookDao.insertBook(newBook); refresh()
+        bookDao.insertBook(newBook)
+        refresh()
     }
-    fun updateBook(book: BookEntity) = viewModelScope.launch {
-        bookDao.updateBook(book.copy(isAvailable = !book.isAvailable)); refresh()
+    fun borrowBook(book: BookEntity, userName: String) = viewModelScope.launch {
+        if (book.isAvailable){
+            val updatedBook = book.copy(
+                isAvailable = false,
+                borrowedBy = userName
+            )
+            bookDao.updateBook(updatedBook)
+            refresh()
+        }
+    }
+
+    fun returnBook(book: BookEntity) = viewModelScope.launch {
+        val updatedBook = book.copy(
+            isAvailable = true,
+            borrowedBy = null
+        )
+        bookDao.updateBook(updatedBook)
+        refresh()
     }
 
     fun deleteBook(book: BookEntity) = viewModelScope.launch {
-        bookDao.deleteBook(book); refresh()
+        bookDao.deleteBook(book)
+        refresh()
     }
 }

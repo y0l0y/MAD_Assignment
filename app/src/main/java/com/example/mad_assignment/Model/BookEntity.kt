@@ -10,5 +10,6 @@ data class BookEntity(
     val title: String,
     val author: String,
     val isbn: String,
-    val isAvailable: Boolean = true
+    val isAvailable: Boolean = true,
+    val borrowedBy: String? = null
 )
