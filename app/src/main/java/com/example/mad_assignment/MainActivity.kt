@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             MAD_AssignmentTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = "YeoYang",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
