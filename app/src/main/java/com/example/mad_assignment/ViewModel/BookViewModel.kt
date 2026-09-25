@@ -69,4 +69,28 @@ class BookViewModel (application: Application) : AndroidViewModel(application) {
         bookDao.deleteBook(book)
         refresh()
     }
+
+    fun updateBookTitle(book: BookEntity, newTitle: String) = viewModelScope.launch {
+        val updatedBook = book.copy(
+            title = newTitle
+        )
+        bookDao.updateBook(updatedBook)
+        refresh()
+    }
+
+    fun updateBookAuthor(book: BookEntity, newAuthor: String) = viewModelScope.launch {
+        val updatedBook = book.copy(
+            author = newAuthor
+        )
+        bookDao.updateBook(updatedBook)
+        refresh()
+    }
+
+    fun updateBookIsbn(book: BookEntity, newIsbn: String) = viewModelScope.launch {
+        val updatedBook = book.copy(
+            isbn = newIsbn
+        )
+        bookDao.updateBook(updatedBook)
+        refresh()
+    }
 }

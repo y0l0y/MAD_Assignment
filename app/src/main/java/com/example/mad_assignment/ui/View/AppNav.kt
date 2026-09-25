@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.mad_assignment.ViewModel.BookViewModel
 import kotlinx.serialization.Serializable
 
@@ -11,6 +12,8 @@ import kotlinx.serialization.Serializable
 data object BookList
 @Serializable
 data object AddBook
+@Serializable
+data class BookDetail(val bookID: Long)
 
 @Composable
 fun AppNav(viewModel: BookViewModel) {
@@ -30,6 +33,25 @@ fun AppNav(viewModel: BookViewModel) {
         composable<AddBook>{
             AddBookScreen(
                 vm = viewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable<BookDetail> { backStackEntry ->
+            val detailRoute = backStackEntry.toRoute<BookDetail>()
+            BookUpdateScreen(
+                bookID = detailRoute.bookID,
+                books = viewModel.books,
+                onUpdateTitle = { book, newTitle ->
+                    viewModel.updateBookTitle(book, newTitle)
+                },
+                onUpdateAuthor = { book, newAuthor ->
+                    viewModel.updateBookAuthor(book, newAuthor)
+                },
+                onUpdateIsbn = { book, newIsbn ->
+                    viewModel.updateBookIsbn(book, newIsbn)
+                },
                 onNavigateBack = {
                     navController.popBackStack()
                 }
