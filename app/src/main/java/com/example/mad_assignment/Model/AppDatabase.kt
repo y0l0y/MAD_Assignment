@@ -20,10 +20,10 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "club_library_db"
                 )
-                    .fallbackToDestructiveMigration(false)
+                    .fallbackToDestructiveMigration()
                     .build()
-                INSTANCE = instance
-                instance
+                    INSTANCE = instance
+                    instance
             }
         }
     }

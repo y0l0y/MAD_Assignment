@@ -186,58 +186,58 @@ fun BookItemCard(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-                .padding(16.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = book.title, style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Author: ${book.author}", style = MaterialTheme.typography.bodyMedium)
-            Text(
-                text = "ISBN: ${book.isbn}",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-
-            if (book.isAvailable) {
-                Text(
-                    text = "Status: Available",
-                    color = Color(0xFF2E7D32),
-                    style = MaterialTheme.typography.bodySmall
-                )
-            } else {
-                Text(
-                    text = "Status: Borrowed (By: ${book.borrowedBy ?: "Unknown"})",
-                    color = Color(0xFFC62828),
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier.weight(1f)
+                    .padding(16.dp)
             ) {
-                if (isAdminMode) {
-                    IconButton(onClick = onDelete) {
-                        Icon(
-                            Icons.Default.Delete,
-                            contentDescription = "Delete book",
-                            tint = Color.Red
-                        )
+                Text(text = book.title, style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = "Author: ${book.author}", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "ISBN: ${book.isbn}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (book.isAvailable) {
+                    Text(
+                        text = "Status: Available",
+                        color = Color(0xFF2E7D32),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                } else {
+                    Text(
+                        text = "Status: Borrowed (By: ${book.borrowedBy ?: "Unknown"})",
+                        color = Color(0xFFC62828),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
+            if (isAdminMode) {
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = "Delete book",
+                        tint = Color.Red
+                    )
+                }
+            } else {
+                if (book.isAvailable) {
+                    TextButton(onClick = onBorrowClick) {
+                        Text("Borrow")
                     }
                 } else {
-                    if (book.isAvailable) {
-                        TextButton(onClick = onBorrowClick) {
-                            Text("Borrow")
-                        }
-                    } else {
-                        TextButton(onClick = onReturnClick) {
-                            Text(
-                                text = "Return",
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                        }
+                    TextButton(onClick = onReturnClick) {
+                        Text(
+                            text = "Return",
+                            color = MaterialTheme.colorScheme.secondary
+                        )
                     }
                 }
             }
