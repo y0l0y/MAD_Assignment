@@ -1,5 +1,6 @@
 package com.example.mad_assignment.ui.View
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -51,6 +53,7 @@ fun BookListContent(
     isAdminMode: Boolean,
     onUpdateRole: () -> Unit,
     onNavigationToAdd: () -> Unit,
+    onItemClick: (BookEntity) -> Unit,
     onBorrowBook: (BookEntity, String) -> Unit,
     onReturnBook: (BookEntity) -> Unit,
     onDelete: (BookEntity) -> Unit
@@ -107,6 +110,7 @@ fun BookListContent(
                         BookItemCard(
                             book = book,
                             isAdminMode = isAdminMode,
+                            onItemClick = { onItemClick(book) },
                             onBorrowClick = {
                                 selectedBook = book
                                 showBorrowDialog = true
@@ -161,13 +165,15 @@ fun BookListContent(
 @Composable
 fun BookListScreen(
     vm: BookViewModel,
-    onNavigationToAdd: () -> Unit
+    onNavigationToAdd: () -> Unit,
+    onItemClick: (BookEntity) -> Unit
 ){
     BookListContent(
         books = vm.books,
         isAdminMode = vm.isAdminMode,
         onUpdateRole = { vm.updateRole() },
         onNavigationToAdd = onNavigationToAdd,
+        onItemClick = onItemClick,
         onBorrowBook = { book, name -> vm.borrowBook(book, name)},
         onReturnBook = { book -> vm.returnBook(book) },
         onDelete = { book -> vm.deleteBook(book) }
@@ -178,12 +184,15 @@ fun BookListScreen(
 fun BookItemCard(
     book: BookEntity,
     isAdminMode: Boolean,
+    onItemClick: () -> Unit,
     onBorrowClick: () -> Unit,
     onReturnClick: () -> Unit,
     onDelete: () -> Unit
 ){
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .let { if (isAdminMode) it.clickable(onClick = onItemClick) else it },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
@@ -220,12 +229,24 @@ fun BookItemCard(
                 }
             }
             if (isAdminMode) {
-                IconButton(onClick = onDelete) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = "Delete book",
-                        tint = Color.Red
-                    )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(0.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = onItemClick) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit Book",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(onClick = onDelete) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "Delete book",
+                            tint = Color.Red
+                        )
+                    }
                 }
             } else {
                 if (book.isAvailable) {
@@ -259,6 +280,7 @@ fun BookListScreenPreview() {
             isAdminMode = false,
             onUpdateRole = {},
             onNavigationToAdd = {},
+            onItemClick = {},
             onBorrowBook = { _,_ -> },
             onReturnBook = {},
             onDelete = {}

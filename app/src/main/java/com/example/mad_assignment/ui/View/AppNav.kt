@@ -27,6 +27,9 @@ fun AppNav(viewModel: BookViewModel) {
                 vm = viewModel,
                 onNavigationToAdd = {
                     navController.navigate(AddBook)
+                },
+                onItemClick = { book ->
+                    navController.navigate(BookDetail(bookID = book.id))
                 }
             )
         }
