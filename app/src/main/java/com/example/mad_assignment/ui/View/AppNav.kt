@@ -14,6 +14,10 @@ data object BookList
 data object AddBook
 @Serializable
 data class BookDetail(val bookID: Long)
+@Serializable
+data object LocalBookSearch
+@Serializable
+data object ApiBookSearch
 
 @Composable
 fun AppNav(viewModel: BookViewModel) {
@@ -27,6 +31,12 @@ fun AppNav(viewModel: BookViewModel) {
                 vm = viewModel,
                 onNavigationToAdd = {
                     navController.navigate(AddBook)
+                },
+                onNavigateToLocalSearch = {
+                    navController.navigate(LocalBookSearch)
+                },
+                onNavigateToApiSearch = {
+                    navController.navigate(ApiBookSearch)
                 },
                 onItemClick = { book ->
                     navController.navigate(BookDetail(bookID = book.id))
@@ -59,6 +69,12 @@ fun AppNav(viewModel: BookViewModel) {
                     navController.popBackStack()
                 }
             )
+        }
+        composable<LocalBookSearch> {
+            TODO()
+        }
+        composable<ApiBookSearch> {
+            ApiBookSearchScreen(viewModel = viewModel)
         }
     }
 }

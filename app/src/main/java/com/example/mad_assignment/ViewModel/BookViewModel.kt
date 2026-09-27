@@ -8,20 +8,48 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.Model.AppDatabase
 import com.example.mad_assignment.Model.BookEntity
+import com.example.mad_assignment.Network.NetworkModule
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+sealed class BookUiState {
+    object Idle: BookUiState()
+    object Loading: BookUiState()
+    data class Success(val books: List<com.example.mad_assignment.Model.Book>) : BookUiState()
+    object Empty: BookUiState()
+    data class Error(val message: String): BookUiState()
+}
+
 class BookViewModel (application: Application) : AndroidViewModel(application) {
     private val bookDao = AppDatabase.getDatabase(application).bookDao()
-
+    private val preferencesRepo = com.example.mad_assignment.Model.UserPreferencesRepository(application)
+    private val _uiState = MutableStateFlow<BookUiState>(BookUiState.Idle)
+    val uiState: StateFlow<BookUiState> = _uiState
     var books by mutableStateOf(listOf<BookEntity>())
         private set
 
     var isAdminMode by mutableStateOf(false)
         private set
 
+    var isDarkMode by mutableStateOf(false)
+        private set
+
+    var currentQuery = ""
+        private set
+
     init {
         refresh()
+        viewModelScope.launch {
+            preferencesRepo.darkModeFlow.collectLatest { darkMode ->
+                isDarkMode = darkMode
+            }
+        }
+    }
+
+    fun toggleDarkMode() = viewModelScope.launch {
+        preferencesRepo.saveDarkMode(!isDarkMode)
     }
 
     fun updateRole(){
@@ -92,5 +120,33 @@ class BookViewModel (application: Application) : AndroidViewModel(application) {
         )
         bookDao.updateBook(updatedBook)
         refresh()
+    }
+
+    fun searchBooks(query: String) {
+        currentQuery = query
+        if (query.isBlank()) {
+            _uiState.value = BookUiState.Idle
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.value = BookUiState.Loading
+            try {
+                val response = NetworkModule.api.searchBooks(query)
+                if (response.docs.isEmpty()) {
+                    _uiState.value = BookUiState.Empty
+                } else {
+                    _uiState.value = BookUiState.Success(response.docs)
+                }
+            } catch (e: Exception) {
+                _uiState.value = BookUiState.Error(e.localizedMessage ?: "Failed to load books")
+            }
+        }
+    }
+
+    fun retry() {
+        if (currentQuery.isNotBlank()) {
+            searchBooks(currentQuery)
+        }
     }
 }

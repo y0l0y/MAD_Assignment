@@ -15,9 +15,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Brightness4
+import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,18 +45,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.room.util.TableInfo
 import com.example.mad_assignment.Model.BookEntity
 import com.example.mad_assignment.ViewModel.BookViewModel
-import java.nio.file.WatchEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookListContent(
     books: List<BookEntity>,
     isAdminMode: Boolean,
+    isDarkMode: Boolean,
+    onToggleDarkMode: () -> Unit,
     onUpdateRole: () -> Unit,
     onNavigationToAdd: () -> Unit,
+    onNavigateToLocalSearch: () -> Unit,
+    onNavigateToApiSearch: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
     onBorrowBook: (BookEntity, String) -> Unit,
     onReturnBook: (BookEntity) -> Unit,
@@ -67,6 +73,27 @@ fun BookListContent(
             TopAppBar(
                 title = { Text("Club Book Library") },
                 actions = {
+                    IconButton(onClick = onNavigateToLocalSearch) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search Books Local",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(onClick = onNavigateToApiSearch) {
+                        Icon(
+                            imageVector = Icons.Default.Public,
+                            contentDescription = "Search Books Online",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(onClick = onToggleDarkMode) {
+                        Icon(
+                            imageVector = if (isDarkMode) Icons.Default.Brightness6 else Icons.Default.Brightness4,
+                            contentDescription = "Toggle Dark Mode",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                     IconButton(onClick = onUpdateRole) {
                         Icon(
                             imageVector = Icons.Default.Person,
@@ -166,13 +193,19 @@ fun BookListContent(
 fun BookListScreen(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
+    onNavigateToApiSearch: () -> Unit,
+    onNavigateToLocalSearch: () -> Unit,
     onItemClick: (BookEntity) -> Unit
 ){
     BookListContent(
         books = vm.books,
         isAdminMode = vm.isAdminMode,
+        isDarkMode = vm.isDarkMode,
+        onToggleDarkMode = { vm.toggleDarkMode() },
         onUpdateRole = { vm.updateRole() },
         onNavigationToAdd = onNavigationToAdd,
+        onNavigateToLocalSearch = onNavigateToLocalSearch,
+        onNavigateToApiSearch = onNavigateToApiSearch,
         onItemClick = onItemClick,
         onBorrowBook = { book, name -> vm.borrowBook(book, name)},
         onReturnBook = { book -> vm.returnBook(book) },
@@ -278,8 +311,12 @@ fun BookListScreenPreview() {
         BookListContent(
             books = sampleBook,
             isAdminMode = false,
+            isDarkMode = false,
+            onToggleDarkMode = {},
             onUpdateRole = {},
             onNavigationToAdd = {},
+            onNavigateToLocalSearch = {},
+            onNavigateToApiSearch = {},
             onItemClick = {},
             onBorrowBook = { _,_ -> },
             onReturnBook = {},
