@@ -45,7 +45,7 @@ import com.example.mad_assignment.ViewModel.BookViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookContent(
-    onSaveBook: (String, String, String, Uri?) -> Unit,
+    onSaveBook: (String, String, String, Uri?) -> String?,
     onNavigateBack: () -> Unit
 ){
     var title by rememberSaveable { mutableStateOf("") }
@@ -54,7 +54,7 @@ fun AddBookContent(
     var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null)}
     val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia()
+        contract = ActivityResultContracts.GetContent()
     ) { uri ->
         if (uri != null) {
             imageUri = uri
@@ -77,7 +77,8 @@ fun AddBookContent(
         bottomBar = {
             Button(
                 onClick = {
-                    onSaveBook(title, author, isbn, imageUri)
+                    val error = onSaveBook(title, author, isbn, imageUri)
+                    if (error == null) onNavigateBack() else errorMessage = error
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -98,9 +99,7 @@ fun AddBookContent(
         ) {
             Card(
                 onClick = {
-                    photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
+                    photoPickerLauncher.launch("image/*")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -179,7 +178,7 @@ fun AddBookScreen(
 fun AddBookScreenPreview(){
     MaterialTheme {
         AddBookContent (
-            onSaveBook = { _,_,_,_ -> },
+            onSaveBook = { _,_,_,_ -> null },
             onNavigateBack = {}
         )
     }

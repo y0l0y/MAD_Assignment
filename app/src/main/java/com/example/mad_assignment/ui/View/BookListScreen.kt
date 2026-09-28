@@ -128,6 +128,7 @@ fun BookListContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .padding(16.dp)
         ) {
             if (books.isEmpty()){
                 Box(
@@ -198,7 +199,7 @@ fun BookListContent(
         AlertDialog(
             onDismissRequest = { deleteBookId = null },
             title = { Text("Delete Book") },
-            text = { Text("Delete \"${bookToDelete.title}\"? This cannot be undone.") },
+            text = { Text("Are you sure you want to delete \"${bookToDelete.title}\"?") },
             confirmButton = {
                 TextButton(onClick = {
                     onDelete(bookToDelete)
