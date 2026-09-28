@@ -74,7 +74,10 @@ fun AppNav(viewModel: BookViewModel) {
             TODO()
         }
         composable<ApiBookSearch> {
-            ApiBookSearchScreen(viewModel = viewModel)
+            ApiBookSearchScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

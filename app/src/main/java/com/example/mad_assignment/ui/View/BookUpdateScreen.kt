@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -25,7 +27,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,14 +38,15 @@ import com.example.mad_assignment.Model.BookEntity
 fun BookUpdateScreen(
     bookID: Long,
     books : List<BookEntity>,
-    onUpdateTitle: (BookEntity, String) -> Unit,
-    onUpdateAuthor: (BookEntity, String) -> Unit,
-    onUpdateIsbn: (BookEntity, String) -> Unit,
+    onUpdateTitle: (BookEntity, String) -> String?,
+    onUpdateAuthor: (BookEntity, String) -> String?,
+    onUpdateIsbn: (BookEntity, String) -> String?,
     onNavigateBack: () -> Unit
 ) {
     val book = books.find { it.id == bookID }
-    var editingField by remember { mutableStateOf<String?>(null) }
-    var fieldValue by remember { mutableStateOf("") }
+    var editingField by rememberSaveable { mutableStateOf<String?>(null) }
+    var fieldValue by rememberSaveable { mutableStateOf("") }
+    var errorMessage by rememberSaveable { mutableStateOf<String?>(null)}
 
     Scaffold(
         topBar = {
@@ -64,7 +67,8 @@ fun BookUpdateScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             if (book == null) {
@@ -146,25 +150,38 @@ fun BookUpdateScreen(
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
+                    errorMessage?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         OutlinedButton(
-                            onClick = { editingField = null },
+                            onClick = {
+                                editingField = null
+                                errorMessage = null },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Cancel")
                         }
                         Button(
                             onClick = {
-                                if (fieldValue.isNotBlank()) {
-                                    when (editingField) {
-                                        "title" -> onUpdateTitle(book, fieldValue.trim())
-                                        "author" -> onUpdateAuthor(book, fieldValue.trim())
-                                        "isbn" -> onUpdateIsbn(book, fieldValue.trim())
-                                    }
+                                val error = when (editingField) {
+                                    "title" -> onUpdateTitle(book, fieldValue)
+                                    "author" -> onUpdateAuthor(book, fieldValue)
+                                    "isbn" -> onUpdateIsbn(book, fieldValue)
+                                    else -> null
+                                }
+                                if (error == null) {
                                     editingField = null
+                                    errorMessage = null
+                                } else {
+                                    errorMessage = error
                                 }
                             },
                             modifier = Modifier.weight(1f)

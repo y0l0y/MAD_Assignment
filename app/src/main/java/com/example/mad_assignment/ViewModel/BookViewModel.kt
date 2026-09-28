@@ -1,50 +1,52 @@
 package com.example.mad_assignment.ViewModel
 
-import android.app.Application
+import android.net.Uri
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mad_assignment.Model.AppDatabase
 import com.example.mad_assignment.Model.BookEntity
-import com.example.mad_assignment.Network.NetworkModule
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.example.mad_assignment.Model.BookRepository
+import com.example.mad_assignment.Model.BookRules
+import com.example.mad_assignment.Model.CoverStorage
+import com.example.mad_assignment.Model.OnlineBook
+import com.example.mad_assignment.Model.UserPreferencesRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 sealed class BookUiState {
     object Idle: BookUiState()
     object Loading: BookUiState()
-    data class Success(val books: List<com.example.mad_assignment.Model.Book>) : BookUiState()
+    data class Success(val books: List<OnlineBook>) : BookUiState()
     object Empty: BookUiState()
     data class Error(val message: String): BookUiState()
 }
 
-class BookViewModel (application: Application) : AndroidViewModel(application) {
-    private val bookDao = AppDatabase.getDatabase(application).bookDao()
-    private val preferencesRepo = com.example.mad_assignment.Model.UserPreferencesRepository(application)
-    private val _uiState = MutableStateFlow<BookUiState>(BookUiState.Idle)
-    val uiState: StateFlow<BookUiState> = _uiState
+class BookViewModel (
+    private val repository: BookRepository,
+    private val preferencesRepo: UserPreferencesRepository,
+    private val coverStorage: CoverStorage
+) : ViewModel() {
+    var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
+        private set
     var books by mutableStateOf(listOf<BookEntity>())
         private set
-
     var isAdminMode by mutableStateOf(false)
         private set
-
     var isDarkMode by mutableStateOf(false)
         private set
-
     var currentQuery = ""
         private set
 
     init {
-        refresh()
         viewModelScope.launch {
-            preferencesRepo.darkModeFlow.collectLatest { darkMode ->
-                isDarkMode = darkMode
-            }
+            repository.books.collectLatest { books = it }
+        }
+        viewModelScope.launch {
+            preferencesRepo.darkModeFlow.collectLatest { isDarkMode = it }
         }
     }
 
@@ -56,90 +58,132 @@ class BookViewModel (application: Application) : AndroidViewModel(application) {
         isAdminMode = !isAdminMode
     }
 
-    fun refresh() = viewModelScope.launch {
-        bookDao.getAllBooks().collectLatest { bookList ->
-            books = bookList
+    private fun duplicateIsbnError(
+        isbn: String,
+        ignoreId: Long? = null
+    ): String? {
+        val clean = BookRules.normaliseIsbn(isbn)
+        val exists = books.any {
+            it.id != ignoreId && BookRules.normaliseIsbn(it.isbn) == clean
         }
+        return if (exists) "A book with this ISBN already exists" else null
     }
 
-    fun addBook(title: String, author: String, isbn: String) = viewModelScope.launch {
-        val newBook = BookEntity(
-            title = title,
-            author = author,
-            isbn = isbn,
-            isAvailable = true,
-            borrowedBy = null
-        )
-        bookDao.insertBook(newBook)
-        refresh()
-    }
-    fun borrowBook(book: BookEntity, userName: String) = viewModelScope.launch {
-        if (book.isAvailable){
-            val updatedBook = book.copy(
-                isAvailable = false,
-                borrowedBy = userName
+    fun addBook(
+        title: String,
+        author: String,
+        isbn: String,
+        coverUri: Uri?
+    ): String? {
+        val error = BookRules.validateTitle(title)
+            ?: BookRules.validateAuthor(author)
+            ?: BookRules.validateIsbn(isbn)
+            ?: duplicateIsbnError(isbn)
+        if (error != null) {
+            return error
+        }
+        viewModelScope.launch {
+            val coverPath = coverUri?.let { uri ->
+                withContext(Dispatchers.IO) { coverStorage.copy(uri) }
+            }
+            repository.insertBook(
+                BookEntity(
+                    title = title.trim(),
+                    author = author.trim(),
+                    isbn = isbn.trim(),
+                    coverPath = coverPath
+                )
             )
-            bookDao.updateBook(updatedBook)
-            refresh()
+        }
+        return null
+    }
+
+    fun borrowBook(
+        book: BookEntity,
+        userName: String
+    ) = viewModelScope.launch {
+        if (book.isAvailable){
+            repository.updateBook(
+                book.copy(
+                    isAvailable = false,
+                    borrowedBy = userName
+                )
+            )
         }
     }
 
     fun returnBook(book: BookEntity) = viewModelScope.launch {
-        val updatedBook = book.copy(
-            isAvailable = true,
-            borrowedBy = null
+        repository.updateBook(
+            book.copy(
+                isAvailable = true,
+                borrowedBy = null
+            )
         )
-        bookDao.updateBook(updatedBook)
-        refresh()
     }
 
     fun deleteBook(book: BookEntity) = viewModelScope.launch {
-        bookDao.deleteBook(book)
-        refresh()
+        repository.deleteBook(book)
+        book.coverPath?.let { path ->
+            withContext(Dispatchers.IO) {
+                coverStorage.delete(path)
+            }
+        }
     }
 
-    fun updateBookTitle(book: BookEntity, newTitle: String) = viewModelScope.launch {
-        val updatedBook = book.copy(
-            title = newTitle
-        )
-        bookDao.updateBook(updatedBook)
-        refresh()
+    fun updateBookTitle(book: BookEntity, newTitle: String): String? {
+        BookRules.validateTitle(newTitle)?.let { return it }
+        viewModelScope.launch {
+            repository.updateBook(
+                book.copy(
+                    title = newTitle.trim()
+                )
+            )
+        }
+        return null
+    }
+    fun updateBookAuthor(book: BookEntity, newAuthor: String): String? {
+        BookRules.validateAuthor(newAuthor)?.let { return it }
+        viewModelScope.launch {
+            repository.updateBook(
+                book.copy(
+                    author = newAuthor.trim()
+                )
+            )
+        }
+        return null
     }
 
-    fun updateBookAuthor(book: BookEntity, newAuthor: String) = viewModelScope.launch {
-        val updatedBook = book.copy(
-            author = newAuthor
-        )
-        bookDao.updateBook(updatedBook)
-        refresh()
-    }
-
-    fun updateBookIsbn(book: BookEntity, newIsbn: String) = viewModelScope.launch {
-        val updatedBook = book.copy(
-            isbn = newIsbn
-        )
-        bookDao.updateBook(updatedBook)
-        refresh()
+    fun updateBookIsbn(book: BookEntity, newIsbn: String): String? {
+        val error = BookRules.validateIsbn(newIsbn) ?: duplicateIsbnError(newIsbn, ignoreId = book.id)
+        if (error != null) return error
+        viewModelScope.launch {
+            repository.updateBook(
+                book.copy(
+                    isbn = newIsbn.trim()
+                )
+            )
+        }
+        return null
     }
 
     fun searchBooks(query: String) {
         currentQuery = query
         if (query.isBlank()) {
-            _uiState.value = BookUiState.Idle
+            uiState = BookUiState.Idle
             return
         }
 
         viewModelScope.launch {
-            _uiState.value = BookUiState.Loading
+            uiState = BookUiState.Loading
             try {
-                val response = NetworkModule.api.searchBooks(query)
-                if (response.docs.isEmpty()) {
-                    _uiState.value = BookUiState.Empty
+                val result = repository.searchOnline(query.trim())
+                uiState = if (result.isEmpty()) {
+                    BookUiState.Empty
                 } else {
-                    _uiState.value = BookUiState.Success(response.docs)
+                    BookUiState.Success(result)
                 }
-            } catch (e: Exception) {
-                _uiState.value = BookUiState.Error(e.localizedMessage ?: "Failed to load books")
+            } catch (_: Exception) {
+                uiState = BookUiState.Error("Failed to load book")
             }
         }
     }

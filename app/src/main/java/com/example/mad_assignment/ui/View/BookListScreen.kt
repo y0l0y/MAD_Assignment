@@ -1,5 +1,6 @@
 package com.example.mad_assignment.ui.View
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,10 +12,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.Delete
@@ -38,15 +42,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.mad_assignment.Model.BookEntity
 import com.example.mad_assignment.ViewModel.BookViewModel
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,9 +71,11 @@ fun BookListContent(
     onReturnBook: (BookEntity) -> Unit,
     onDelete: (BookEntity) -> Unit
 ) {
-    var showBorrowDialog by remember { mutableStateOf(false) }
-    var selectedBook by remember { mutableStateOf<BookEntity?>(null) }
-    var borrowerName by remember { mutableStateOf("") }
+    var borrowBookId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var deleteBookId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var borrowerName by rememberSaveable { mutableStateOf("") }
+    val bookToBorrow = books.find { it.id == borrowBookId }
+    val bookToDelete = books.find { it.id == deleteBookId }
 
     Scaffold(
         topBar = {
@@ -98,7 +107,7 @@ fun BookListContent(
                         Icon(
                             imageVector = Icons.Default.Person,
                             contentDescription = "Update Role",
-                            tint = if (isAdminMode) MaterialTheme.colorScheme.primary else Color.Gray
+                            tint = if (isAdminMode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -107,7 +116,10 @@ fun BookListContent(
         floatingActionButton = {
             if (isAdminMode) {
                 FloatingActionButton(onClick = onNavigationToAdd) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Book")
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = "Add Book"
+                    )
                 }
             }
         }
@@ -123,8 +135,8 @@ fun BookListContent(
                     contentAlignment = Alignment.Center
                 ){
                     Text(
-                        text = "No book available. Tap '+' to add.",
-                        color = Color.Gray
+                        text = "No book available. Please contact admin to add the book.",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             } else {
@@ -138,21 +150,18 @@ fun BookListContent(
                             book = book,
                             isAdminMode = isAdminMode,
                             onItemClick = { onItemClick(book) },
-                            onBorrowClick = {
-                                selectedBook = book
-                                showBorrowDialog = true
-                            },
+                            onBorrowClick = { borrowBookId = book.id },
                             onReturnClick = { onReturnBook(book) },
-                            onDelete = { onDelete(book)}
+                            onDelete = { deleteBookId = book.id }
                         )
                     }
                 }
             }
         }
     }
-    if (showBorrowDialog && selectedBook != null) {
+    if (bookToBorrow != null) {
         AlertDialog(
-            onDismissRequest = { showBorrowDialog = false },
+            onDismissRequest = { borrowBookId = null },
             title = { Text("Borrow Book") },
             text = {
                 Column {
@@ -168,12 +177,10 @@ fun BookListContent(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val bookToBorrow = selectedBook
-                        if (borrowerName.isNotBlank() && bookToBorrow != null) {
+                        if (borrowerName.isNotBlank()) {
                             onBorrowBook(bookToBorrow, borrowerName.trim())
                             borrowerName = ""
-                            showBorrowDialog = false
-                            selectedBook = null
+                            borrowBookId = null
                         }
                     }
                 ) {
@@ -181,10 +188,24 @@ fun BookListContent(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showBorrowDialog = false }) {
+                TextButton(onClick = { borrowBookId = null }) {
                     Text("Cancel")
                 }
             }
+        )
+    }
+    if (bookToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { deleteBookId = null },
+            title = { Text("Delete Book") },
+            text = { Text("Delete \"${bookToDelete.title}\"? This cannot be undone.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDelete(bookToDelete)
+                    deleteBookId = null
+                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = { TextButton(onClick = { deleteBookId = null }) { Text("Cancel") } }
         )
     }
 }
@@ -233,6 +254,32 @@ fun BookItemCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            if (book.coverPath != null) {
+                AsyncImage(
+                    model = File(book.coverPath),
+                    contentDescription = book.title,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(60.dp, 80.dp)
+                        .clip(RoundedCornerShape(6.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(60.dp, 80.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Book,
+                        contentDescription = "No book cover",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
             Column(
                 modifier = Modifier.weight(1f)
                     .padding(16.dp)
@@ -243,20 +290,20 @@ fun BookItemCard(
                 Text(
                     text = "ISBN: ${book.isbn}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 if (book.isAvailable) {
                     Text(
                         text = "Status: Available",
-                        color = Color(0xFF2E7D32),
+                        color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.bodySmall
                     )
                 } else {
                     Text(
                         text = "Status: Borrowed (By: ${book.borrowedBy ?: "Unknown"})",
-                        color = Color(0xFFC62828),
+                        color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -277,7 +324,7 @@ fun BookItemCard(
                         Icon(
                             Icons.Default.Delete,
                             contentDescription = "Delete book",
-                            tint = Color.Red
+                            tint = MaterialTheme.colorScheme.error
                         )
                     }
                 }
@@ -303,8 +350,21 @@ fun BookItemCard(
 @Composable
 fun BookListScreenPreview() {
     val sampleBook = listOf(
-        BookEntity(id = 1, title = "Kotlin", author = "bblabu", isbn = "987654321", isAvailable = true),
-        BookEntity(id = 2, title = "Jetpack", author = "bblabu", isbn = "123456789", isAvailable = false, borrowedBy = "bblabu")
+        BookEntity(
+            id = 1,
+            title = "Kotlin",
+            author = "bblabu",
+            isbn = "987654321",
+            isAvailable = true
+        ),
+        BookEntity(
+            id = 2,
+            title = "Jetpack",
+            author = "bblabu",
+            isbn = "123456789",
+            isAvailable = false,
+            borrowedBy = "bblabu"
+        )
     )
 
     MaterialTheme{
