@@ -56,6 +56,9 @@ fun AppNav(viewModel: BookViewModel) {
             BookUpdateScreen(
                 bookID = detailRoute.bookID,
                 books = viewModel.books,
+                onUpdateCover = { book, uri ->
+                    viewModel.updateBookCover(book, uri)
+                },
                 onUpdateTitle = { book, newTitle ->
                     viewModel.updateBookTitle(book, newTitle)
                 },

@@ -130,6 +130,21 @@ class BookViewModel (
         }
     }
 
+    fun updateBookCover(book: BookEntity, uri: Uri) {
+        viewModelScope.launch {
+            val newPath = withContext(Dispatchers.IO) { coverStorage.copy(uri) }
+                ?: return@launch
+            repository.updateBook(
+                book.copy(
+                    coverPath = newPath
+                )
+            )
+            book.coverPath?.let { old ->
+                withContext(Dispatchers.IO) { coverStorage.delete(old) }
+            }
+        }
+    }
+
     fun updateBookTitle(book: BookEntity, newTitle: String): String? {
         BookRules.validateTitle(newTitle)?.let { return it }
         viewModelScope.launch {
