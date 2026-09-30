@@ -38,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.ViewModel.BookViewModel
@@ -211,14 +210,4 @@ fun ErrorPopup(
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun AddBookScreenPreview(){
-    MaterialTheme {
-        AddBookContent (
-            onSaveBook = { _,_,_,_ -> null },
-            onNavigateBack = {}
-        )
-    }
-}
 

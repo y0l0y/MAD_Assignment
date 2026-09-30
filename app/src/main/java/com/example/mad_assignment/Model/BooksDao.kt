@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BooksDao {
+    /* Using Flow to keep update the data when the data in database is making changes*/
     @Query("Select * FROM books ORDER BY title ASC")
     fun getAllBooks(): Flow<List<BookEntity>>
 

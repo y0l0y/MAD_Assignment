@@ -73,7 +73,7 @@ class BookViewModel (
         title: String,
         author: String,
         isbn: String,
-        coverUri: Uri?
+        imageUri: Uri?
     ): String? {
         val error = BookRules.validateTitle(title)
             ?: BookRules.validateAuthor(author)
@@ -83,7 +83,7 @@ class BookViewModel (
             return error
         }
         viewModelScope.launch {
-            val coverPath = coverUri?.let { uri ->
+            val coverPath = imageUri?.let { uri ->
                 withContext(Dispatchers.IO) { coverStorage.copy(uri) }
             }
             repository.insertBook(

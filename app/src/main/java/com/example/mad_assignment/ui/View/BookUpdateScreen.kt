@@ -97,138 +97,48 @@ fun BookUpdateScreen(
                         color = MaterialTheme.colorScheme.error
                     )
                 } else {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            if (book.coverPath != null) {
-                                Text(
-                                    text = "Current Book Cover",
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                AsyncImage(
-                                    model = File(book.coverPath),
-                                    contentDescription = "Cover of ${book.title}",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(200.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                            } else {
-                                Text(
-                                    text = "No cover yet",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            Text(
-                                text = "Current Title: ${book.title}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                text = "Current Author: ${book.author}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                text = "Current ISBN: ${book.isbn}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
+                    BookUpdateInfoCard(book)
                     Spacer(modifier = Modifier.height(8.dp))
                     if (editingField == null) {
-                        Text(
-                            text = "Select what you want to change: ",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Button(
-                            onClick = { coverLauncher.launch("image/*") },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Change Book Cover")
-                        }
-                        Button(
-                            onClick = {
+                        BookUpdateActions(
+                            onChangeCover = { coverLauncher.launch("image/*") },
+                            onChangeTitle = {
                                 editingField = "title"
                                 fieldValue = book.title
                             },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Change Book Title")
-                        }
-                        Button(
-                            onClick = {
+                            onChangeAuthor = {
                                 editingField = "author"
                                 fieldValue = book.author
                             },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Change Book Author")
-                        }
-                        Button(
-                            onClick = {
+                            onChangeIsbn = {
                                 editingField = "isbn"
                                 fieldValue = book.isbn
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Change Book ISBN")
-                        }
+                            }
+                        )
                     } else {
-                        val label = when (editingField) {
-                            "title" -> "New Title"
-                            "author" -> "New Author"
-                            "isbn" -> "New ISBN"
-                            else -> "Something Wrong"
-                        }
-                        Text(
-                            text = "Editing: $label",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        OutlinedTextField(
-                            value = fieldValue,
+                        BookFieldEditSection(
+                            editingField = editingField!!,
+                            fieldValue = fieldValue,
                             onValueChange = { fieldValue = it },
-                            label = { Text(label) },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true
-                        )
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            OutlinedButton(
-                                onClick = {
+                            onCancel = {
+                                editingField = null
+                                errorMessage = null
+                            },
+                            onSave = {
+                                val error = when (editingField) {
+                                    "title" -> onUpdateTitle(book, fieldValue)
+                                    "author" -> onUpdateAuthor(book, fieldValue)
+                                    "isbn" -> onUpdateIsbn(book, fieldValue)
+                                    else -> null
+                                }
+                                if (error == null) {
                                     editingField = null
                                     errorMessage = null
-                                },
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text("Cancel")
+                                } else {
+                                    errorMessage = error
+                                }
                             }
-                            Button(
-                                onClick = {
-                                    val error = when (editingField) {
-                                        "title" -> onUpdateTitle(book, fieldValue)
-                                        "author" -> onUpdateAuthor(book, fieldValue)
-                                        "isbn" -> onUpdateIsbn(book, fieldValue)
-                                        else -> null
-                                    }
-                                    if (error == null) {
-                                        editingField = null
-                                        errorMessage = null
-                                    } else {
-                                        errorMessage = error
-                                    }
-                                },
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                Text("Save")
-                            }
-                        }
+                        )
                     }
                 }
             }
@@ -243,3 +153,129 @@ fun BookUpdateScreen(
     }
 }
 
+@Composable
+fun BookUpdateInfoCard(book: BookEntity) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            if (book.coverPath != null) {
+                Text(
+                    text = "Current Book Cover",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                AsyncImage(
+                    model = File(book.coverPath),
+                    contentDescription = "Cover of ${book.title}",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Fit
+                )
+            } else {
+                Text(
+                    text = "No cover yet",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Text(
+                text = "Current Title: ${book.title}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Current Author: ${book.author}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Current ISBN: ${book.isbn}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+@Composable
+fun BookUpdateActions(
+    onChangeCover: () -> Unit,
+    onChangeTitle: () -> Unit,
+    onChangeAuthor: () -> Unit,
+    onChangeIsbn: () -> Unit
+) {
+    Text(
+        text = "Select what you want to change: ",
+        style = MaterialTheme.typography.titleMedium
+    )
+    Button(
+        onClick = onChangeCover,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Change Book Cover")
+    }
+    Button(
+        onClick = onChangeTitle,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Change Book Title")
+    }
+    Button(
+        onClick = onChangeAuthor,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Change Book Author")
+    }
+    Button(
+        onClick = onChangeIsbn,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Change Book ISBN")
+    }
+}
+
+@Composable
+fun BookFieldEditSection(
+    editingField: String,
+    fieldValue: String,
+    onValueChange: (String) -> Unit,
+    onCancel: () -> Unit,
+    onSave: () -> Unit
+) {
+    val label = when (editingField) {
+        "title" -> "New Title"
+        "author" -> "New Author"
+        "isbn" -> "New ISBN"
+        else -> "Something Wrong"
+    }
+    Text(
+        text = "Editing: $label",
+        style = MaterialTheme.typography.titleMedium
+    )
+    OutlinedTextField(
+        value = fieldValue,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        OutlinedButton(
+            onClick = onCancel,
+            modifier = Modifier.weight(1f)
+        ) {
+            Text("Cancel")
+        }
+        Button(
+            onClick = onSave,
+            modifier = Modifier.weight(1f)
+        ) {
+            Text("Save")
+        }
+    }
+}

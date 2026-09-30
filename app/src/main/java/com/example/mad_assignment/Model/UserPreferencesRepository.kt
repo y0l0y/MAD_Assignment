@@ -7,6 +7,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/* Add an extension to the Context called dataStore, the dataStore will create a file called user_preferences */
+/* then when someone calling the dataStore, it is able to find the file "user_preferences" */
 private val Context.dataStore by preferencesDataStore(name = "user_preferences")
 
 class UserPreferencesRepository(context: Context) {
@@ -16,11 +18,14 @@ class UserPreferencesRepository(context: Context) {
         val IS_DARK_MODE_KEY = booleanPreferencesKey("is_dark_mode")
     }
 
+    /* use to create and tracking the data inside the dataStore */
+    /* if no create, set it to false */
     val darkModeFlow: Flow<Boolean> = dataStore.data
         .map { preferences ->
             preferences[IS_DARK_MODE_KEY] ?: false
         }
 
+    /* use this function to update the data of preferences */
     suspend fun saveDarkMode(isDarkMode: Boolean) {
         dataStore.edit { preferences ->
             preferences[IS_DARK_MODE_KEY] = isDarkMode
