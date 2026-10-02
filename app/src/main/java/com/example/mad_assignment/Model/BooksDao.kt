@@ -14,6 +14,9 @@ interface BooksDao {
     @Query("Select * FROM books ORDER BY title ASC")
     fun getAllBooks(): Flow<List<BookEntity>>
 
+    @Query("SELECT COUNT(*) FROM books")
+    suspend fun getBooksCount(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBook(book: BookEntity)
 

@@ -14,6 +14,9 @@ class BookRepository(
         bookDao.updateBook(book)
     suspend fun deleteBook(book: BookEntity) =
         bookDao.deleteBook(book)
+    suspend fun getBooksCount(): Int {
+        return bookDao.getBooksCount()
+    }
     suspend fun searchOnline(query: String): List<OnlineBook> {
         val response = api.searchBooks(query)
         return response.docs.orEmpty()

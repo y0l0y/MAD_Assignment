@@ -11,6 +11,7 @@ import com.example.mad_assignment.Model.BookRepository
 import com.example.mad_assignment.Model.BookRules
 import com.example.mad_assignment.Model.CoverStorage
 import com.example.mad_assignment.Model.OnlineBook
+import com.example.mad_assignment.Model.TestData
 import com.example.mad_assignment.Model.UserPreferencesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -47,6 +48,18 @@ class BookViewModel (
         }
         viewModelScope.launch {
             preferencesRepo.darkModeFlow.collectLatest { isDarkMode = it }
+        }
+        preloadTestData()
+    }
+
+    private fun preloadTestData() {
+        viewModelScope.launch {
+            val count = repository.getBooksCount()
+            if (count == 0) {
+                TestData.initialBooks.forEach { book ->
+                    repository.insertBook(book)
+                }
+            }
         }
     }
 
