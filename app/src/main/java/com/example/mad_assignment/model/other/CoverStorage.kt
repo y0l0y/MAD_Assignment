@@ -14,14 +14,17 @@ class CoverStorage(context: Context) {
         /* the file path is under /data/data/com.example.mad_assignment/files */
         return try {
             val input = appContext.contentResolver.openInputStream(uri) ?: return null
-            val file = File(appContext.filesDir, "cover_${System.currentTimeMillis()}.jpg")
+            val file = File(
+                appContext.filesDir,
+                "cover_${System.currentTimeMillis()}.jpg"
+            )
             input.use { inStream ->
                 file.outputStream().use {
                     outStream -> inStream.copyTo(outStream)
                 }
             }
             file.absolutePath
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }

@@ -55,7 +55,7 @@ fun AppNav(viewModel: BookViewModel) {
             val detailRoute = backStackEntry.toRoute<BookDetail>()
             BookUpdateScreen(
                 bookID = detailRoute.bookID,
-                books = viewModel.books,
+                books = viewModel.books.map { it.book },
                 onUpdateCover = { book, uri ->
                     viewModel.updateBookCover(book, uri)
                 },

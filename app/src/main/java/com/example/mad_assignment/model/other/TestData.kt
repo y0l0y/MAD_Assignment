@@ -1,37 +1,43 @@
 package com.example.mad_assignment.model.other
 
-import com.example.mad_assignment.model.entity.BookEntity
-
 object TestData {
+    data class SeedBook(
+        val title: String,
+        val author: String,
+        val isbn: String,
+        val category: String? = null,
+        val borrower: String? = null
+    )
+    val categories = listOf(
+        "Programming",
+        "Software Engineering",
+        "Mobile Development"
+    )
     val initialBooks = listOf(
-        BookEntity(
+        SeedBook(
             title = "Clean Code",
             author = "Robert C. Martin",
             isbn = "978-0132350884",
-            isAvailable = true,
-            coverPath = null
+            category = "Software Engineering"
         ),
-        BookEntity(
+        SeedBook(
             title = "Kotlin in Action",
             author = "Dmitry Jemerov & Svetlana Isakova",
             isbn = "978-1617293290",
-            isAvailable = true,
-            coverPath = null
+            category = "Programming"
         ),
-        BookEntity(
+        SeedBook(
             title = "Android Programming: The Big Nerd Ranch Guide",
             author = "Bill Phillips, Chris Stewart & Kristin Marsicano",
             isbn = "978-0135245218",
-            isAvailable = false,
-            borrowedBy = "John Doe",
-            coverPath = null
+            category = "Mobile Development",
+            borrower = "John Doe"
         ),
-        BookEntity(
+        SeedBook(
             title = "Design Patterns",
             author = "Erich Gamma, Richard Helm, Ralph Johnson & John Vlissides",
             isbn = "978-0201633610",
-            isAvailable = true,
-            coverPath = null
+            category = "Software Engineering"
         )
     )
 }

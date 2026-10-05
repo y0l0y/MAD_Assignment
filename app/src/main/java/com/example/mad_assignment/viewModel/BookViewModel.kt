@@ -1,20 +1,27 @@
 package com.example.mad_assignment.viewModel
 
 import android.net.Uri
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.model.entity.BookWithLoans
+import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.model.entity.LoanEntity
+import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
 import com.example.mad_assignment.model.other.CoverStorage
 import com.example.mad_assignment.model.other.OnlineBook
-import com.example.mad_assignment.model.other.TestData
+import com.example.mad_assignment.model.other.SortOrder
 import com.example.mad_assignment.model.other.UserPreferencesRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -33,8 +40,24 @@ class BookViewModel (
 ) : ViewModel() {
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
         private set
-    var books by mutableStateOf(listOf<BookEntity>())
+
+    /* all books and each with its loans */
+    var books by mutableStateOf(listOf<BookWithLoans>())
         private set
+    var categories by mutableStateOf(listOf<CategoryEntity>())
+        private set
+
+    /* local search / filter/ sort state */
+    var searchQuery by mutableStateOf("")
+        private set
+    var selectedCategoryId by mutableStateOf<Long?>(null) // null = all categories
+        private set
+    var sortOrder by mutableStateOf(SortOrder.TITLE)
+        private set
+
+    val visibleBook: List<BookWithLoans> by derivedStateOf {
+        BookQuery.apply(books, searchQuery, selectedCategoryId, sortOrder)
+    }
     var isAdminMode by mutableStateOf(false)
         private set
     var isDarkMode by mutableStateOf(false)
@@ -47,19 +70,16 @@ class BookViewModel (
             repository.books.collectLatest { books = it }
         }
         viewModelScope.launch {
+            repository.categories.collectLatest { categories = it }
+        }
+        viewModelScope.launch {
             preferencesRepo.darkModeFlow.collectLatest { isDarkMode = it }
         }
-        preloadTestData()
-    }
-
-    private fun preloadTestData() {
         viewModelScope.launch {
-            val count = repository.getBooksCount()
-            if (count == 0) {
-                TestData.initialBooks.forEach { book ->
-                    repository.insertBook(book)
-                }
-            }
+            preferencesRepo.sortOrderFlow.collectLatest { sortOrder = it }
+        }
+        viewModelScope.launch {
+            repository.seedIfEmpty()
         }
     }
 
@@ -71,13 +91,49 @@ class BookViewModel (
         isAdminMode = !isAdminMode
     }
 
+    /* local search / filter / sort */
+    fun setSearchQuery(query: String) { searchQuery = query }
+    fun setCategoryFilter(categoryId: Long?) { selectedCategoryId = categoryId}
+    fun setSortOrder(order: SortOrder) {
+        sortOrder = order
+        viewModelScope.launch { preferencesRepo.saveSortOrder(order) }
+    }
+    fun clearFilter() {
+        searchQuery = ""
+        selectedCategoryId = null
+    }
+
+    /* categories */
+    private fun duplicateCategoryError(name: String): String? {
+        val exists = categories.any {
+            it.name.equals(
+                name.trim(),
+                ignoreCase = true
+            )
+        }
+        return if (exists) "This category already exists" else null
+    }
+    fun addCategory(name: String): String? {
+        val error = BookRules.validateCategoryName(name)
+            ?: duplicateCategoryError(name)
+        if (error != null) return error
+        viewModelScope.launch { repository.addCategory(name.trim()) }
+        return null
+    }
+    fun updateBookCategory(
+        book: BookEntity,
+        categoryId: Long?
+    ) = viewModelScope.launch {
+        repository.updateBook(book.copy(categoryId = categoryId))
+    }
+
     private fun duplicateIsbnError(
         isbn: String,
         ignoreId: Long? = null
     ): String? {
         val clean = BookRules.normaliseIsbn(isbn)
         val exists = books.any {
-            it.id != ignoreId && BookRules.normaliseIsbn(it.isbn) == clean
+            it.book.id != ignoreId && BookRules.normaliseIsbn(it.book.isbn) == clean
         }
         return if (exists) "A book with this ISBN already exists" else null
     }
@@ -86,7 +142,8 @@ class BookViewModel (
         title: String,
         author: String,
         isbn: String,
-        imageUri: Uri?
+        imageUri: Uri?,
+        categoryId: Long? = null
     ): String? {
         val error = BookRules.validateTitle(title)
             ?: BookRules.validateAuthor(author)
@@ -104,6 +161,7 @@ class BookViewModel (
                     title = title.trim(),
                     author = author.trim(),
                     isbn = isbn.trim(),
+                    categoryId = categoryId,
                     coverPath = coverPath
                 )
             )
@@ -111,28 +169,28 @@ class BookViewModel (
         return null
     }
 
+    /* loans */
+
     fun borrowBook(
-        book: BookEntity,
+        bookId: Long,
         userName: String
-    ) = viewModelScope.launch {
-        if (book.isAvailable){
-            repository.updateBook(
-                book.copy(
-                    isAvailable = false,
-                    borrowedBy = userName
-                )
-            )
+    ): String? {
+        BookRules.validateBorrowerName(userName)?.let { return it }
+        viewModelScope.launch {
+            repository.borrowBook(bookId, userName.trim())
         }
+        return null
     }
 
-    fun returnBook(book: BookEntity) = viewModelScope.launch {
-        repository.updateBook(
-            book.copy(
-                isAvailable = true,
-                borrowedBy = null
-            )
-        )
+    fun returnBook(bookId: Long) = viewModelScope.launch {
+        repository.returnBook(bookId)
     }
+
+    fun loanHistory(bookId: Long): Flow<List<LoanEntity>> =
+        repository.getBookWithLoans(bookId).map { it?.loansNewestFirst.orEmpty() }
+
+    fun bookWithLoans(bookId: Long): Flow<BookWithLoans?> =
+        repository.getBookWithLoans(bookId)
 
     fun deleteBook(book: BookEntity) = viewModelScope.launch {
         repository.deleteBook(book)
@@ -201,6 +259,7 @@ class BookViewModel (
         return null
     }
 
+    /* Online Search */
     fun searchBooks(query: String) {
         currentQuery = query
         if (query.isBlank()) {

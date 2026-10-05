@@ -26,7 +26,12 @@ class MainActivity : ComponentActivity() {
             initializer {
                 val db = AppDatabase.getDatabase(applicationContext)
                 BookViewModel(
-                    repository = BookRepository(db.bookDao(), NetworkModule.api),
+                    repository = BookRepository(
+                        bookDao = db.bookDao(),
+                        loanDao = db.loanDao(),
+                        categoryDao = db.categoryDao(),
+                        api = NetworkModule.api
+                    ),
                     preferencesRepo = UserPreferencesRepository(applicationContext),
                     coverStorage = CoverStorage(applicationContext)
                 )

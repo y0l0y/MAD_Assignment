@@ -2,6 +2,7 @@ package com.example.mad_assignment.model.other
 
 import com.google.gson.annotations.SerializedName
 
+/* define how to link the local and api data */
 data class Book(
     @SerializedName("title")
     val title: String? = null,
@@ -22,6 +23,7 @@ data class OnlineBook(
     val coverUrl: String?
 )
 
+/* convert api data to online book data class */
 fun Book.toOnlineBook(): OnlineBook? {
     val cleanTitle = title?.trim()
     if (cleanTitle.isNullOrEmpty()) return null

@@ -58,6 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.launch
 import java.io.File
@@ -92,8 +93,8 @@ fun BookListContent(
     var deleteBookId by rememberSaveable { mutableStateOf<Long?>(null) }
     var borrowerName by rememberSaveable { mutableStateOf("") }
     val books = vm.books
-    val bookToBorrow = books.find { it.id == borrowBookId }
-    val bookToDelete = books.find { it.id == deleteBookId }
+    val bookToBorrow = books.find { it.book.id == borrowBookId }
+    val bookToDelete = books.find { it.book.id == deleteBookId }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -135,7 +136,7 @@ fun BookListContent(
                 if (vm.isAdminMode) {
                     FloatingActionButton(onClick = onNavigationToAdd) {
                         Icon(
-                            Icons.Default.Add,
+                            imageVector = Icons.Default.Add,
                             contentDescription = "Add Book"
                         )
                     }
@@ -164,14 +165,14 @@ fun BookListContent(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(books) { book ->
+                        items(books, key = { it.book.id }) { item ->
                             BookItemCard(
-                                book = book,
+                                item = item,
                                 isAdminMode = vm.isAdminMode,
-                                onItemClick = { onItemClick(book) },
-                                onBorrowClick = { borrowBookId = book.id },
-                                onReturnClick = { vm.returnBook(book) },
-                                onDelete = { deleteBookId = book.id }
+                                onItemClick = { onItemClick(item.book) },
+                                onBorrowClick = { borrowBookId = item.book.id },
+                                onReturnClick = { vm.returnBook(item.book.id) },
+                                onDelete = { deleteBookId = item.book.id }
                             )
                         }
                     }
@@ -180,12 +181,11 @@ fun BookListContent(
         }
         if (bookToBorrow != null) {
             BookBorrowDialog(
-                bookTitle = bookToBorrow.title,
+                bookTitle = bookToBorrow.book.title,
                 borrowerName = borrowerName,
                 onNameChange = { borrowerName = it },
                 onConfirm = {
-                    if (borrowerName.isNotBlank()) {
-                        vm.borrowBook(bookToBorrow, borrowerName.trim())
+                    if (vm.borrowBook(bookToBorrow.book.id, borrowerName) == null) {
                         borrowerName = ""
                         borrowBookId = null
                     }
@@ -195,9 +195,9 @@ fun BookListContent(
         }
         if (bookToDelete != null) {
             BookDeleteDialog(
-                bookTitle = bookToDelete.title,
+                bookTitle = bookToDelete.book.title,
                 onConfirm = {
-                    vm.deleteBook(bookToDelete)
+                    vm.deleteBook(bookToDelete.book)
                     deleteBookId = null
                 },
                 onDismiss = { deleteBookId = null }
@@ -208,13 +208,14 @@ fun BookListContent(
 
 @Composable
 fun BookItemCard(
-    book: BookEntity,
+    item: BookWithLoans,
     isAdminMode: Boolean,
     onItemClick: () -> Unit,
     onBorrowClick: () -> Unit,
     onReturnClick: () -> Unit,
     onDelete: () -> Unit
 ){
+    val book = item.book
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -256,9 +257,15 @@ fun BookItemCard(
                 modifier = Modifier.weight(1f)
                     .padding(16.dp)
             ) {
-                Text(text = book.title, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = book.title,
+                    style = MaterialTheme.typography.titleMedium
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Author: ${book.author}", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "Author: ${book.author}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Text(
                     text = "ISBN: ${book.isbn}",
                     style = MaterialTheme.typography.bodySmall,
@@ -266,7 +273,7 @@ fun BookItemCard(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                if (book.isAvailable) {
+                if (item.isAvailable) {
                     Text(
                         text = "Status: Available",
                         color = MaterialTheme.colorScheme.primary,
@@ -274,7 +281,7 @@ fun BookItemCard(
                     )
                 } else {
                     Text(
-                        text = "Status: Borrowed (By: ${book.borrowedBy ?: "Unknown"})",
+                        text = "Status: Borrowed (By: ${item.activeLoan?.borrowerName ?: "Unknown"})",
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -301,7 +308,7 @@ fun BookItemCard(
                     }
                 }
             } else {
-                if (book.isAvailable) {
+                if (item.isAvailable) {
                     TextButton(onClick = onBorrowClick) {
                         Text("Borrow")
                     }
