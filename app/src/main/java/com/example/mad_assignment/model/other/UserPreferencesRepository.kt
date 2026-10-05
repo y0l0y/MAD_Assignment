@@ -1,4 +1,4 @@
-package com.example.mad_assignment.Model
+package com.example.mad_assignment.model.other
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey

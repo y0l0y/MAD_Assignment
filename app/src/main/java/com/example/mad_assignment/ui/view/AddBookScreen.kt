@@ -1,4 +1,4 @@
-package com.example.mad_assignment.ui.View
+package com.example.mad_assignment.ui.view
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -40,7 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.mad_assignment.ViewModel.BookViewModel
+import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 

@@ -1,4 +1,4 @@
-package com.example.mad_assignment.ui.View
+package com.example.mad_assignment.ui.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,8 +34,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.mad_assignment.ViewModel.BookUiState
-import com.example.mad_assignment.ViewModel.BookViewModel
+import com.example.mad_assignment.viewModel.BookUiState
+import com.example.mad_assignment.viewModel.BookViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

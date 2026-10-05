@@ -1,4 +1,4 @@
-package com.example.mad_assignment.ui.View
+package com.example.mad_assignment.ui.view
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -38,7 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.mad_assignment.Model.BookEntity
+import com.example.mad_assignment.model.entity.BookEntity
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,6 +1,6 @@
-package com.example.mad_assignment.Network
+package com.example.mad_assignment.network
 
-import com.example.mad_assignment.Model.OpenLibraryResponse
+import com.example.mad_assignment.model.other.OpenLibraryResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

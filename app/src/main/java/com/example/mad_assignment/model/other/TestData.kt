@@ -1,4 +1,6 @@
-package com.example.mad_assignment.Model
+package com.example.mad_assignment.model.other
+
+import com.example.mad_assignment.model.entity.BookEntity
 
 object TestData {
     val initialBooks = listOf(

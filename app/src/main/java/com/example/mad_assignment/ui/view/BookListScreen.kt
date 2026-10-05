@@ -1,4 +1,4 @@
-package com.example.mad_assignment.ui.View
+package com.example.mad_assignment.ui.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,8 +57,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.mad_assignment.Model.BookEntity
-import com.example.mad_assignment.ViewModel.BookViewModel
+import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 

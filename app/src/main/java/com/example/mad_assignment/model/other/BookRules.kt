@@ -1,4 +1,4 @@
-package com.example.mad_assignment.Model
+package com.example.mad_assignment.model.other
 
 object BookRules {
     const val MAX_TITLE_LENGTH = 200

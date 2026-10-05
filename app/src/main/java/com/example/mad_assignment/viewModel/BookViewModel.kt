@@ -1,4 +1,4 @@
-package com.example.mad_assignment.ViewModel
+package com.example.mad_assignment.viewModel
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
@@ -6,13 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mad_assignment.Model.BookEntity
-import com.example.mad_assignment.Model.BookRepository
-import com.example.mad_assignment.Model.BookRules
-import com.example.mad_assignment.Model.CoverStorage
-import com.example.mad_assignment.Model.OnlineBook
-import com.example.mad_assignment.Model.TestData
-import com.example.mad_assignment.Model.UserPreferencesRepository
+import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.model.other.BookRepository
+import com.example.mad_assignment.model.other.BookRules
+import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.OnlineBook
+import com.example.mad_assignment.model.other.TestData
+import com.example.mad_assignment.model.other.UserPreferencesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -143,18 +143,26 @@ class BookViewModel (
         }
     }
 
-    suspend fun updateBookCover(book: BookEntity, uri: Uri): String? {
-        val newPath = withContext(Dispatchers.IO) { coverStorage.copy(uri) }
-            ?: return "Unable to load the picture"
-        repository.updateBook(
-            book.copy(
-                coverPath = newPath
+    fun updateBookCover(
+         book: BookEntity,
+         uri: Uri,
+         onError: (String) -> Unit = {}
+    ) {
+        viewModelScope.launch {
+            val newPath = withContext(Dispatchers.IO) { coverStorage.copy(uri) }
+            if (newPath == null) {
+                onError("Unable to load the picture")
+                return@launch
+            }
+            repository.updateBook(
+                book.copy(
+                    coverPath = newPath
+                )
             )
-        )
-        book.coverPath?.let { old ->
-            withContext(Dispatchers.IO) { coverStorage.delete(old) }
+            book.coverPath?.let { old ->
+                withContext(Dispatchers.IO) { coverStorage.delete(old) }
+            }
         }
-        return null
     }
 
     fun updateBookTitle(book: BookEntity, newTitle: String): String? {

@@ -1,4 +1,4 @@
-package com.example.mad_assignment.Model
+package com.example.mad_assignment.model.dao_and_database
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.mad_assignment.model.entity.BookEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

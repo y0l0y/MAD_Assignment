@@ -1,6 +1,8 @@
-package com.example.mad_assignment.Model
+package com.example.mad_assignment.model.other
 
-import com.example.mad_assignment.Network.BookApi
+import com.example.mad_assignment.model.dao_and_database.BooksDao
+import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.network.BookApi
 import kotlinx.coroutines.flow.Flow
 
 class BookRepository(

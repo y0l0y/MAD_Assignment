@@ -1,4 +1,4 @@
-package com.example.mad_assignment.Model
+package com.example.mad_assignment.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

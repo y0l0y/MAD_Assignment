@@ -1,11 +1,11 @@
-package com.example.mad_assignment.ui.View
+package com.example.mad_assignment.ui.view
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.mad_assignment.ViewModel.BookViewModel
+import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable

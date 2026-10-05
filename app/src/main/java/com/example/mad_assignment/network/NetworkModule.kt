@@ -1,4 +1,4 @@
-package com.example.mad_assignment.Network
+package com.example.mad_assignment.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

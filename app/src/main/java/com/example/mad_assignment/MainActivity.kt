@@ -12,13 +12,13 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.mad_assignment.Model.AppDatabase
-import com.example.mad_assignment.Model.BookRepository
-import com.example.mad_assignment.Model.CoverStorage
-import com.example.mad_assignment.Model.UserPreferencesRepository
-import com.example.mad_assignment.Network.NetworkModule
-import com.example.mad_assignment.ViewModel.BookViewModel
-import com.example.mad_assignment.ui.View.AppNav
+import com.example.mad_assignment.model.dao_and_database.AppDatabase
+import com.example.mad_assignment.model.other.BookRepository
+import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.UserPreferencesRepository
+import com.example.mad_assignment.network.NetworkModule
+import com.example.mad_assignment.viewModel.BookViewModel
+import com.example.mad_assignment.ui.view.AppNav
 
 class MainActivity : ComponentActivity() {
     private val bookViewModel: BookViewModel by viewModels{
