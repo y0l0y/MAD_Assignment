@@ -143,19 +143,18 @@ class BookViewModel (
         }
     }
 
-    fun updateBookCover(book: BookEntity, uri: Uri) {
-        viewModelScope.launch {
-            val newPath = withContext(Dispatchers.IO) { coverStorage.copy(uri) }
-                ?: return@launch
-            repository.updateBook(
-                book.copy(
-                    coverPath = newPath
-                )
+    suspend fun updateBookCover(book: BookEntity, uri: Uri): String? {
+        val newPath = withContext(Dispatchers.IO) { coverStorage.copy(uri) }
+            ?: return "Unable to load the picture"
+        repository.updateBook(
+            book.copy(
+                coverPath = newPath
             )
-            book.coverPath?.let { old ->
-                withContext(Dispatchers.IO) { coverStorage.delete(old) }
-            }
+        )
+        book.coverPath?.let { old ->
+            withContext(Dispatchers.IO) { coverStorage.delete(old) }
         }
+        return null
     }
 
     fun updateBookTitle(book: BookEntity, newTitle: String): String? {

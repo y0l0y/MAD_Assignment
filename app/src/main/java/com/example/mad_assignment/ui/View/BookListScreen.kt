@@ -23,25 +23,32 @@ import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -52,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.Model.BookEntity
 import com.example.mad_assignment.ViewModel.BookViewModel
+import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
@@ -86,89 +94,115 @@ fun BookListContent(
     val books = vm.books
     val bookToBorrow = books.find { it.id == borrowBookId }
     val bookToDelete = books.find { it.id == deleteBookId }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-    Scaffold(
-        topBar = {
-            BookListTopBar(
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            BookListDrawerContent(
                 isDarkMode = vm.isDarkMode,
                 isAdminMode = vm.isAdminMode,
                 onNavigateToLocalSearch = onNavigateToLocalSearch,
                 onNavigateToApiSearch = onNavigateToApiSearch,
                 onToggleDarkMode = { vm.toggleDarkMode() },
-                onUpdateRole = { vm.updateRole() }
+                onUpdateRole = { vm.updateRole() },
+                onClose = { scope.launch { drawerState.close() }}
             )
-        },
-        floatingActionButton = {
-            if (vm.isAdminMode) {
-                FloatingActionButton(onClick = onNavigationToAdd) {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = "Add Book"
-                    )
-                }
-            }
         }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-        ) {
-            if (books.isEmpty()){
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ){
-                    Text(
-                        text = "No book available. Please contact admin to add the book.",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(books) { book ->
-                        BookItemCard(
-                            book = book,
-                            isAdminMode = vm.isAdminMode,
-                            onItemClick = { onItemClick(book) },
-                            onBorrowClick = { borrowBookId = book.id },
-                            onReturnClick = { vm.returnBook(book) },
-                            onDelete = { deleteBookId = book.id }
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Club Book Library") },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Open Menu"
+                            )
+                        }
+                    }
+                )
+            },
+            floatingActionButton = {
+                if (vm.isAdminMode) {
+                    FloatingActionButton(onClick = onNavigationToAdd) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = "Add Book"
                         )
                     }
                 }
             }
-        }
-    }
-    if (bookToBorrow != null) {
-        BookBorrowDialog(
-            bookTitle = bookToBorrow.title,
-            borrowerName = borrowerName,
-            onNameChange = { borrowerName = it },
-            onConfirm = {
-                if (borrowerName.isNotBlank()) {
-                    vm.borrowBook(bookToBorrow, borrowerName.trim())
-                    borrowerName = ""
-                    borrowBookId = null
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp)
+            ) {
+                if (books.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "No book available. Please contact admin to add the book.",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(books) { book ->
+                            BookItemCard(
+                                book = book,
+                                isAdminMode = vm.isAdminMode,
+                                onItemClick = { onItemClick(book) },
+                                onBorrowClick = { borrowBookId = book.id },
+                                onReturnClick = { vm.returnBook(book) },
+                                onDelete = { deleteBookId = book.id }
+                            )
+                        }
+                    }
                 }
-            },
-            onDismiss = { borrowBookId = null }
-        )
-    }
-    if (bookToDelete != null) {
-        BookDeleteDialog(
-            bookTitle = bookToDelete.title,
-            onConfirm = {
-                vm.deleteBook(bookToDelete)
-                deleteBookId = null
-            },
-            onDismiss = { deleteBookId = null }
-        )
+            }
+        }
+        if (bookToBorrow != null) {
+            BookBorrowDialog(
+                bookTitle = bookToBorrow.title,
+                borrowerName = borrowerName,
+                onNameChange = { borrowerName = it },
+                onConfirm = {
+                    if (borrowerName.isNotBlank()) {
+                        vm.borrowBook(bookToBorrow, borrowerName.trim())
+                        borrowerName = ""
+                        borrowBookId = null
+                    }
+                },
+                onDismiss = { borrowBookId = null }
+            )
+        }
+        if (bookToDelete != null) {
+            BookDeleteDialog(
+                bookTitle = bookToDelete.title,
+                onConfirm = {
+                    vm.deleteBook(bookToDelete)
+                    deleteBookId = null
+                },
+                onDismiss = { deleteBookId = null }
+            )
+        }
     }
 }
 
@@ -284,49 +318,84 @@ fun BookItemCard(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookListTopBar(
+fun BookListDrawerContent(
     isDarkMode: Boolean,
     isAdminMode: Boolean,
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
     onToggleDarkMode: () -> Unit,
-    onUpdateRole: () -> Unit
+    onUpdateRole: () -> Unit,
+    onClose: () -> Unit
 ) {
-    TopAppBar(
-        title = { Text("Club Book Library") },
-        actions = {
-            IconButton(onClick = onNavigateToLocalSearch) {
+    ModalDrawerSheet {
+        Text(
+            text = "Menu",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(16.dp)
+        )
+        NavigationDrawerItem(
+            label = { Text("Search Book Local") },
+            icon = {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = "Search Books Local",
-                    tint = MaterialTheme.colorScheme.primary
+                    contentDescription = "Search Local"
                 )
-            }
-            IconButton(onClick = onNavigateToApiSearch) {
+            },
+            selected = false,
+            onClick = {
+                onNavigateToLocalSearch()
+                onClose()
+            },
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
+        NavigationDrawerItem(
+            label = { Text("Search Book Online") },
+            icon = {
                 Icon(
                     imageVector = Icons.Default.Public,
-                    contentDescription = "Search Books Online",
-                    tint = MaterialTheme.colorScheme.primary
+                    contentDescription = "Search Online"
                 )
-            }
-            IconButton(onClick = onToggleDarkMode) {
+            },
+            selected = false,
+            onClick = {
+                onNavigateToApiSearch()
+                onClose()
+            },
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
+        NavigationDrawerItem(
+            label = { Text(if (isDarkMode) "Light Mode" else "Dark Mode") },
+            icon = {
                 Icon(
                     imageVector = if (isDarkMode) Icons.Default.Brightness6 else Icons.Default.Brightness4,
-                    contentDescription = "Toggle Dark Mode",
-                    tint = MaterialTheme.colorScheme.primary
+                    contentDescription = "Switch Theme"
                 )
-            }
-            IconButton(onClick = onUpdateRole) {
+            },
+            selected = false,
+            onClick = {
+                onToggleDarkMode()
+                onClose()
+            },
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
+        NavigationDrawerItem(
+            label = { Text(if (isAdminMode) "User Mode" else "Admin Mode") },
+            icon = {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "Update Role",
+                    contentDescription = "Switch Role",
                     tint = if (isAdminMode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
-            }
-        }
-    )
+            },
+            selected = isAdminMode,
+            onClick = {
+                onUpdateRole()
+                onClose()
+            },
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
+    }
 }
 
 @Composable
