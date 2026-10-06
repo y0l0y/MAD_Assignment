@@ -39,6 +39,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.model.entity.CategoryEntity
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,6 +47,9 @@ import java.io.File
 fun BookUpdateScreen(
     bookID: Long,
     books : List<BookEntity>,
+    categories: List<CategoryEntity>,
+    onAddCategory: (String) -> String?,
+    onUpdateCategory: (BookEntity, Long?) -> Unit,
     onUpdateCover: (BookEntity, Uri) -> Unit,
     onUpdateTitle: (BookEntity, String) -> String?,
     onUpdateAuthor: (BookEntity, String) -> String?,
@@ -100,6 +104,13 @@ fun BookUpdateScreen(
                     BookUpdateInfoCard(book)
                     Spacer(modifier = Modifier.height(8.dp))
                     if (editingField == null) {
+                        CategoryPicker(
+                            categories = categories,
+                            selectedId = book.categoryId,
+                            onSelected = { onUpdateCategory(book, it) },
+                            onAddCategory = onAddCategory,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                         BookUpdateActions(
                             onChangeCover = { coverLauncher.launch("image/*") },
                             onChangeTitle = {

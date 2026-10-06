@@ -16,7 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.mad_assignment.model.entity.CategoryEntity
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -47,7 +48,9 @@ import kotlin.time.Duration.Companion.milliseconds
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookContent(
-    onSaveBook: (String, String, String, Uri?) -> String?,
+    categories: List<CategoryEntity>,
+    onSaveBook: (String, String, String, Uri?, Long?) -> String?,
+    onAddCategory: (String) -> String?,
     onNavigateBack: () -> Unit
 ) {
     var title by rememberSaveable { mutableStateOf("") }
@@ -55,6 +58,7 @@ fun AddBookContent(
     var isbn by rememberSaveable { mutableStateOf("") }
     var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
+    var categoryId by rememberSaveable { mutableStateOf<Long?>(null) }
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -70,7 +74,7 @@ fun AddBookContent(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -80,7 +84,7 @@ fun AddBookContent(
         bottomBar = {
             Button(
                 onClick = {
-                    val error = onSaveBook(title, author, isbn, imageUri)
+                    val error = onSaveBook(title, author, isbn, imageUri, categoryId)
                     if (error == null) onNavigateBack() else errorMessage = error
                 },
                 modifier = Modifier
@@ -156,6 +160,13 @@ fun AddBookContent(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     singleLine = true
                 )
+                CategoryPicker(
+                    categories = categories,
+                    selectedId = categoryId,
+                    onSelected = { categoryId = it },
+                    onAddCategory = onAddCategory,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
             ErrorPopup(
                 message = errorMessage,
@@ -174,9 +185,11 @@ fun AddBookScreen(
     onNavigateBack: () -> Unit
 ){
     AddBookContent(
-        onSaveBook = { title, author, isbn, coverUri ->
-            vm.addBook(title, author, isbn, coverUri)
+        categories = vm.categories,
+        onSaveBook = { title, author, isbn, coverUri, categoryId ->
+            vm.addBook(title, author, isbn, coverUri, categoryId)
         },
+        onAddCategory = { vm.addCategory(it) },
         onNavigateBack = onNavigateBack
     )
 }

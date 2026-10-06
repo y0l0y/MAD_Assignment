@@ -92,9 +92,9 @@ class BookViewModel (
     }
 
     /* local search / filter / sort */
-    fun setSearchQuery(query: String) { searchQuery = query }
-    fun setCategoryFilter(categoryId: Long?) { selectedCategoryId = categoryId}
-    fun setSortOrder(order: SortOrder) {
+    fun updateSearchQuery(query: String) { searchQuery = query }
+    fun updateCategoryFilter(categoryId: Long?) { selectedCategoryId = categoryId}
+    fun updateSortOrder(order: SortOrder) {
         sortOrder = order
         viewModelScope.launch { preferencesRepo.saveSortOrder(order) }
     }
