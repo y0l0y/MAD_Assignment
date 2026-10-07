@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,11 +40,11 @@ import com.example.mad_assignment.viewModel.BookViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApiBookSearchScreen(
-    viewModel: BookViewModel,
+    vm: BookViewModel,
     onNavigateBack: () -> Unit
 ) {
-    val uiState = viewModel.uiState
-    var searchQuery by rememberSaveable { mutableStateOf(viewModel.currentQuery) }
+    val uiState = vm.uiState
+    var searchQuery by rememberSaveable { mutableStateOf(vm.currentQuery) }
 
     Scaffold(
         topBar = {
@@ -53,7 +53,7 @@ fun ApiBookSearchScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -74,7 +74,7 @@ fun ApiBookSearchScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 trailingIcon = {
-                    Button(onClick = { viewModel.searchBooks(searchQuery) }) {
+                    Button(onClick = { vm.searchBooks(searchQuery) }) {
                         Text("Search")
                     }
                 }
@@ -120,7 +120,7 @@ fun ApiBookSearchScreen(
                                 text = "Error: ${state.message}",
                                 color = MaterialTheme.colorScheme.error
                             )
-                            Button(onClick = { viewModel.retry() }) {
+                            Button(onClick = { vm.retry() }) {
                                 Text("Retry")
                             }
                         }

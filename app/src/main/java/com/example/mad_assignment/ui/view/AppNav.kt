@@ -18,6 +18,8 @@ data class BookDetail(val bookID: Long)
 data object LocalBookSearch
 @Serializable
 data object ApiBookSearch
+@Serializable
+data class LoanHistory(val bookID: Long)
 
 @Composable
 fun AppNav(viewModel: BookViewModel) {
@@ -40,6 +42,9 @@ fun AppNav(viewModel: BookViewModel) {
                 },
                 onItemClick = { book ->
                     navController.navigate(BookDetail(bookID = book.id))
+                },
+                onLoanShow = { book ->
+                    navController.navigate(LoanHistory(bookID = book.id))
                 }
             )
         }
@@ -83,7 +88,15 @@ fun AppNav(viewModel: BookViewModel) {
         }
         composable<ApiBookSearch> {
             ApiBookSearchScreen(
-                viewModel = viewModel,
+                vm = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        composable<LoanHistory> { backStackEntry ->
+            val route = backStackEntry.toRoute<LoanHistory>()
+            LoanHistoryScreen(
+                bookID = route.bookID,
+                vm = viewModel,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

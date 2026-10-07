@@ -73,14 +73,16 @@ fun BookListScreen(
     onNavigationToAdd: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
     onNavigateToLocalSearch: () -> Unit,
-    onItemClick: (BookEntity) -> Unit
+    onItemClick: (BookEntity) -> Unit,
+    onLoanShow: (BookEntity) -> Unit
 ){
     BookListContent(
         vm = vm,
         onNavigationToAdd = onNavigationToAdd,
         onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToApiSearch = onNavigateToApiSearch,
-        onItemClick = onItemClick
+        onItemClick = onItemClick,
+        onLoanShow = onLoanShow
     )
 }
 
@@ -91,7 +93,8 @@ fun BookListContent(
     onNavigationToAdd: () -> Unit,
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
-    onItemClick: (BookEntity) -> Unit
+    onItemClick: (BookEntity) -> Unit,
+    onLoanShow: (BookEntity) -> Unit
 ) {
     var borrowBookId by rememberSaveable { mutableStateOf<Long?>(null) }
     var deleteBookId by rememberSaveable { mutableStateOf<Long?>(null) }
@@ -176,7 +179,8 @@ fun BookListContent(
                                 onItemClick = { onItemClick(item.book) },
                                 onBorrowClick = { borrowBookId = item.book.id },
                                 onReturnClick = { vm.returnBook(item.book.id) },
-                                onDelete = { deleteBookId = item.book.id }
+                                onDelete = { deleteBookId = item.book.id },
+                                onLoanShow = { onLoanShow(item.book) }
                             )
                         }
                     }
@@ -217,13 +221,19 @@ fun BookItemCard(
     onItemClick: () -> Unit,
     onBorrowClick: () -> Unit,
     onReturnClick: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onLoanShow: () -> Unit
 ){
     val book = item.book
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .let { if (isAdminMode) it.clickable(onClick = onItemClick) else it },
+            .let {
+                if (isAdminMode)
+                    it.clickable(onClick = onLoanShow)
+                else
+                    it
+                 },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
@@ -258,7 +268,8 @@ fun BookItemCard(
                 }
             }
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .padding(16.dp)
             ) {
                 Text(
