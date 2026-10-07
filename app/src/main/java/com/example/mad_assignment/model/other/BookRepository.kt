@@ -18,7 +18,6 @@ class BookRepository(
 ) {
     /* books */
     val books: Flow<List<BookWithLoans>> = bookDao.getBooksWithLoans()
-    fun getBookWithLoans(bookId: Long): Flow<BookWithLoans?> = bookDao.getBookWithLoans(bookId)
     suspend fun insertBook(book: BookEntity): Long = bookDao.insertBook(book)
     suspend fun updateBook(book: BookEntity) = bookDao.updateBook(book)
     suspend fun deleteBook(book: BookEntity) = bookDao.deleteBook(book)

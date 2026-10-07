@@ -17,11 +17,6 @@ interface BooksDao {
     @Query("Select * FROM books ORDER BY title ASC")
     fun getBooksWithLoans(): Flow<List<BookWithLoans>>
 
-    /* use for history screen */
-    @Transaction
-    @Query("SELECT * FROM books WHERE id = :bookId")
-    fun getBookWithLoans(bookId: Long): Flow<BookWithLoans?>
-
     @Query("SELECT COUNT(*) FROM books")
     suspend fun getBooksCount(): Int
 

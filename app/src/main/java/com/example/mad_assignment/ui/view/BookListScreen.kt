@@ -193,12 +193,23 @@ fun BookListContent(
                 borrowerName = borrowerName,
                 onNameChange = { borrowerName = it },
                 onConfirm = {
-                    if (vm.borrowBook(bookToBorrow.book.id, borrowerName) == null) {
-                        borrowerName = ""
-                        borrowBookId = null
+                    if (
+                        vm.borrowBook(
+                            bookId = bookToBorrow.book.id,
+                            userName = borrowerName
+                        ) == null
+                        ) {
+                            borrowerName = ""
+                            borrowBookId = null
                     }
                 },
                 onDismiss = { borrowBookId = null }
+            )
+        }
+        vm.borrowErrorMessage?.let { message ->
+            BookBorrowFailedDialog(
+                message = message,
+                onDismiss = { vm.clearBorrowError() }
             )
         }
         if (bookToDelete != null) {
@@ -435,6 +446,23 @@ fun BookBorrowDialog(
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text("Cancel")
+            }
+        }
+    )
+}
+
+@Composable
+fun BookBorrowFailedDialog(
+    message: String,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Unable to Borrow") },
+        text = { Text(message) },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("OK")
             }
         }
     )

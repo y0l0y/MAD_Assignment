@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.entity.CategoryEntity
-import com.example.mad_assignment.model.entity.LoanEntity
 import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
@@ -19,9 +18,7 @@ import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.model.other.SortOrder
 import com.example.mad_assignment.model.other.UserPreferencesRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -63,6 +60,8 @@ class BookViewModel (
     var isDarkMode by mutableStateOf(false)
         private set
     var currentQuery = ""
+        private set
+    var borrowErrorMessage by mutableStateOf<String?>(null)
         private set
 
     init {
@@ -182,20 +181,20 @@ class BookViewModel (
     ): String? {
         BookRules.validateBorrowerName(userName)?.let { return it }
         viewModelScope.launch {
-            repository.borrowBook(bookId, userName.trim())
+            val success = repository.borrowBook(bookId, userName.trim())
+            if (!success) {
+                borrowErrorMessage = "Sorry, this book has already been borrowed."
+            }
         }
         return null
+    }
+    fun clearBorrowError() {
+        borrowErrorMessage = null
     }
 
     fun returnBook(bookId: Long) = viewModelScope.launch {
         repository.returnBook(bookId)
     }
-
-    fun loanHistory(bookId: Long): Flow<List<LoanEntity>> =
-        repository.getBookWithLoans(bookId).map { it?.loansNewestFirst.orEmpty() }
-
-    fun bookWithLoans(bookId: Long): Flow<BookWithLoans?> =
-        repository.getBookWithLoans(bookId)
 
     fun deleteBook(book: BookEntity) = viewModelScope.launch {
         repository.deleteBook(book)
