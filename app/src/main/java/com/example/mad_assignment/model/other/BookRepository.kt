@@ -43,6 +43,8 @@ class BookRepository(
         return if (id != -1L) id else categoryDao.findByName(name)?.id ?: -1L
     }
 
+    suspend fun deleteCategory(category: CategoryEntity) = categoryDao.deleteCategory(category)
+
     /* seed data: categories -> Books -> Loans */
     suspend fun seedIfEmpty() {
         if (getBooksCount() > 0) return

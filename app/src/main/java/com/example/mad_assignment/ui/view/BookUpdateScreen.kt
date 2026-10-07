@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -49,6 +49,7 @@ fun BookUpdateScreen(
     books : List<BookEntity>,
     categories: List<CategoryEntity>,
     onAddCategory: (String) -> String?,
+    onDeleteCategory: (CategoryEntity) -> Unit,
     onUpdateCategory: (BookEntity, Long?) -> Unit,
     onUpdateCover: (BookEntity, Uri) -> Unit,
     onUpdateTitle: (BookEntity, String) -> String?,
@@ -75,7 +76,7 @@ fun BookUpdateScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -109,6 +110,7 @@ fun BookUpdateScreen(
                             selectedId = book.categoryId,
                             onSelected = { onUpdateCategory(book, it) },
                             onAddCategory = onAddCategory,
+                            onDeleteCategory = onDeleteCategory,
                             modifier = Modifier.fillMaxWidth()
                         )
                         BookUpdateActions(

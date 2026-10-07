@@ -120,6 +120,11 @@ class BookViewModel (
         viewModelScope.launch { repository.addCategory(name.trim()) }
         return null
     }
+    fun deleteCategory(category: CategoryEntity) = viewModelScope.launch {
+        if (selectedCategoryId == category.id)
+            selectedCategoryId = null
+        repository.deleteCategory(category)
+    }
     fun updateBookCategory(
         book: BookEntity,
         categoryId: Long?

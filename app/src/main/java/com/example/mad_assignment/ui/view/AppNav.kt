@@ -63,6 +63,7 @@ fun AppNav(viewModel: BookViewModel) {
                 books = viewModel.books.map { it.book },
                 categories = viewModel.categories,
                 onAddCategory = { viewModel.addCategory(it) },
+                onDeleteCategory = { viewModel.deleteCategory(it) },
                 onUpdateCategory = { book, categoryId ->
                     viewModel.updateBookCategory(book, categoryId)
                 },

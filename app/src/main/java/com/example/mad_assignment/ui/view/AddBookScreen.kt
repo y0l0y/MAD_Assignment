@@ -51,6 +51,7 @@ fun AddBookContent(
     categories: List<CategoryEntity>,
     onSaveBook: (String, String, String, Uri?, Long?) -> String?,
     onAddCategory: (String) -> String?,
+    onDeleteCategory: (CategoryEntity) -> Unit,
     onNavigateBack: () -> Unit
 ) {
     var title by rememberSaveable { mutableStateOf("") }
@@ -165,6 +166,7 @@ fun AddBookContent(
                     selectedId = categoryId,
                     onSelected = { categoryId = it },
                     onAddCategory = onAddCategory,
+                    onDeleteCategory = onDeleteCategory,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -190,6 +192,7 @@ fun AddBookScreen(
             vm.addBook(title, author, isbn, coverUri, categoryId)
         },
         onAddCategory = { vm.addCategory(it) },
+        onDeleteCategory = { vm.deleteCategory(it) },
         onNavigateBack = onNavigateBack
     )
 }

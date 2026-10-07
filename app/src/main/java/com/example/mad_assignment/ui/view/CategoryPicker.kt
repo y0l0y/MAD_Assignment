@@ -1,12 +1,17 @@
 package com.example.mad_assignment.ui.view
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -26,13 +31,16 @@ fun CategoryPicker(
     selectedId: Long?,
     onSelected: (Long?) -> Unit,
     onAddCategory: (String) -> String?,
+    onDeleteCategory: (CategoryEntity) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var newName by rememberSaveable { mutableStateOf("") }
     var error by rememberSaveable { mutableStateOf<String?>(null) }
+    var deleteCategoryId by rememberSaveable { mutableStateOf<Long?>(null) }
     val selectedName = categories.find { it.id == selectedId }?.name ?: "No category"
+    val categoryToDelete = categories.find { it.id == deleteCategoryId }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -63,6 +71,18 @@ fun CategoryPicker(
             categories.forEach { category ->
                 DropdownMenuItem(
                     text = { Text(category.name) },
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            expanded = false
+                            deleteCategoryId = category.id
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Delete category ${category.name}",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    },
                     onClick = {
                         onSelected(category.id)
                         expanded = false
@@ -115,6 +135,31 @@ fun CategoryPicker(
                     showDialog = false
                     newName = ""
                     error = null
+                }) { Text("Cancel") }
+            }
+        )
+    }
+    if (categoryToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { deleteCategoryId = null },
+            title = { Text("Delete Category") },
+            text = { Text("Delete ${categoryToDelete.name}?")},
+            confirmButton = {
+                TextButton(onClick = {
+                    if (selectedId == deleteCategoryId)
+                        onSelected(null) // to avoid crash due to using rememberSaveable
+                    onDeleteCategory(categoryToDelete)
+                    deleteCategoryId = null
+                }) {
+                    Text(
+                        text = "Delete",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    deleteCategoryId = null
                 }) { Text("Cancel") }
             }
         )
