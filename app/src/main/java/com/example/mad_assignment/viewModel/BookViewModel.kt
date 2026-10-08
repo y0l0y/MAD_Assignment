@@ -145,6 +145,7 @@ class BookViewModel (
 
     fun reload() = startLoading()
 
+    /* same feature with viewModelScope.launch just add a try and catch to handle error */
     private fun launchWrite(block: suspend () -> Unit): Job = viewModelScope.launch {
         try {
             block()
