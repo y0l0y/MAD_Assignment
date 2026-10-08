@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
 }
 
@@ -53,6 +54,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("androidx.datastore:datastore-preferences:1.2.1")
     implementation("androidx.compose.material:material-icons-extended")
