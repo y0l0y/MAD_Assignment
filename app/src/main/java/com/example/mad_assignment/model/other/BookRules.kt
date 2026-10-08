@@ -5,9 +5,15 @@ object BookRules {
     const val MAX_AUTHOR_LENGTH = 100
     const val MAX_CATEGORY_LENGTH = 50
     const val MAX_BORROWER_LENGTH = 100
+    const val LOAN_DAYS = 14
+    const val DAY_IN_MILLIS = 24L * 60 * 60 * 1000
+
+    fun isOverdue(dueAt: Long): Boolean =
+        dueAt > 0 && System.currentTimeMillis() > dueAt
 
     fun normaliseIsbn(isbn: String): String =
         isbn.filter { it != '-' && it != ' ' }.uppercase()
+
     fun validateTitle(title: String): String? =
         when {
             title.isBlank() -> "Title cannot be empty"

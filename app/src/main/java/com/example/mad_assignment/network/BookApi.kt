@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface BookApi {
-    @GET("search.json")
+    @GET("search.json?fields=title,author_name,cover_i,isbn")
     suspend fun searchBooks(@Query("q") query: String): OpenLibraryResponse
 }

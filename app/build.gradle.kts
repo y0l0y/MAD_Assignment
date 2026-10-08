@@ -55,6 +55,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("androidx.datastore:datastore-preferences:1.2.1")
     implementation("androidx.compose.material:material-icons-extended")

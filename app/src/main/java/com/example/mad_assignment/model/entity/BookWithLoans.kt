@@ -1,16 +1,7 @@
 package com.example.mad_assignment.model.entity
 
-import androidx.room.Embedded
-import androidx.room.Relation
-
 data class BookWithLoans(
-    /* pull all the BookEntity column to here */
-    @Embedded val book: BookEntity,
-    /* match each LoanEntity with BookEntity */
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "bookId"
-    )
+    val book: BookEntity,
     val loans: List<LoanEntity>
 ) {
     /* null = nobody is borrowing the book */

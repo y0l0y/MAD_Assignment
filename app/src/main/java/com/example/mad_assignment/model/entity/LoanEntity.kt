@@ -1,25 +1,14 @@
 package com.example.mad_assignment.model.entity
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import com.google.firebase.firestore.DocumentId
 
-/* one loans.bookId match one books.id so one book can have many loan */
-@Entity(
-    tableName = "loans",
-    foreignKeys = [ForeignKey(
-        entity = BookEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["bookId"],
-        onDelete = ForeignKey.CASCADE
-    )],
-    indices = [Index("bookId")]
-)
 data class LoanEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val bookId: Long,
-    val borrowerName: String,
+    @DocumentId val id: String = "",
+    val bookId: String = "",
+    val borrowerName: String = "",
+    val borrowerUid: String = "",
     val borrowedAt: Long = System.currentTimeMillis(),
+    /* 0 = no due date */
+    val dueAt: Long = 0L,
     val returnedAt: Long? = null
 )

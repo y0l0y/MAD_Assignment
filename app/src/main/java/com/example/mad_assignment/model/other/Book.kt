@@ -9,7 +9,9 @@ data class Book(
     @SerializedName("author_name")
     val authorName: List<String>? = null,
     @SerializedName("cover_i")
-    val coverId: Long? = null
+    val coverId: Long? = null,
+    @SerializedName("isbn")
+    val isbn: List<String>? = null
 )
 
 data class OpenLibraryResponse(
@@ -20,7 +22,8 @@ data class OpenLibraryResponse(
 data class OnlineBook(
     val title: String,
     val authors: String,
-    val coverUrl: String?
+    val coverUrl: String?,
+    val isbn: String? = null
 )
 
 /* convert api data to online book data class */
@@ -35,6 +38,7 @@ fun Book.toOnlineBook(): OnlineBook? {
     return OnlineBook(
         title = cleanTitle,
         authors = authors,
-        coverUrl = coverId?.let { "https://covers.openlibrary.org/b/id/$it-M.jpg" }
+        coverUrl = coverId?.let { "https://covers.openlibrary.org/b/id/$it-M.jpg" },
+        isbn = isbn?.firstOrNull { BookRules.normaliseIsbn(it).length == 13 }
     )
 }

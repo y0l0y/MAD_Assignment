@@ -20,7 +20,7 @@ object BookQuery {
     fun apply(
         books: List<BookWithLoans>,
         query: String,
-        categoryId: Long?,
+        categoryId: String?,
         sortOrder: SortOrder
     ): List<BookWithLoans> {
         val q = query.trim()

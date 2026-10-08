@@ -16,9 +16,10 @@ import com.example.mad_assignment.model.dao_and_database.AppDatabase
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.CoverStorage
 import com.example.mad_assignment.model.other.UserPreferencesRepository
+import com.example.mad_assignment.model.remote.FirebaseDataSource
 import com.example.mad_assignment.network.NetworkModule
-import com.example.mad_assignment.viewModel.BookViewModel
 import com.example.mad_assignment.ui.view.AppNav
+import com.example.mad_assignment.viewModel.BookViewModel
 
 class MainActivity : ComponentActivity() {
     private val bookViewModel: BookViewModel by viewModels{
@@ -27,9 +28,8 @@ class MainActivity : ComponentActivity() {
                 val db = AppDatabase.getDatabase(applicationContext)
                 BookViewModel(
                     repository = BookRepository(
-                        bookDao = db.bookDao(),
-                        loanDao = db.loanDao(),
-                        categoryDao = db.categoryDao(),
+                        offlineDao = db.offlineDao(),
+                        remote = FirebaseDataSource(),
                         api = NetworkModule.api
                     ),
                     preferencesRepo = UserPreferencesRepository(applicationContext),

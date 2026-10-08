@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
+import com.example.mad_assignment.model.entity.BorrowWithBook
 import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.model.entity.OfflineBookEntity
 import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
@@ -17,10 +19,14 @@ import com.example.mad_assignment.model.other.CoverStorage
 import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.model.other.SortOrder
 import com.example.mad_assignment.model.other.UserPreferencesRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
+import kotlin.time.Duration.Companion.milliseconds
 
 sealed class BookUiState {
     object Idle: BookUiState()
@@ -35,6 +41,10 @@ class BookViewModel (
     private val preferencesRepo: UserPreferencesRepository,
     private val coverStorage: CoverStorage
 ) : ViewModel() {
+    private companion object {
+        const val WRITE_TIMEOUT_MS = 10_000L
+        const val CONNECTION_MESSAGE = "Unable to reach the server. Please check you connection and try again."
+    }
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
         private set
 
@@ -44,10 +54,22 @@ class BookViewModel (
     var categories by mutableStateOf(listOf<CategoryEntity>())
         private set
 
+    /* local cache */
+    var offlineBook by mutableStateOf(listOf<OfflineBookEntity>())
+        private set
+    var myBorrows by mutableStateOf(listOf<BorrowWithBook>())
+        private set
+
+    /* loading / error state */
+    var isLoading by mutableStateOf(true)
+        private set
+    var loadError by mutableStateOf<String?>(null)
+        private set
+
     /* local search / filter/ sort state */
     var searchQuery by mutableStateOf("")
         private set
-    var selectedCategoryId by mutableStateOf<Long?>(null) // null = all categories
+    var selectedCategoryId by mutableStateOf<String?>(null) // null = all categories
         private set
     var sortOrder by mutableStateOf(SortOrder.TITLE)
         private set
@@ -55,6 +77,11 @@ class BookViewModel (
     val visibleBook: List<BookWithLoans> by derivedStateOf {
         BookQuery.apply(books, searchQuery, selectedCategoryId, sortOrder)
     }
+    /* the main list: all books */
+    val sortedBooks: List<BookWithLoans> by derivedStateOf {
+        BookQuery.apply(books, "", null, sortOrder)
+    }
+
     var isAdminMode by mutableStateOf(false)
         private set
     var isDarkMode by mutableStateOf(false)
@@ -64,12 +91,17 @@ class BookViewModel (
     var borrowErrorMessage by mutableStateOf<String?>(null)
         private set
 
+    val currentUserId: String? get() = repository.currentUid()
+    val suggestedBorrowerName: String get() = repository.currentUserName()
+    private var loadJob: Job? = null
+
     init {
+        startLoading()
         viewModelScope.launch {
-            repository.books.collectLatest { books = it }
+            repository.offlineBook.collectLatest { offlineBook = it }
         }
         viewModelScope.launch {
-            repository.categories.collectLatest { categories = it }
+            repository.myBorrows.collectLatest { myBorrows = it }
         }
         viewModelScope.launch {
             preferencesRepo.darkModeFlow.collectLatest { isDarkMode = it }
@@ -77,9 +109,54 @@ class BookViewModel (
         viewModelScope.launch {
             preferencesRepo.sortOrderFlow.collectLatest { sortOrder = it }
         }
-        viewModelScope.launch {
-            repository.seedIfEmpty()
+    }
+
+    /* start listening firebase */
+    private fun startLoading() {
+        loadJob?.cancel()
+        loadError = null
+        isLoading = true
+        loadJob = viewModelScope.launch {
+            try {
+                repository.ensureSignedIn()
+                launch {
+                    try {
+                        repository.categories.collectLatest { categories = it }
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (_: Exception) {
+                        // the book list show the error
+                    }
+                }
+                repository.books.collectLatest { items ->
+                    books = items
+                    isLoading = false
+                    loadError = null
+                    repository.cacheSnapshot(items)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                isLoading = false
+                loadError = "Failed to load book. Please check your connection."
+            }
         }
+    }
+
+    fun reload() = startLoading()
+
+    private fun launchWrite(block: suspend () -> Unit): Job = viewModelScope.launch {
+        try {
+            block()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            borrowErrorMessage = "Unable to save the change. Please check your connection and try again."
+        }
+    }
+
+    fun clearBorrowError() {
+        borrowErrorMessage = null
     }
 
     fun toggleDarkMode() = viewModelScope.launch {
@@ -92,7 +169,7 @@ class BookViewModel (
 
     /* local search / filter / sort */
     fun updateSearchQuery(query: String) { searchQuery = query }
-    fun updateCategoryFilter(categoryId: Long?) { selectedCategoryId = categoryId}
+    fun updateCategoryFilter(categoryId: String?) { selectedCategoryId = categoryId}
     fun updateSortOrder(order: SortOrder) {
         sortOrder = order
         viewModelScope.launch { preferencesRepo.saveSortOrder(order) }
@@ -112,28 +189,31 @@ class BookViewModel (
         }
         return if (exists) "This category already exists" else null
     }
+
     fun addCategory(name: String): String? {
         val error = BookRules.validateCategoryName(name)
             ?: duplicateCategoryError(name)
         if (error != null) return error
-        viewModelScope.launch { repository.addCategory(name.trim()) }
+        launchWrite { repository.addCategory(name.trim()) }
         return null
     }
-    fun deleteCategory(category: CategoryEntity) = viewModelScope.launch {
+
+    fun deleteCategory(category: CategoryEntity) = launchWrite {
         if (selectedCategoryId == category.id)
             selectedCategoryId = null
         repository.deleteCategory(category)
     }
+
     fun updateBookCategory(
         book: BookEntity,
-        categoryId: Long?
-    ) = viewModelScope.launch {
+        categoryId: String?
+    ) = launchWrite {
         repository.updateBook(book.copy(categoryId = categoryId))
     }
 
     private fun duplicateIsbnError(
         isbn: String,
-        ignoreId: Long? = null
+        ignoreId: String? = null
     ): String? {
         val clean = BookRules.normaliseIsbn(isbn)
         val exists = books.any {
@@ -147,7 +227,8 @@ class BookViewModel (
         author: String,
         isbn: String,
         imageUri: Uri?,
-        categoryId: Long? = null
+        categoryId: String? = null,
+        coverUrl: String? = null
     ): String? {
         val error = BookRules.validateTitle(title)
             ?: BookRules.validateAuthor(author)
@@ -156,9 +237,9 @@ class BookViewModel (
         if (error != null) {
             return error
         }
-        viewModelScope.launch {
-            val coverPath = imageUri?.let { uri ->
-                withContext(Dispatchers.IO) { coverStorage.copy(uri) }
+        launchWrite {
+            val cover = imageUri?.let { uri ->
+                withContext(Dispatchers.IO) { coverStorage.encode(uri) }
             }
             repository.insertBook(
                 BookEntity(
@@ -166,7 +247,8 @@ class BookViewModel (
                     author = author.trim(),
                     isbn = isbn.trim(),
                     categoryId = categoryId,
-                    coverPath = coverPath
+                    coverBase64 = cover,
+                    coverUrl = coverUrl
                 )
             )
         }
@@ -174,35 +256,48 @@ class BookViewModel (
     }
 
     /* loans */
-
     fun borrowBook(
-        bookId: Long,
+        bookId: String,
         userName: String
     ): String? {
         BookRules.validateBorrowerName(userName)?.let { return it }
         viewModelScope.launch {
-            val success = repository.borrowBook(bookId, userName.trim())
-            if (!success) {
-                borrowErrorMessage = "Sorry, this book has already been borrowed."
+            try {
+                val success = withTimeoutOrNull(WRITE_TIMEOUT_MS.milliseconds) {
+                    repository.borrowBook(bookId, userName.trim())
+                }
+                when (success) {
+                    true -> Unit
+                    false -> borrowErrorMessage = "Sorry, this book has already been borrowed."
+                    null -> borrowErrorMessage = CONNECTION_MESSAGE
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                borrowErrorMessage = CONNECTION_MESSAGE
             }
         }
         return null
     }
-    fun clearBorrowError() {
-        borrowErrorMessage = null
-    }
 
-    fun returnBook(bookId: Long) = viewModelScope.launch {
-        repository.returnBook(bookId)
-    }
-
-    fun deleteBook(book: BookEntity) = viewModelScope.launch {
-        repository.deleteBook(book)
-        book.coverPath?.let { path ->
-            withContext(Dispatchers.IO) {
-                coverStorage.delete(path)
-            }
+    fun returnBook(bookId: String) = viewModelScope.launch {
+        val loan = books.find { it.book.id == bookId }?.activeLoan ?: return@launch
+        if (!isAdminMode && loan.borrowerUid != currentUserId) {
+            borrowErrorMessage = "Only the person who borrowed this book, or an admin, can return it."
+            return@launch
         }
+        try {
+            val done = withTimeoutOrNull(WRITE_TIMEOUT_MS.milliseconds) { repository.returnBook(bookId) }
+            if (done == null) borrowErrorMessage = CONNECTION_MESSAGE
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            borrowErrorMessage = CONNECTION_MESSAGE
+        }
+    }
+
+    fun deleteBook(book: BookEntity) = launchWrite {
+        repository.deleteBook(book)
     }
 
     fun updateBookCover(
@@ -210,26 +305,23 @@ class BookViewModel (
          uri: Uri,
          onError: (String) -> Unit = {}
     ) {
-        viewModelScope.launch {
-            val newPath = withContext(Dispatchers.IO) { coverStorage.copy(uri) }
-            if (newPath == null) {
+        launchWrite {
+            val encoded = withContext(Dispatchers.IO) { coverStorage.encode(uri) }
+            if (encoded == null) {
                 onError("Unable to load the picture")
-                return@launch
+                return@launchWrite
             }
             repository.updateBook(
                 book.copy(
-                    coverPath = newPath
+                    coverBase64 = encoded
                 )
             )
-            book.coverPath?.let { old ->
-                withContext(Dispatchers.IO) { coverStorage.delete(old) }
-            }
         }
     }
 
     fun updateBookTitle(book: BookEntity, newTitle: String): String? {
         BookRules.validateTitle(newTitle)?.let { return it }
-        viewModelScope.launch {
+        launchWrite {
             repository.updateBook(
                 book.copy(
                     title = newTitle.trim()
@@ -238,6 +330,7 @@ class BookViewModel (
         }
         return null
     }
+
     fun updateBookAuthor(book: BookEntity, newAuthor: String): String? {
         BookRules.validateAuthor(newAuthor)?.let { return it }
         viewModelScope.launch {
@@ -253,7 +346,7 @@ class BookViewModel (
     fun updateBookIsbn(book: BookEntity, newIsbn: String): String? {
         val error = BookRules.validateIsbn(newIsbn) ?: duplicateIsbnError(newIsbn, ignoreId = book.id)
         if (error != null) return error
-        viewModelScope.launch {
+        launchWrite {
             repository.updateBook(
                 book.copy(
                     isbn = newIsbn.trim()
@@ -261,6 +354,29 @@ class BookViewModel (
             )
         }
         return null
+    }
+
+    /* find the book details by ISBN */
+    fun lookupIsbn(
+        isbn: String,
+        onFound: (OnlineBook) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        val cleanIsbn = BookRules.normaliseIsbn(isbn)
+        viewModelScope.launch {
+            try {
+                val book = repository.findByIsbn(cleanIsbn)
+                if (book == null) {
+                    onFail("No book found online for the ISBN. Please type the details.")
+                } else {
+                    onFound(book)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                onFail("Failed to load book. Please check your connection.")
+            }
+        }
     }
 
     /* Online Search */
@@ -280,6 +396,8 @@ class BookViewModel (
                 } else {
                     BookUiState.Success(result)
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (_: Exception) {
                 uiState = BookUiState.Error("Failed to load book")
             }
