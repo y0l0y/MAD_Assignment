@@ -28,8 +28,8 @@ import com.example.mad_assignment.model.entity.CategoryEntity
 @Composable
 fun CategoryPicker(
     categories: List<CategoryEntity>,
-    selectedId: Long?,
-    onSelected: (Long?) -> Unit,
+    selectedId: String?,
+    onSelected: (String?) -> Unit,
     onAddCategory: (String) -> String?,
     onDeleteCategory: (CategoryEntity) -> Unit,
     modifier: Modifier = Modifier
@@ -38,7 +38,7 @@ fun CategoryPicker(
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var newName by rememberSaveable { mutableStateOf("") }
     var error by rememberSaveable { mutableStateOf<String?>(null) }
-    var deleteCategoryId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var deleteCategoryId by rememberSaveable { mutableStateOf<String?>(null) }
     val selectedName = categories.find { it.id == selectedId }?.name ?: "No category"
     val categoryToDelete = categories.find { it.id == deleteCategoryId }
 

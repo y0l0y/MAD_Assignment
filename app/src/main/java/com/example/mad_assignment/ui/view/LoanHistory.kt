@@ -34,7 +34,7 @@ import java.util.Locale
 
 @Composable
 fun LoanHistoryScreen(
-    bookID: Long,
+    bookID: String,
     vm: BookViewModel,
     onNavigateBack: () -> Unit
 ) {
@@ -160,6 +160,12 @@ fun LoanItemCard(loan: LoanEntity) {
                 text = "Borrow: ${formateDateTime(loan.borrowedAt)}",
                 style = MaterialTheme.typography.bodyMedium
             )
+            if (loan.dueAt > 0) {
+                Text(
+                    text = "Due: ${formatDay(loan.dueAt)}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
             Text(
                 text =
                     if (returned)

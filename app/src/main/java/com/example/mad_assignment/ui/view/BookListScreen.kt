@@ -1,6 +1,5 @@
 package com.example.mad_assignment.ui.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,10 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.Delete
@@ -29,8 +27,10 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -57,15 +57,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.launch
-import java.io.File
 
 @Composable
 fun BookListScreen(
@@ -73,6 +69,7 @@ fun BookListScreen(
     onNavigationToAdd: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
     onNavigateToLocalSearch: () -> Unit,
+    onNavigateToMyBooks: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
     onLoanShow: (BookEntity) -> Unit
 ){
@@ -81,6 +78,7 @@ fun BookListScreen(
         onNavigationToAdd = onNavigationToAdd,
         onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToApiSearch = onNavigateToApiSearch,
+        onNavigateToMyBooks = onNavigateToMyBooks,
         onItemClick = onItemClick,
         onLoanShow = onLoanShow
     )
@@ -93,11 +91,12 @@ fun BookListContent(
     onNavigationToAdd: () -> Unit,
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
+    onNavigateToMyBooks: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
     onLoanShow: (BookEntity) -> Unit
 ) {
-    var borrowBookId by rememberSaveable { mutableStateOf<Long?>(null) }
-    var deleteBookId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var borrowBookId by rememberSaveable { mutableStateOf<String?>(null) }
+    var deleteBookId by rememberSaveable { mutableStateOf<String?>(null) }
     var borrowerName by rememberSaveable { mutableStateOf("") }
     val books = vm.books
     val bookToBorrow = books.find { it.book.id == borrowBookId }
@@ -113,6 +112,7 @@ fun BookListContent(
                 isAdminMode = vm.isAdminMode,
                 onNavigateToLocalSearch = onNavigateToLocalSearch,
                 onNavigateToApiSearch = onNavigateToApiSearch,
+                onNavigateToMyBooks = onNavigateToMyBooks,
                 onToggleDarkMode = { vm.toggleDarkMode() },
                 onUpdateRole = { vm.updateRole() },
                 onClose = { scope.launch { drawerState.close() }}
@@ -157,27 +157,27 @@ fun BookListContent(
                     .padding(16.dp)
             ) {
                 if (books.isEmpty()) {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "No book available. Please contact admin to add the book.",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    BookListEmptyState(
+                        isLoading = vm.isLoading,
+                        error = vm.loadError,
+                        onRetry = { vm.reload() }
+                    )
                 } else {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(books, key = { it.book.id }) { item ->
+                        items(vm.sortedBooks, key = { it.book.id }) { item ->
                             BookItemCard(
                                 item = item,
                                 isAdminMode = vm.isAdminMode,
+                                canReturn = item.activeLoan?.borrowerUid == vm.currentUserId,
                                 onItemClick = { onItemClick(item.book) },
-                                onBorrowClick = { borrowBookId = item.book.id },
+                                onBorrowClick = {
+                                    borrowerName = vm.suggestedBorrowerName
+                                    borrowBookId = item.book.id
+                                },
                                 onReturnClick = { vm.returnBook(item.book.id) },
                                 onDelete = { deleteBookId = item.book.id },
                                 onLoanShow = { onLoanShow(item.book) }
@@ -229,6 +229,7 @@ fun BookListContent(
 fun BookItemCard(
     item: BookWithLoans,
     isAdminMode: Boolean,
+    canReturn: Boolean,
     onItemClick: () -> Unit,
     onBorrowClick: () -> Unit,
     onReturnClick: () -> Unit,
@@ -252,32 +253,14 @@ fun BookItemCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (book.coverPath != null) {
-                AsyncImage(
-                    model = File(book.coverPath),
-                    contentDescription = book.title,
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .size(60.dp, 80.dp)
-                        .clip(RoundedCornerShape(6.dp)),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Box(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .size(60.dp, 80.dp)
-                        .clip(RoundedCornerShape(6.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Book,
-                        contentDescription = "No book cover",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+            BookCover(
+                coverBase64 = book.coverBase64,
+                coverUrl = book.coverUrl,
+                title = book.title,
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .size(60.dp, 80.dp)
+            )
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -311,19 +294,21 @@ fun BookItemCard(
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
+                    DueDateText(dueAt = item.activeLoan?.dueAt ?: 0L)
                 }
             }
             if (isAdminMode) {
                 BookActionMenu(
                     onEdit = onItemClick,
-                    onDelete = onDelete
+                    onDelete = onDelete,
+                    onReturn = if (item.isAvailable) null else onReturnClick
                 )
             } else {
                 if (item.isAvailable) {
                     TextButton(onClick = onBorrowClick) {
                         Text("Borrow")
                     }
-                } else {
+                } else if (canReturn) {
                     TextButton(onClick = onReturnClick) {
                         Text(
                             text = "Return",
@@ -342,6 +327,7 @@ fun BookListDrawerContent(
     isAdminMode: Boolean,
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
+    onNavigateToMyBooks: () -> Unit,
     onToggleDarkMode: () -> Unit,
     onUpdateRole: () -> Unit,
     onClose: () -> Unit
@@ -378,6 +364,21 @@ fun BookListDrawerContent(
             selected = false,
             onClick = {
                 onNavigateToApiSearch()
+                onClose()
+            },
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
+        NavigationDrawerItem(
+            label = { Text("My Books") },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Bookmarks,
+                    contentDescription = null
+                )
+            },
+            selected = false,
+            onClick = {
+                onNavigateToMyBooks()
                 onClose()
             },
             modifier = Modifier.padding(horizontal = 12.dp)
@@ -458,7 +459,7 @@ fun BookBorrowFailedDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Unable to Borrow") },
+        title = { Text("Action Failed") },
         text = { Text(message) },
         confirmButton = {
             TextButton(onClick = onDismiss) {
@@ -495,7 +496,8 @@ fun BookDeleteDialog(
 fun BookActionMenu(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onReturn: (() -> Unit)? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -528,6 +530,15 @@ fun BookActionMenu(
                     onEdit()
                 }
             )
+            if (onReturn != null) {
+                DropdownMenuItem(
+                    text = { Text("Mark as returned") },
+                    onClick = {
+                        expanded = false
+                        onReturn()
+                    }
+                )
+            }
             DropdownMenuItem(
                 text = { Text("Delete") },
                 leadingIcon = {
@@ -541,6 +552,35 @@ fun BookActionMenu(
                     expanded = false
                     onDelete()
                 }
+            )
+        }
+    }
+}
+
+@Composable
+fun BookListEmptyState(
+    isLoading: Boolean,
+    error: String?,
+    onRetry: () -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        when {
+            isLoading -> CircularProgressIndicator()
+            error != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = error,
+                    color = MaterialTheme.colorScheme.error
+                )
+                Button(onClick = onRetry) {
+                    Text("Retry")
+                }
+            }
+            else -> Text(
+                text = "No book available. Please contact admin to add the book.",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

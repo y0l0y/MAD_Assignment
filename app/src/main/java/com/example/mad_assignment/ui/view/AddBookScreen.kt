@@ -24,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,35 +38,77 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+
+data class BookDraft(
+    val title: String = "",
+    val author: String = "",
+    val isbn: String = "",
+    val categoryId: String? = null,
+    val coverUrl: String? = null,
+    val coverUri: Uri? = null
+)
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookContent(
     categories: List<CategoryEntity>,
-    onSaveBook: (String, String, String, Uri?, Long?) -> String?,
+    prefill: BookDraft,
+    onSaveBook: (BookDraft) -> String?,
+    onLookupIsbn: (String, (OnlineBook) -> Unit, (String) -> Unit) -> Unit,
     onAddCategory: (String) -> String?,
     onDeleteCategory: (CategoryEntity) -> Unit,
     onNavigateBack: () -> Unit
 ) {
-    var title by rememberSaveable { mutableStateOf("") }
-    var author by rememberSaveable { mutableStateOf("") }
-    var isbn by rememberSaveable { mutableStateOf("") }
+    var title by rememberSaveable { mutableStateOf(prefill.title) }
+    var author by rememberSaveable { mutableStateOf(prefill.author) }
+    var isbn by rememberSaveable { mutableStateOf(prefill.isbn) }
     var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+    var coverUrl by rememberSaveable { mutableStateOf<String?>(prefill.coverUrl) }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
-    var categoryId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var categoryId by rememberSaveable { mutableStateOf<String?>(null) }
+    var isLookingUp by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
         if (uri != null) {
             imageUri = uri
         }
+    }
+
+    fun scanAndFill() {
+        scanIsbn(
+            context = context,
+            onScanned = { code ->
+                isbn = code
+                isLookingUp = true
+                onLookupIsbn(
+                    code,
+                    { found ->
+                        title = found.title
+                        author = found.authors
+                        coverUrl = found.coverUrl
+                        isLookingUp = false
+                    },
+                    { message ->
+                        errorMessage = message
+                        isLookingUp = false
+                    }
+                )
+            },
+            onError = { message -> errorMessage = message }
+        )
     }
 
     Scaffold(
@@ -85,7 +128,16 @@ fun AddBookContent(
         bottomBar = {
             Button(
                 onClick = {
-                    val error = onSaveBook(title, author, isbn, imageUri, categoryId)
+                    val error = onSaveBook(
+                        BookDraft(
+                            title = title,
+                            author = author,
+                            isbn = isbn,
+                            categoryId = categoryId,
+                            coverUrl = coverUrl,
+                            coverUri = imageUri
+                        )
+                    )
                     if (error == null) onNavigateBack() else errorMessage = error
                 },
                 modifier = Modifier
@@ -124,12 +176,13 @@ fun AddBookContent(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (imageUri != null) {
+                        val preview: Any? = imageUri ?: coverUrl
+                        if (preview != null) {
                             AsyncImage(
-                                model = imageUri,
+                                model = preview,
                                 contentDescription = "Selected Cover",
                                 modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.Fit
                             )
                         } else {
                             Text(
@@ -138,6 +191,18 @@ fun AddBookContent(
                             )
                         }
                     }
+                }
+                OutlinedButton(
+                    onClick = { scanAndFill() },
+                    enabled = !isLookingUp,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        if (isLookingUp)
+                            "Looking up book details..."
+                        else
+                            "Scan ISBN barcode"
+                    )
                 }
                 OutlinedTextField(
                     value = title,
@@ -184,13 +249,28 @@ fun AddBookContent(
 @Composable
 fun AddBookScreen(
     vm: BookViewModel,
+    prefill: BookDraft = BookDraft(),
     onNavigateBack: () -> Unit
 ){
     AddBookContent(
         categories = vm.categories,
-        onSaveBook = { title, author, isbn, coverUri, categoryId ->
-            vm.addBook(title, author, isbn, coverUri, categoryId)
+        prefill = prefill,
+        onSaveBook = { d ->
+            vm.addBook(
+                title = d.title,
+                author = d.author,
+                isbn = d.isbn,
+                imageUri = d.coverUri,
+                categoryId = d.categoryId,
+                coverUrl = d.coverUrl
+            )
         },
+        onLookupIsbn = { isbn, onFound, onFail ->
+            vm.lookupIsbn(
+                isbn = isbn,
+                onFound = onFound,
+                onFail = onFail
+            ) },
         onAddCategory = { vm.addCategory(it) },
         onDeleteCategory = { vm.deleteCategory(it) },
         onNavigateBack = onNavigateBack

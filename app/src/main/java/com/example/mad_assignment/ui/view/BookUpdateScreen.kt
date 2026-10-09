@@ -31,6 +31,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,17 +41,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.CategoryEntity
-import java.io.File
+import com.example.mad_assignment.model.other.decodeCover
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookUpdateScreen(
-    bookID: Long,
+    bookID: String,
     books : List<BookEntity>,
     categories: List<CategoryEntity>,
     onAddCategory: (String) -> String?,
     onDeleteCategory: (CategoryEntity) -> Unit,
-    onUpdateCategory: (BookEntity, Long?) -> Unit,
+    onUpdateCategory: (BookEntity, String?) -> Unit,
     onUpdateCover: (BookEntity, Uri) -> Unit,
     onUpdateTitle: (BookEntity, String) -> String?,
     onUpdateAuthor: (BookEntity, String) -> String?,
@@ -176,13 +177,15 @@ fun BookUpdateInfoCard(book: BookEntity) {
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            if (book.coverPath != null) {
+            val coverBitmap = remember(book.coverBase64) { decodeCover(book.coverBase64) }
+            val coverImage: Any? = coverBitmap ?: book.coverUrl
+            if (coverImage != null) {
                 Text(
                     text = "Current Book Cover",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 AsyncImage(
-                    model = File(book.coverPath),
+                    model = coverImage,
                     contentDescription = "Cover of ${book.title}",
                     modifier = Modifier
                         .fillMaxWidth()

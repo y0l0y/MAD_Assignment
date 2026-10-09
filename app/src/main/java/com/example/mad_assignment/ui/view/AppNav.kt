@@ -11,15 +11,22 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object BookList
 @Serializable
-data object AddBook
+data class AddBook(
+    val title: String = "",
+    val author: String = "",
+    val isbn: String = "",
+    val coverUrl: String = ""
+)
 @Serializable
-data class BookDetail(val bookID: Long)
+data class BookDetail(val bookID: String)
 @Serializable
 data object LocalBookSearch
 @Serializable
 data object ApiBookSearch
 @Serializable
-data class LoanHistory(val bookID: Long)
+data class LoanHistory(val bookID: String)
+@Serializable
+data object MyBooks
 
 @Composable
 fun AppNav(viewModel: BookViewModel) {
@@ -32,13 +39,16 @@ fun AppNav(viewModel: BookViewModel) {
             BookListScreen(
                 vm = viewModel,
                 onNavigationToAdd = {
-                    navController.navigate(AddBook)
+                    navController.navigate(AddBook())
                 },
                 onNavigateToLocalSearch = {
                     navController.navigate(LocalBookSearch)
                 },
                 onNavigateToApiSearch = {
                     navController.navigate(ApiBookSearch)
+                },
+                onNavigateToMyBooks = {
+                    navController.navigate(MyBooks)
                 },
                 onItemClick = { book ->
                     navController.navigate(BookDetail(bookID = book.id))
@@ -48,9 +58,16 @@ fun AppNav(viewModel: BookViewModel) {
                 }
             )
         }
-        composable<AddBook>{
+        composable<AddBook>{ backStackEntry ->
+            val route = backStackEntry.toRoute<AddBook>()
             AddBookScreen(
                 vm = viewModel,
+                prefill = BookDraft(
+                    title = route.title,
+                    author = route.author,
+                    isbn = route.isbn,
+                    coverUrl = route.coverUrl.ifBlank { null }
+                ),
                 onNavigateBack = {
                     navController.popBackStack()
                 }
@@ -90,7 +107,25 @@ fun AppNav(viewModel: BookViewModel) {
         composable<ApiBookSearch> {
             ApiBookSearchScreen(
                 vm = viewModel,
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                onAddToLibrary = { book ->
+                    navController.navigate(
+                        AddBook(
+                            title = book.title,
+                            author = book.authors,
+                            isbn = book.isbn.orEmpty(),
+                            coverUrl = book.coverUrl.orEmpty()
+                        )
+                    )
+                }
+            )
+        }
+        composable<MyBooks> {
+            MyBookScreen(
+                vm = viewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
             )
         }
         composable<LoanHistory> { backStackEntry ->
