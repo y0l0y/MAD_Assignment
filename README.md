@@ -44,7 +44,7 @@ The application also contain the feature on searching online, sorting the book, 
       10. `MyBooksScreen.kt`: This file is to show which book haven't return and offline book list.
       11. `UiHelpers.kt`: This file is to declare the common function that need to use across different file.
    4. `ViewModel`
-      1. `BookViewModel.kt`: This file is the core logic algorithm and state holder for the whole app structure. It links the UI layer and model layer. It use to process the user interact event and provide the state flow to the UI.
+      1. `BookViewModel.kt`: This file is the core logic algorithm and state holder for the whole app structure. It links the UI layer and model layer. It uses to process the user interact event and provide the state flow to the UI.
    5. `MainActivity.kt`: This is the main entry of the app
 
 ---
@@ -102,7 +102,7 @@ service cloud.firestore {
  }  
 ```
 
-To use your own Firebase project instead, create the prject, add an Android app 
+To use your own Firebase project instead, create the project, add an Android app 
 with the package name `com.example.mad_assignment`, replace `app/google-services.json`, 
 and repeat the two steps above.
 
