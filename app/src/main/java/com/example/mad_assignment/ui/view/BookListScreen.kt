@@ -76,8 +76,8 @@ fun BookListScreen(
     BookListContent(
         vm = vm,
         onNavigationToAdd = onNavigationToAdd,
-        onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToApiSearch = onNavigateToApiSearch,
+        onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToMyBooks = onNavigateToMyBooks,
         onItemClick = onItemClick,
         onLoanShow = onLoanShow
@@ -89,8 +89,8 @@ fun BookListScreen(
 fun BookListContent(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
-    onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
+    onNavigateToLocalSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
     onLoanShow: (BookEntity) -> Unit

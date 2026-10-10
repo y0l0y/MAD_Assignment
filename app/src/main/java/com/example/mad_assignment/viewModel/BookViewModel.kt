@@ -43,7 +43,7 @@ class BookViewModel (
 ) : ViewModel() {
     private companion object {
         const val WRITE_TIMEOUT_MS = 10_000L
-        const val CONNECTION_MESSAGE = "Unable to reach the server. Please check you connection and try again."
+        const val CONNECTION_MESSAGE = "Unable to reach the server. Please check your connection and try again."
     }
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
         private set
