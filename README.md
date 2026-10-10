@@ -122,3 +122,24 @@ and repeat the two steps above.
 2. Click Run in Android Studio, then the app will launch in the phone.
 3. The book list loads from Firestore. If it cannot connect, the screen shows an error message and a Retry button.
 
+---
+
+
+## How to demonstrate the network and device features
+**Network (Open Library)**
+1. **Menu → Search Book Online**: type in the book title and tap search. The screen shows a loading spinner when getting the data from the Open Library, then show the result of searching.
+2. **Empty state**: search for a nonsense word such as `xtfrgb`.
+3. **Error and Retry**: turn on aeroplane mode, search the book, then turn the network on (aeroplane mode off) and tap Retry.
+4. **Bad data**: result with no title are skipped, a missing author is shown as "Unknown author", and repeated title/author pairs appear once.
+
+**Device feature (in Admin Mode, tap + to add book)**
+1. **Gallery**: tap the cover area and choose an image. Press Back in the picker to cancel
+2. **Barcode Scanner**: tap **Scan ISBN barcode** and scan the EAN-13 barcode on the back of the book.
+The ISBN, title, author and cover are filled in from Open Library. 
+If the lookup fails or the network is off, a message is shown and the scanned ISBN is kept.
+Closing the scanner cancels it. If the scanner si not available, a message asks the user to type the ISBN.
+
+**Offline use**: open the library once with internet, turn on aeroplane mode, then open **Menu -> My Books**.
+The **Saved Offline** tab lists the library from Room.
+Borrowing or adding a book while offline shows a connection message and does not crash.
+
