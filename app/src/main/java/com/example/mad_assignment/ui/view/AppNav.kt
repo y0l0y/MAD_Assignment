@@ -31,6 +31,9 @@ data object MyBooks
 @Composable
 fun AppNav(viewModel: BookViewModel) {
     val navController = rememberNavController()
+    val goBack: () -> Unit = {
+        if (navController.previousBackStackEntry != null) navController.popBackStack()
+    }
     NavHost(
         navController = navController,
         startDestination = BookList
@@ -69,7 +72,7 @@ fun AppNav(viewModel: BookViewModel) {
                     coverUrl = route.coverUrl.ifBlank { null }
                 ),
                 onNavigateBack = {
-                    navController.popBackStack()
+                    goBack()
                 }
             )
         }
@@ -97,7 +100,7 @@ fun AppNav(viewModel: BookViewModel) {
                     viewModel.updateBookIsbn(book, newIsbn)
                 },
                 onNavigateBack = {
-                    navController.popBackStack()
+                    goBack()
                 }
             )
         }
@@ -107,24 +110,14 @@ fun AppNav(viewModel: BookViewModel) {
         composable<ApiBookSearch> {
             ApiBookSearchScreen(
                 vm = viewModel,
-                onNavigateBack = { navController.popBackStack() },
-                onAddToLibrary = { book ->
-                    navController.navigate(
-                        AddBook(
-                            title = book.title,
-                            author = book.authors,
-                            isbn = book.isbn.orEmpty(),
-                            coverUrl = book.coverUrl.orEmpty()
-                        )
-                    )
-                }
+                onNavigateBack = { goBack() }
             )
         }
         composable<MyBooks> {
             MyBookScreen(
                 vm = viewModel,
                 onNavigateBack = {
-                    navController.popBackStack()
+                    goBack()
                 }
             )
         }
@@ -133,7 +126,7 @@ fun AppNav(viewModel: BookViewModel) {
             LoanHistoryScreen(
                 bookID = route.bookID,
                 vm = viewModel,
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { goBack() }
             )
         }
     }

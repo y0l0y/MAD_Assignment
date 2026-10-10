@@ -23,7 +23,7 @@ import java.util.Date
 import java.util.Locale
 
 fun formatDay(millis: Long): String =
-    SimpleDateFormat("dd MM yyyy", Locale.getDefault()).format(Date(millis))
+    SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(millis))
 
 @Composable
 fun DueDateText(dueAt: Long) {

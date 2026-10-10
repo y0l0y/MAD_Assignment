@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlaylistRemove
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,7 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.viewModel.BookUiState
 import com.example.mad_assignment.viewModel.BookViewModel
 
@@ -43,8 +42,7 @@ import com.example.mad_assignment.viewModel.BookViewModel
 @Composable
 fun ApiBookSearchScreen(
     vm: BookViewModel,
-    onNavigateBack: () -> Unit,
-    onAddToLibrary: (OnlineBook) -> Unit
+    onNavigateBack: () -> Unit
 ) {
     val uiState = vm.uiState
     var searchQuery by rememberSaveable { mutableStateOf(vm.currentQuery) }
@@ -77,8 +75,18 @@ fun ApiBookSearchScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 trailingIcon = {
-                    Button(onClick = { vm.searchBooks(searchQuery) }) {
-                        Text("Search")
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }) {
+                                Icon(
+                                    imageVector = Icons.Default.PlaylistRemove,
+                                    contentDescription = "Clear search text"
+                                )
+                            }
+                        }
+                        Button(onClick = { vm.searchBooks(searchQuery) }) {
+                            Text("Search")
+                        }
                     }
                 }
             )
@@ -154,11 +162,6 @@ fun ApiBookSearchScreen(
                                             style = MaterialTheme.typography.titleMedium
                                         )
                                         Text(text = "Author: ${book.authors}")
-                                        if (vm.isAdminMode) {
-                                            TextButton(onClick = { onAddToLibrary }) {
-                                                Text("Add to library")
-                                            }
-                                        }
                                     }
                                 }
                             }
