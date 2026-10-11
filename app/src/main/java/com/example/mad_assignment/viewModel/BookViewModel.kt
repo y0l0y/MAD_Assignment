@@ -364,15 +364,49 @@ class BookViewModel (
         }
     }
 
-    fun returnBook(bookId: String) = viewModelScope.launch {
+    /* books the signed-in user currently holds (online data only) */
+    val myLoans: List<BookWithLoans>
+        get() = currentUserId?.let { uid -> books.filter { it.activeLoan?.borrowerUid == uid } }
+            ?: emptyList()
+
+    /* borrower asks the admin to confirm the return */
+    fun requestReturn(bookId: String) = viewModelScope.launch {
         val loan = books.find { it.book.id == bookId }?.activeLoan ?: return@launch
-        if (!isAdminMode && loan.borrowerUid != currentUserId) {
-            borrowErrorMessage = "Only the person who borrowed this book, or an admin, can return it."
+        if (loan.borrowerUid != currentUserId) {
+            borrowErrorMessage = "Only the person who borrowed this book can request its return."
             return@launch
         }
         try {
-            val done = withTimeoutOrNull(WRITE_TIMEOUT_MS.milliseconds) { repository.returnBook(bookId) }
-            if (done == null) borrowErrorMessage = CONNECTION_MESSAGE
+            val done = withTimeoutOrNull(WRITE_TIMEOUT_MS.milliseconds) {
+                repository.requestReturn(bookId)
+            }
+            when (done) {
+                true -> Unit
+                false -> borrowErrorMessage = "A return has already been requested for this book."
+                null -> borrowErrorMessage = CONNECTION_MESSAGE
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            borrowErrorMessage = CONNECTION_MESSAGE
+        }
+    }
+
+    /* admin confirms a requested return */
+    fun confirmReturn(bookId: String) = viewModelScope.launch {
+        if (!isAdminMode) {
+            borrowErrorMessage = "Only an admin can confirm a return."
+            return@launch
+        }
+        try {
+            val done = withTimeoutOrNull(WRITE_TIMEOUT_MS.milliseconds) {
+                repository.confirmReturn(bookId)
+            }
+            when (done) {
+                true -> Unit
+                false -> borrowErrorMessage = "No return has been requested for this book."
+                null -> borrowErrorMessage = CONNECTION_MESSAGE
+            }
         } catch (e: CancellationException) {
             throw e
         } catch (_: Exception) {

@@ -150,10 +150,28 @@ class FirebaseDataSource(
         true
     }.await()
 
-    suspend fun returnBook(bookId: String): Boolean = db.runTransaction { tx ->
+    /* borrower asks for the return to be confirmed; a transaction, so it fails when offline */
+    suspend fun requestReturn(bookId: String, uid: String): Boolean = db.runTransaction { tx ->
+        val loanId = tx.get(booksCol.document(bookId)).getString("activeLoanId")
+            ?: return@runTransaction false
+        val loanRef = loansCol.document(loanId)
+        val loan = tx.get(loanRef)
+        if (loan.getString("borrowerUid") != uid)
+            throw IllegalStateException("Not your loan")
+        if (loan.getLong("returnRequestedAt") != null)
+            return@runTransaction false
+        tx.update(loanRef, "returnRequestedAt", System.currentTimeMillis())
+        true
+    }.await()
+
+    /* admin confirms a requested return: closes the loan and frees the book */
+    suspend fun confirmReturn(bookId: String): Boolean = db.runTransaction { tx ->
         val bookRef = booksCol.document(bookId)
         val loanId = tx.get(bookRef).getString("activeLoanId") ?: return@runTransaction false
-        tx.update(loansCol.document(loanId), "returnedAt", System.currentTimeMillis())
+        val loanRef = loansCol.document(loanId)
+        if (tx.get(loanRef).getLong("returnRequestedAt") == null)
+            return@runTransaction false
+        tx.update(loanRef, "returnedAt", System.currentTimeMillis())
         tx.update(bookRef, "activeLoanId", null)
         true
     }.await()

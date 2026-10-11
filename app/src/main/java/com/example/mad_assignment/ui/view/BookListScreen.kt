@@ -1,5 +1,6 @@
 package com.example.mad_assignment.ui.view
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -107,6 +108,10 @@ fun BookListContent(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    BackHandler(enabled = drawerState.isOpen) {
+        scope.launch { drawerState.close() }
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -190,7 +195,10 @@ fun BookListContent(
                                     if (vm.currentUserId == null) onNavigateToAuth()
                                     else borrowBookId = item.book.id
                                 },
-                                onReturnClick = { vm.returnBook(item.book.id) },
+                                onReturnClick = {
+                                    if (vm.isAdminMode) vm.confirmReturn(item.book.id)
+                                    else vm.requestReturn(item.book.id)
+                                },
                                 onDelete = { deleteBookId = item.book.id },
                                 onLoanShow = { onLoanShow(item.book) }
                             )
@@ -292,19 +300,31 @@ fun BookItemCard(
                         style = MaterialTheme.typography.bodySmall
                     )
                 } else {
+                    val borrower = if (isAdminMode) {
+                        " (By: ${item.activeLoan?.borrowerName ?: "Unknown"})"
+                    } else ""
                     Text(
-                        text = "Status: Borrowed (By: ${item.activeLoan?.borrowerName ?: "Unknown"})",
+                        text = "Status: Borrowed$borrower",
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
-                    DueDateText(dueAt = item.activeLoan?.dueAt ?: 0L)
+                    if (item.isReturnRequested) {
+                        Text(
+                            text = "Return requested",
+                            color = MaterialTheme.colorScheme.tertiary,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    if (isAdminMode || canReturn) {
+                        DueDateText(dueAt = item.activeLoan?.dueAt ?: 0L)
+                    }
                 }
             }
             if (isAdminMode) {
                 BookActionMenu(
                     onEdit = onItemClick,
                     onDelete = onDelete,
-                    onReturn = if (item.isAvailable) null else onReturnClick
+                    onReturn = if (item.isReturnRequested) onReturnClick else null
                 )
             } else {
                 if (item.isAvailable) {
@@ -312,9 +332,12 @@ fun BookItemCard(
                         Text("Borrow")
                     }
                 } else if (canReturn) {
-                    TextButton(onClick = onReturnClick) {
+                    TextButton(
+                        onClick = onReturnClick,
+                        enabled = !item.isReturnRequested
+                    ) {
                         Text(
-                            text = "Return",
+                            text = "Request return",
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
@@ -546,7 +569,7 @@ fun BookActionMenu(
             )
             if (onReturn != null) {
                 DropdownMenuItem(
-                    text = { Text("Mark as returned") },
+                    text = { Text("Confirm return") },
                     onClick = {
                         expanded = false
                         onReturn()

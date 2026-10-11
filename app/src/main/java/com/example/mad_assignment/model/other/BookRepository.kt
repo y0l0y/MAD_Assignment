@@ -42,7 +42,11 @@ class BookRepository(
     suspend fun deleteBook(book: BookEntity) = remote.deleteBook(book.id)
 
     /* loans */
-    suspend fun returnBook(bookId: String): Boolean = remote.returnBook(bookId)
+    suspend fun requestReturn(bookId: String): Boolean {
+        val uid = remote.currentUid() ?: throw IllegalStateException("Sign in required")
+        return remote.requestReturn(bookId, uid)
+    }
+    suspend fun confirmReturn(bookId: String): Boolean = remote.confirmReturn(bookId)
     suspend fun borrowBook(
         bookId: String,
         borrowerName: String

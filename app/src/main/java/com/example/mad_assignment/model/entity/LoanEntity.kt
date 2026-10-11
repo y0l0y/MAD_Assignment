@@ -10,5 +10,7 @@ data class LoanEntity(
     val borrowedAt: Long = System.currentTimeMillis(),
     /* 0 = no due date */
     val dueAt: Long = 0L,
-    val returnedAt: Long? = null
+    val returnedAt: Long? = null,
+    /* set by the borrower, waits for an admin to confirm */
+    val returnRequestedAt: Long? = null
 )
