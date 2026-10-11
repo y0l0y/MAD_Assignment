@@ -12,6 +12,8 @@ import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.entity.BorrowWithBook
 import com.example.mad_assignment.model.entity.CategoryEntity
 import com.example.mad_assignment.model.entity.OfflineBookEntity
+import com.example.mad_assignment.model.entity.Roles
+import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
@@ -82,8 +84,17 @@ class BookViewModel (
         BookQuery.apply(books, "", null, sortOrder)
     }
 
-    var isAdminMode by mutableStateOf(false)
+    /* account: null uid = guest */
+    var currentUserId by mutableStateOf<String?>(repository.currentUid())
         private set
+    var profile by mutableStateOf<UserProfile?>(null)
+        private set
+    val isAdminMode: Boolean get() = profile?.role == Roles.ADMIN
+    var authBusy by mutableStateOf(false)
+        private set
+    var authError by mutableStateOf<String?>(null)
+        private set
+    private var signUpInProgress = false
     var isDarkMode by mutableStateOf(false)
         private set
     var currentQuery = ""
@@ -91,12 +102,21 @@ class BookViewModel (
     var borrowErrorMessage by mutableStateOf<String?>(null)
         private set
 
-    val currentUserId: String? get() = repository.currentUid()
-    val suggestedBorrowerName: String get() = repository.currentUserName()
     private var loadJob: Job? = null
 
     init {
         startLoading()
+        viewModelScope.launch {
+            repository.authState.collectLatest { uid ->
+                currentUserId = uid
+                profile = null
+                repository.clearMyBorrows()
+                /* sign up loads the profile itself once the document is written */
+                if (uid != null && !signUpInProgress) {
+                    profile = loadProfileOrNull()
+                }
+            }
+        }
         viewModelScope.launch {
             repository.offlineBook.collectLatest { offlineBook = it }
         }
@@ -118,7 +138,6 @@ class BookViewModel (
         isLoading = true
         loadJob = viewModelScope.launch {
             try {
-                repository.ensureSignedIn()
                 launch {
                     try {
                         repository.categories.collectLatest { categories = it }
@@ -164,8 +183,68 @@ class BookViewModel (
         preferencesRepo.saveDarkMode(!isDarkMode)
     }
 
-    fun updateRole(){
-        isAdminMode = !isAdminMode
+    /* authentication */
+    private suspend fun loadProfileOrNull(): UserProfile? =
+        try {
+            repository.loadOrCreateProfile()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            null
+        }
+
+    private fun runAuth(
+        onSuccess: () -> Unit,
+        onFinally: () -> Unit = {},
+        block: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            authBusy = true
+            authError = null
+            try {
+                block()
+                onSuccess()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                authError = e.message ?: "Something went wrong. Please try again."
+            } finally {
+                authBusy = false
+                onFinally()
+            }
+        }
+    }
+
+    fun clearAuthError() {
+        authError = null
+    }
+
+    fun signIn(email: String, password: String, onSuccess: () -> Unit) {
+        val error = BookRules.validateEmail(email) ?: BookRules.validatePassword(password)
+        if (error != null) {
+            authError = error
+            return
+        }
+        runAuth(onSuccess) { repository.signIn(email.trim(), password) }
+    }
+
+    fun signUp(name: String, email: String, password: String, onSuccess: () -> Unit) {
+        val error = BookRules.validateBorrowerName(name)
+            ?: BookRules.validateEmail(email)
+            ?: BookRules.validatePassword(password)
+        if (error != null) {
+            authError = error
+            return
+        }
+        signUpInProgress = true
+        runAuth(onSuccess, onFinally = { signUpInProgress = false }) {
+            repository.signUp(name.trim(), email.trim(), password)
+            profile = repository.loadOrCreateProfile()
+        }
+    }
+
+    fun signOut() {
+        repository.signOut()
     }
 
     /* local search / filter / sort */
@@ -257,11 +336,16 @@ class BookViewModel (
     }
 
     /* loans */
-    fun borrowBook(
-        bookId: String,
-        userName: String
-    ): String? {
-        BookRules.validateBorrowerName(userName)?.let { return it }
+    fun borrowBook(bookId: String) {
+        if (currentUserId == null) {
+            borrowErrorMessage = "Please sign in to borrow a book."
+            return
+        }
+        val userName = profile?.name.orEmpty()
+        BookRules.validateBorrowerName(userName)?.let {
+            borrowErrorMessage = it
+            return
+        }
         viewModelScope.launch {
             try {
                 val success = withTimeoutOrNull(WRITE_TIMEOUT_MS.milliseconds) {
@@ -278,7 +362,6 @@ class BookViewModel (
                 borrowErrorMessage = CONNECTION_MESSAGE
             }
         }
-        return null
     }
 
     fun returnBook(bookId: String) = viewModelScope.launch {

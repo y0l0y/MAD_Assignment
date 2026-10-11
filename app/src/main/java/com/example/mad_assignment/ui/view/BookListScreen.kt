@@ -60,6 +60,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
+import com.example.mad_assignment.model.other.BookRules
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.launch
 
@@ -70,6 +71,7 @@ fun BookListScreen(
     onNavigateToApiSearch: () -> Unit,
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
+    onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
     onLoanShow: (BookEntity) -> Unit
 ){
@@ -79,6 +81,7 @@ fun BookListScreen(
         onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToApiSearch = onNavigateToApiSearch,
         onNavigateToMyBooks = onNavigateToMyBooks,
+        onNavigateToAuth = onNavigateToAuth,
         onItemClick = onItemClick,
         onLoanShow = onLoanShow
     )
@@ -92,12 +95,12 @@ fun BookListContent(
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
+    onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
     onLoanShow: (BookEntity) -> Unit
 ) {
     var borrowBookId by rememberSaveable { mutableStateOf<String?>(null) }
     var deleteBookId by rememberSaveable { mutableStateOf<String?>(null) }
-    var borrowerName by rememberSaveable { mutableStateOf("") }
     val books = vm.books
     val bookToBorrow = books.find { it.book.id == borrowBookId }
     val bookToDelete = books.find { it.book.id == deleteBookId }
@@ -107,14 +110,23 @@ fun BookListContent(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
+            val accountLabel = when {
+                vm.currentUserId == null -> null
+                vm.profile == null -> "Signed in"
+                vm.isAdminMode -> "${vm.profile?.name.orEmpty()} (admin)"
+                else -> vm.profile?.name.orEmpty()
+            }
             BookListDrawerContent(
                 isDarkMode = vm.isDarkMode,
-                isAdminMode = vm.isAdminMode,
+                accountLabel = accountLabel,
                 onNavigateToLocalSearch = onNavigateToLocalSearch,
                 onNavigateToApiSearch = onNavigateToApiSearch,
-                onNavigateToMyBooks = onNavigateToMyBooks,
+                onNavigateToMyBooks = {
+                    if (vm.currentUserId == null) onNavigateToAuth() else onNavigateToMyBooks()
+                },
                 onToggleDarkMode = { vm.toggleDarkMode() },
-                onUpdateRole = { vm.updateRole() },
+                onSignIn = onNavigateToAuth,
+                onSignOut = { vm.signOut() },
                 onClose = { scope.launch { drawerState.close() }}
             )
         }
@@ -175,8 +187,8 @@ fun BookListContent(
                                 canReturn = item.activeLoan?.borrowerUid == vm.currentUserId,
                                 onItemClick = { onItemClick(item.book) },
                                 onBorrowClick = {
-                                    borrowerName = vm.suggestedBorrowerName
-                                    borrowBookId = item.book.id
+                                    if (vm.currentUserId == null) onNavigateToAuth()
+                                    else borrowBookId = item.book.id
                                 },
                                 onReturnClick = { vm.returnBook(item.book.id) },
                                 onDelete = { deleteBookId = item.book.id },
@@ -190,18 +202,9 @@ fun BookListContent(
         if (bookToBorrow != null) {
             BookBorrowDialog(
                 bookTitle = bookToBorrow.book.title,
-                borrowerName = borrowerName,
-                onNameChange = { borrowerName = it },
                 onConfirm = {
-                    if (
-                        vm.borrowBook(
-                            bookId = bookToBorrow.book.id,
-                            userName = borrowerName
-                        ) == null
-                        ) {
-                            borrowerName = ""
-                            borrowBookId = null
-                    }
+                    vm.borrowBook(bookToBorrow.book.id)
+                    borrowBookId = null
                 },
                 onDismiss = { borrowBookId = null }
             )
@@ -324,12 +327,13 @@ fun BookItemCard(
 @Composable
 fun BookListDrawerContent(
     isDarkMode: Boolean,
-    isAdminMode: Boolean,
+    accountLabel: String?,
     onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onToggleDarkMode: () -> Unit,
-    onUpdateRole: () -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onClose: () -> Unit
 ) {
     ModalDrawerSheet {
@@ -398,47 +402,57 @@ fun BookListDrawerContent(
             },
             modifier = Modifier.padding(horizontal = 12.dp)
         )
-        NavigationDrawerItem(
-            label = { Text(if (isAdminMode) "User Mode" else "Admin Mode") },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Switch Role",
-                    tint = if (isAdminMode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            },
-            selected = isAdminMode,
-            onClick = {
-                onUpdateRole()
-                onClose()
-            },
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
+        if (accountLabel == null) {
+            NavigationDrawerItem(
+                label = { Text("Sign in / Create account") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "Sign in"
+                    )
+                },
+                selected = false,
+                onClick = {
+                    onSignIn()
+                    onClose()
+                },
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+        } else {
+            Text(
+                text = accountLabel,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
+            )
+            NavigationDrawerItem(
+                label = { Text("Sign out") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "Sign out"
+                    )
+                },
+                selected = false,
+                onClick = {
+                    onSignOut()
+                    onClose()
+                },
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+        }
     }
 }
 
 @Composable
 fun BookBorrowDialog(
     bookTitle: String,
-    borrowerName: String,
-    onNameChange: (String) -> Unit,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Borrow Book") },
-        text = {
-            Column {
-                Text("Enter your name to borrow \"$bookTitle\":")
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = borrowerName,
-                    onValueChange = onNameChange,
-                    singleLine = true
-                )
-            }
-        },
+        text = { Text("Borrow \"$bookTitle\"? It is due back in ${BookRules.LOAN_DAYS} days.") },
         confirmButton = {
             TextButton(onClick = onConfirm) {
                 Text("Confirm")

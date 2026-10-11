@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "266427812615",
-    "project_id": "clublib-88888",
-    "storage_bucket": "clublib-88888.firebasestorage.app"
+    "project_number": "1023149692060",
+    "project_id": "testground-f3cef",
+    "storage_bucket": "testground-f3cef.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:266427812615:android:24a102ecfd7f8bb2a553a2",
+        "mobilesdk_app_id": "1:1023149692060:android:510a8c34c80d9f05b10959",
         "android_client_info": {
           "package_name": "com.example.mad_assignment"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBC1hFXCmncLcS7xYaI79XR5YUgS87mIxA"
+          "current_key": "AIzaSyA6nuPYZWEMrAq4juK8N-lmSvwa3fgzpds"
         }
       ],
       "services": {
