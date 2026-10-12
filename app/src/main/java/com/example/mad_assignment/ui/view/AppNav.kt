@@ -83,7 +83,10 @@ fun AppNav(viewModel: BookViewModel) {
             )
         }
         composable<LocalBookSearch> {
-            TODO()
+            LocalBookSearchScreen(
+                vm = viewModel,
+                onNavigateBack = { goBack() }
+            )
         }
         composable<ApiBookSearch> {
             ApiBookSearchScreen(
