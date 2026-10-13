@@ -27,6 +27,8 @@ data object ApiBookSearch
 data class LoanHistory(val bookID: String)
 @Serializable
 data object MyBooks
+@Serializable
+data object Auth
 
 @Composable
 fun AppNav(viewModel: BookViewModel) {
@@ -52,6 +54,9 @@ fun AppNav(viewModel: BookViewModel) {
                 },
                 onNavigateToMyBooks = {
                     navController.navigate(MyBooks)
+                },
+                onNavigateToAuth = {
+                    navController.navigate(Auth)
                 },
                 onItemClick = { book ->
                     navController.navigate(BookDetail(bookID = book.id))
@@ -90,6 +95,12 @@ fun AppNav(viewModel: BookViewModel) {
         }
         composable<ApiBookSearch> {
             ApiBookSearchScreen(
+                vm = viewModel,
+                onNavigateBack = { goBack() }
+            )
+        }
+        composable<Auth> {
+            AuthScreen(
                 vm = viewModel,
                 onNavigateBack = { goBack() }
             )

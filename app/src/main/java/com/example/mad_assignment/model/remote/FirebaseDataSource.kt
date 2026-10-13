@@ -3,6 +3,7 @@ package com.example.mad_assignment.model.remote
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.CategoryEntity
 import com.example.mad_assignment.model.entity.LoanEntity
+import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.other.BookRules
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,15 +35,40 @@ class FirebaseDataSource(
     private val booksCol get() = db.collection("books")
     private val categoriesCol get() = db.collection("categories")
     private val loansCol get() = db.collection("loans")
+    private val usersCol get() = db.collection("users")
 
     /* authentication */
     fun currentUid(): String? = auth.currentUser?.uid
 
-    fun currentUserName(): String = auth.currentUser?.displayName.orEmpty()
+    /* emits the uid on every sign in / sign out (null = signed out) */
+    fun authStateFlow(): Flow<String?> = callbackFlow {
+        val listener = FirebaseAuth.AuthStateListener { trySend(it.currentUser?.uid) }
+        auth.addAuthStateListener(listener)
+        awaitClose { auth.removeAuthStateListener(listener) }
+    }
 
-    suspend fun ensureUid(): String? {
-        auth.currentUser?.let { return it.uid }
-        return auth.signInAnonymously().await().user?.uid
+    suspend fun signIn(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).await()
+    }
+
+    suspend fun signUp(name: String, email: String, password: String) {
+        val uid = auth.createUserWithEmailAndPassword(email, password).await().user?.uid
+            ?: throw IllegalStateException("Account was created but no user ID was returned")
+        usersCol.document(uid).set(UserProfile(name = name, email = email)).await()
+    }
+
+    fun signOut() = auth.signOut()
+
+    /* read users/{uid}; create a default profile if it is missing (old or half-created account) */
+    suspend fun loadOrCreateProfile(): UserProfile? {
+        val user = auth.currentUser ?: return null
+        val ref = usersCol.document(user.uid)
+        val snapshot = ref.get().await()
+        if (snapshot.exists()) return snapshot.toObject(UserProfile::class.java)
+        val email = user.email.orEmpty()
+        val profile = UserProfile(name = email.substringBefore('@'), email = email)
+        ref.set(profile).await()
+        return profile
     }
 
     /* live data */
@@ -124,10 +150,28 @@ class FirebaseDataSource(
         true
     }.await()
 
-    suspend fun returnBook(bookId: String): Boolean = db.runTransaction { tx ->
+    /* borrower asks for the return to be confirmed; a transaction, so it fails when offline */
+    suspend fun requestReturn(bookId: String, uid: String): Boolean = db.runTransaction { tx ->
+        val loanId = tx.get(booksCol.document(bookId)).getString("activeLoanId")
+            ?: return@runTransaction false
+        val loanRef = loansCol.document(loanId)
+        val loan = tx.get(loanRef)
+        if (loan.getString("borrowerUid") != uid)
+            throw IllegalStateException("Not your loan")
+        if (loan.getLong("returnRequestedAt") != null)
+            return@runTransaction false
+        tx.update(loanRef, "returnRequestedAt", System.currentTimeMillis())
+        true
+    }.await()
+
+    /* admin confirms a requested return: closes the loan and frees the book */
+    suspend fun confirmReturn(bookId: String): Boolean = db.runTransaction { tx ->
         val bookRef = booksCol.document(bookId)
         val loanId = tx.get(bookRef).getString("activeLoanId") ?: return@runTransaction false
-        tx.update(loansCol.document(loanId), "returnedAt", System.currentTimeMillis())
+        val loanRef = loansCol.document(loanId)
+        if (tx.get(loanRef).getLong("returnRequestedAt") == null)
+            return@runTransaction false
+        tx.update(loanRef, "returnedAt", System.currentTimeMillis())
         tx.update(bookRef, "activeLoanId", null)
         true
     }.await()

@@ -5,6 +5,7 @@ object BookRules {
     const val MAX_AUTHOR_LENGTH = 100
     const val MAX_CATEGORY_LENGTH = 50
     const val MAX_BORROWER_LENGTH = 100
+    const val MIN_PASSWORD_LENGTH = 6
     const val LOAN_DAYS = 14
     const val DAY_IN_MILLIS = 24L * 60 * 60 * 1000
 
@@ -41,6 +42,20 @@ object BookRules {
             name.trim().length > MAX_CATEGORY_LENGTH -> "Category name must be less than $MAX_CATEGORY_LENGTH characters"
             else -> null
         }
+
+    private val EMAIL_REGEX = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
+
+    fun validateEmail(email: String): String? =
+        when {
+            email.isBlank() -> "Email cannot be empty"
+            !EMAIL_REGEX.matches(email.trim()) -> "Enter a valid email address"
+            else -> null
+        }
+
+    fun validatePassword(password: String): String? =
+        if (password.length < MIN_PASSWORD_LENGTH)
+            "Password must be at least $MIN_PASSWORD_LENGTH characters"
+        else null
 
     fun validateBorrowerName(name: String): String? =
         when {

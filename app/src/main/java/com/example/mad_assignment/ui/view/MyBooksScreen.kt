@@ -33,7 +33,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.mad_assignment.model.entity.BorrowWithBook
+import com.example.mad_assignment.model.entity.BookEntity
+import com.example.mad_assignment.model.entity.LoanEntity
 import com.example.mad_assignment.model.entity.OfflineBookEntity
 import com.example.mad_assignment.viewModel.BookViewModel
 
@@ -43,9 +44,9 @@ fun MyBookScreen(
     onNavigateBack: () -> Unit
 ) {
     MyBookContent(
-        borrows = vm.myBorrows,
+        loans = vm.myLoans.mapNotNull { item -> item.activeLoan?.let { item.book to it } },
         offlineBooks = vm.offlineBook,
-        onReturn = { vm.returnBook(it) },
+        onReturn = { vm.requestReturn(it) },
         onNavigateBack = onNavigateBack
     )
 }
@@ -53,7 +54,7 @@ fun MyBookScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyBookContent(
-    borrows: List<BorrowWithBook>,
+    loans: List<Pair<BookEntity, LoanEntity>>,
     offlineBooks: List<OfflineBookEntity>,
     onReturn: (String) -> Unit,
     onNavigateBack: () -> Unit
@@ -93,7 +94,7 @@ fun MyBookContent(
             }
             if (selectedTab == 0) {
                 BorrowedBookList(
-                    borrows = borrows,
+                    loans = loans,
                     onReturn = onReturn
                 )
             } else {
@@ -105,10 +106,10 @@ fun MyBookContent(
 
 @Composable
 private fun BorrowedBookList(
-    borrows: List<BorrowWithBook>,
+    loans: List<Pair<BookEntity, LoanEntity>>,
     onReturn: (String) -> Unit
 ) {
-    if (borrows.isEmpty()) {
+    if (loans.isEmpty()) {
         EmptyMessage("You have no unreturned books.")
         return
     }
@@ -117,16 +118,16 @@ private fun BorrowedBookList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(borrows, key = { it.borrow.loanId }) { item ->
+        items(loans, key = { it.second.id }) { (book, loan) ->
             Card(modifier = Modifier.fillMaxWidth()) {
                 Row(
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     BookCover(
-                        coverBase64 = item.book.coverBase64,
-                        coverUrl = item.book.coverUrl,
-                        title = item.book.title,
+                        coverBase64 = book.coverBase64,
+                        coverUrl = book.coverUrl,
+                        title = book.title,
                         modifier = Modifier.size(60.dp, 80.dp)
                     )
                     Column(
@@ -135,21 +136,29 @@ private fun BorrowedBookList(
                             .padding(horizontal = 12.dp)
                     ) {
                         Text(
-                            text = item.book.title,
+                            text = book.title,
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
-                            text = "Author: ${item.book.author}",
+                            text = "Author: ${book.author}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "Borrowed: ${formatDay(item.borrow.borrowedAt)}",
+                            text = "Borrowed: ${formatDay(loan.borrowedAt)}",
                             style = MaterialTheme.typography.bodySmall
                         )
-                        DueDateText(dueAt = item.borrow.dueAt)
+                        DueDateText(dueAt = loan.dueAt)
                     }
-                    TextButton(onClick = { onReturn(item.book.id) }) {
-                        Text("Return")
+                    if (loan.returnRequestedAt != null) {
+                        Text(
+                            text = "Return requested",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    } else {
+                        TextButton(onClick = { onReturn(book.id) }) {
+                            Text("Request return")
+                        }
                     }
                 }
             }

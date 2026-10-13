@@ -7,6 +7,7 @@ import com.example.mad_assignment.model.entity.BorrowWithBook
 import com.example.mad_assignment.model.entity.CategoryEntity
 import com.example.mad_assignment.model.entity.CurrentBorrowEntity
 import com.example.mad_assignment.model.entity.OfflineBookEntity
+import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.remote.FirebaseDataSource
 import com.example.mad_assignment.network.BookApi
 import kotlinx.coroutines.flow.Flow
@@ -17,11 +18,15 @@ class BookRepository(
     private val remote: FirebaseDataSource,
     private val api: BookApi
 ) {
-    suspend fun ensureSignedIn() {
-        remote.ensureUid()
-    }
+    /* authentication */
+    val authState: Flow<String?> = remote.authStateFlow()
     fun currentUid(): String? = remote.currentUid()
-    fun currentUserName(): String = remote.currentUserName()
+    suspend fun signIn(email: String, password: String) = remote.signIn(email, password)
+    suspend fun signUp(name: String, email: String, password: String) =
+        remote.signUp(name, email, password)
+    fun signOut() = remote.signOut()
+    suspend fun loadOrCreateProfile(): UserProfile? = remote.loadOrCreateProfile()
+    suspend fun clearMyBorrows() = offlineDao.clearBorrows()
 
     /* books */
     val books: Flow<List<BookWithLoans>> = combine(
@@ -37,12 +42,16 @@ class BookRepository(
     suspend fun deleteBook(book: BookEntity) = remote.deleteBook(book.id)
 
     /* loans */
-    suspend fun returnBook(bookId: String): Boolean = remote.returnBook(bookId)
+    suspend fun requestReturn(bookId: String): Boolean {
+        val uid = remote.currentUid() ?: throw IllegalStateException("Sign in required")
+        return remote.requestReturn(bookId, uid)
+    }
+    suspend fun confirmReturn(bookId: String): Boolean = remote.confirmReturn(bookId)
     suspend fun borrowBook(
         bookId: String,
         borrowerName: String
     ): Boolean {
-        val uid = remote.ensureUid().orEmpty()
+        val uid = remote.currentUid() ?: throw IllegalStateException("Sign in required")
         return remote.borrowIfAvailable(bookId, borrowerName, uid)
     }
 
