@@ -4,16 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.mad_assignment.model.entity.CurrentBorrowEntity
-import com.example.mad_assignment.model.entity.OfflineBookEntity
+import com.example.mad_assignment.model.entity.CatalogMetaEntity
+import com.example.mad_assignment.model.entity.LocalBookEntity
+import com.example.mad_assignment.model.entity.LocalCategoryEntity
 
 @Database(
-    entities = [OfflineBookEntity::class, CurrentBorrowEntity::class],
-    version = 6,
+    entities = [LocalBookEntity::class, LocalCategoryEntity::class, CatalogMetaEntity::class],
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun offlineDao(): OfflineDao
+    abstract fun catalogDao(): CatalogDao
 
     companion object {
         @Volatile

@@ -1,0 +1,495 @@
+{
+    "version": 1,
+    "categories": [
+        "Islamic Studies",
+        "Computer Science & Programming",
+        "Self-Development & Productivity",
+        "Science & Nature",
+        "History & Biography",
+        "Philosophy & Society",
+        "Business & Economics",
+        "Literature & Fiction"
+    ],
+    "books": [
+        {
+            "title": "The Sealed Nectar",
+            "author": "Safiur Rahman Al-Mubarakpuri",
+            "isbn": "9789960899558",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "The Study Quran",
+            "author": "Seyyed Hossein Nasr et al.",
+            "isbn": "9780061125867",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "The Qur'an",
+            "author": "M. A. S. Abdel Haleem",
+            "isbn": "9780199535958",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "No god but God",
+            "author": "Reza Aslan",
+            "isbn": "9780812982442",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "Islam: A Short History",
+            "author": "Karen Armstrong",
+            "isbn": "9780812966183",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "Muhammad: A Prophet for Our Time",
+            "author": "Karen Armstrong",
+            "isbn": "9780061577093",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "The Heart of Islam",
+            "author": "Seyyed Hossein Nasr",
+            "isbn": "9780060730642",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "The Autobiography of Malcolm X",
+            "author": "Malcolm X, Alex Haley",
+            "isbn": "9780345350688",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "Muhammad: His Life Based on the Earliest Sources",
+            "author": "Martin Lings",
+            "isbn": "9781594771538",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "Islam: Religion, History, and Civilization",
+            "author": "Seyyed Hossein Nasr",
+            "isbn": "9780060507138",
+            "category": "Islamic Studies"
+        },
+        {
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "isbn": "9780132350884",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "The Pragmatic Programmer, 20th Anniversary Edition",
+            "author": "David Thomas, Andrew Hunt",
+            "isbn": "9780135957059",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Introduction to Algorithms, Third Edition",
+            "author": "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest et al.",
+            "isbn": "9780262033848",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Design Patterns",
+            "author": "Erich Gamma, Richard Helm, Ralph Johnson et al.",
+            "isbn": "9780201633610",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Code Complete, Second Edition",
+            "author": "Steve McConnell",
+            "isbn": "9780735619678",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "The C Programming Language, Second Edition",
+            "author": "Brian W. Kernighan, Dennis M. Ritchie",
+            "isbn": "9780131103627",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Structure and Interpretation of Computer Programs, Second Edition",
+            "author": "Harold Abelson, Gerald Jay Sussman, Julie Sussman",
+            "isbn": "9780262510875",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Refactoring, Second Edition",
+            "author": "Martin Fowler",
+            "isbn": "9780134757599",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Python Crash Course, 2nd Edition",
+            "author": "Eric Matthes",
+            "isbn": "9781593279288",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Eloquent JavaScript, 3rd Edition",
+            "author": "Marijn Haverbeke",
+            "isbn": "9781593279509",
+            "category": "Computer Science & Programming"
+        },
+        {
+            "title": "Atomic Habits",
+            "author": "James Clear",
+            "isbn": "9780735211292",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "Deep Work",
+            "author": "Cal Newport",
+            "isbn": "9781455586691",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "The 7 Habits of Highly Effective People",
+            "author": "Stephen R. Covey",
+            "isbn": "9780743269513",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "How to Win Friends and Influence People",
+            "author": "Dale Carnegie",
+            "isbn": "9780671027032",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "Thinking, Fast and Slow",
+            "author": "Daniel Kahneman",
+            "isbn": "9780374533557",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "Grit",
+            "author": "Angela Duckworth",
+            "isbn": "9781501111105",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "Mindset",
+            "author": "Carol S. Dweck",
+            "isbn": "9780345472328",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "The Power of Habit",
+            "author": "Charles Duhigg",
+            "isbn": "9780812981605",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "Man's Search for Meaning",
+            "author": "Viktor E. Frankl",
+            "isbn": "9780807014295",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "Essentialism",
+            "author": "Greg McKeown",
+            "isbn": "9780804137386",
+            "category": "Self-Development & Productivity"
+        },
+        {
+            "title": "A Brief History of Time",
+            "author": "Stephen Hawking",
+            "isbn": "9780553380163",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Cosmos",
+            "author": "Carl Sagan",
+            "isbn": "9780345539434",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "The Selfish Gene, 40th Anniversary Edition",
+            "author": "Richard Dawkins",
+            "isbn": "9780198788607",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Astrophysics for People in a Hurry",
+            "author": "Neil deGrasse Tyson",
+            "isbn": "9780393609394",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "The Gene: An Intimate History",
+            "author": "Siddhartha Mukherjee",
+            "isbn": "9781476733524",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Surely You're Joking, Mr. Feynman!",
+            "author": "Richard P. Feynman",
+            "isbn": "9780393316049",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "The Elegant Universe",
+            "author": "Brian Greene",
+            "isbn": "9780393338102",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Silent Spring",
+            "author": "Rachel Carson",
+            "isbn": "9780618249060",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Why We Sleep",
+            "author": "Matthew Walker",
+            "isbn": "9781501144318",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Pale Blue Dot",
+            "author": "Carl Sagan",
+            "isbn": "9780345376596",
+            "category": "Science & Nature"
+        },
+        {
+            "title": "Sapiens: A Brief History of Humankind",
+            "author": "Yuval Noah Harari",
+            "isbn": "9780062316110",
+            "category": "History & Biography"
+        },
+        {
+            "title": "Homo Deus",
+            "author": "Yuval Noah Harari",
+            "isbn": "9780062464316",
+            "category": "History & Biography"
+        },
+        {
+            "title": "A People's History of the United States",
+            "author": "Howard Zinn",
+            "isbn": "9780062397348",
+            "category": "History & Biography"
+        },
+        {
+            "title": "The Guns of August",
+            "author": "Barbara W. Tuchman",
+            "isbn": "9780345476098",
+            "category": "History & Biography"
+        },
+        {
+            "title": "SPQR: A History of Ancient Rome",
+            "author": "Mary Beard",
+            "isbn": "9781631491252",
+            "category": "History & Biography"
+        },
+        {
+            "title": "Guns, Germs, and Steel",
+            "author": "Jared Diamond",
+            "isbn": "9780393317558",
+            "category": "History & Biography"
+        },
+        {
+            "title": "The Rise and Fall of the Third Reich",
+            "author": "William L. Shirer",
+            "isbn": "9781451651683",
+            "category": "History & Biography"
+        },
+        {
+            "title": "1491",
+            "author": "Charles C. Mann",
+            "isbn": "9781400032051",
+            "category": "History & Biography"
+        },
+        {
+            "title": "Postwar",
+            "author": "Tony Judt",
+            "isbn": "9780143037750",
+            "category": "History & Biography"
+        },
+        {
+            "title": "A Peace to End All Peace",
+            "author": "David Fromkin",
+            "isbn": "9780805088090",
+            "category": "History & Biography"
+        },
+        {
+            "title": "Meditations",
+            "author": "Marcus Aurelius",
+            "isbn": "9780812968255",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "The Republic",
+            "author": "Plato",
+            "isbn": "9780140455113",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "Nicomachean Ethics",
+            "author": "Aristotle",
+            "isbn": "9780872204645",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "The Prince",
+            "author": "Niccolo Machiavelli",
+            "isbn": "9780140449150",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "Leviathan",
+            "author": "Thomas Hobbes",
+            "isbn": "9780140431957",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "Beyond Good and Evil",
+            "author": "Friedrich Nietzsche",
+            "isbn": "9780679724650",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "Orientalism",
+            "author": "Edward W. Said",
+            "isbn": "9780394740676",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "The Wretched of the Earth",
+            "author": "Frantz Fanon",
+            "isbn": "9780802141323",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "Pedagogy of the Oppressed",
+            "author": "Paulo Freire",
+            "isbn": "9780826412768",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "Sophie's World",
+            "author": "Jostein Gaarder",
+            "isbn": "9780374530716",
+            "category": "Philosophy & Society"
+        },
+        {
+            "title": "The Lean Startup",
+            "author": "Eric Ries",
+            "isbn": "9780307887894",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Zero to One",
+            "author": "Peter Thiel, Blake Masters",
+            "isbn": "9780804139298",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Good to Great",
+            "author": "Jim Collins",
+            "isbn": "9780066620992",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Rich Dad Poor Dad",
+            "author": "Robert T. Kiyosaki",
+            "isbn": "9781612680194",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "The Intelligent Investor",
+            "author": "Benjamin Graham",
+            "isbn": "9780060555665",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Freakonomics",
+            "author": "Steven D. Levitt, Stephen J. Dubner",
+            "isbn": "9780060731335",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Hooked",
+            "author": "Nir Eyal",
+            "isbn": "9781591847786",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "The Psychology of Money",
+            "author": "Morgan Housel",
+            "isbn": "9780857197689",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Never Split the Difference",
+            "author": "Chris Voss, Tahl Raz",
+            "isbn": "9780062407801",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "Influence",
+            "author": "Robert B. Cialdini",
+            "isbn": "9780061241895",
+            "category": "Business & Economics"
+        },
+        {
+            "title": "1984",
+            "author": "George Orwell",
+            "isbn": "9780451524935",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "Animal Farm",
+            "author": "George Orwell",
+            "isbn": "9780451526342",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "isbn": "9780061120084",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "isbn": "9780743273565",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "isbn": "9780141439518",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "Brave New World",
+            "author": "Aldous Huxley",
+            "isbn": "9780060850524",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "The Catcher in the Rye",
+            "author": "J. D. Salinger",
+            "isbn": "9780316769488",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "Lord of the Flies",
+            "author": "William Golding",
+            "isbn": "9780399501487",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "Fahrenheit 451",
+            "author": "Ray Bradbury",
+            "isbn": "9781451673319",
+            "category": "Literature & Fiction"
+        },
+        {
+            "title": "The Kite Runner",
+            "author": "Khaled Hosseini",
+            "isbn": "9781594631931",
+            "category": "Literature & Fiction"
+        }
+    ]
+}

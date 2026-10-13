@@ -1,23 +1,36 @@
 package com.example.mad_assignment.model.other
 
-import com.example.mad_assignment.model.dao_and_database.OfflineDao
+import com.example.mad_assignment.model.dao_and_database.CatalogDao
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
-import com.example.mad_assignment.model.entity.BorrowWithBook
 import com.example.mad_assignment.model.entity.CategoryEntity
-import com.example.mad_assignment.model.entity.CurrentBorrowEntity
-import com.example.mad_assignment.model.entity.OfflineBookEntity
 import com.example.mad_assignment.model.entity.UserProfile
+import com.example.mad_assignment.model.entity.toBook
+import com.example.mad_assignment.model.entity.toCategory
+import com.example.mad_assignment.model.entity.toLocal
 import com.example.mad_assignment.model.remote.FirebaseDataSource
 import com.example.mad_assignment.network.BookApi
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+
+/* a live firebase flow must never block or break the book list that comes from room */
+private fun <T> Flow<T>.orInitial(initial: T): Flow<T> =
+    onStart { emit(initial) }.catch { emit(initial) }
 
 class BookRepository(
-    private val offlineDao: OfflineDao,
+    private val catalogDao: CatalogDao,
     private val remote: FirebaseDataSource,
-    private val api: BookApi
+    private val api: BookApi,
+    private val seed: CatalogSeed
 ) {
+    private val seedLock = Mutex()
+
     /* authentication */
     val authState: Flow<String?> = remote.authStateFlow()
     fun currentUid(): String? = remote.currentUid()
@@ -26,72 +39,121 @@ class BookRepository(
         remote.signUp(name, email, password)
     fun signOut() = remote.signOut()
     suspend fun loadOrCreateProfile(): UserProfile? = remote.loadOrCreateProfile()
-    suspend fun clearMyBorrows() = offlineDao.clearBorrows()
 
-    /* books */
+    /* books = local catalog (room) + availability (bookStatus) + loans (firebase) */
     val books: Flow<List<BookWithLoans>> = combine(
-        remote.booksFlow(),
-        remote.loansFlow()
-    ) { books, loans ->
+        catalogDao.books(),
+        remote.statusFlow().orInitial(emptyList()),
+        remote.loansFlow().orInitial(emptyList())
+    ) { local, status, loans ->
+        /* an empty status list means "not received yet" (offline or not published) */
+        val statusKnown = status.isNotEmpty()
+        val activeByBook = status.associate { it.id to it.activeLoanId }
         val loansByBook = loans.groupBy { it.bookId }
-        books.sortedBy { it.title.lowercase() }
-            .map { BookWithLoans(it, loansByBook[it.id].orEmpty()) }
+        local.map { it.toBook() }
+            .sortedBy { it.title.lowercase() }
+            .map { book ->
+                BookWithLoans(
+                    book = book,
+                    loans = loansByBook[book.id].orEmpty(),
+                    activeLoanId = activeByBook[book.id],
+                    availabilityKnown = statusKnown
+                )
+            }
     }
-    suspend fun insertBook(book: BookEntity): String = remote.insertBook(book)
-    suspend fun updateBook(book: BookEntity) = remote.updateBook(book)
-    suspend fun deleteBook(book: BookEntity) = remote.deleteBook(book.id)
+
+    val categories: Flow<List<CategoryEntity>> =
+        catalogDao.categories().map { list -> list.map { it.toCategory() } }
+
+    /* catalog sync */
+
+    /* first start: copy the book list that ships in the app into room */
+    suspend fun ensureSeeded() = seedLock.withLock {
+        if (catalogDao.version() != null || catalogDao.bookCount() > 0) return@withLock
+        val data = seed.read()
+        if (data == null || data.books.isEmpty()) return@withLock
+        catalogDao.replaceCatalog(data.books, data.categories, data.version)
+    }
+
+    /* compare the online version with the one on the phone */
+    suspend fun syncCatalog(isAdmin: Boolean = false) {
+        ensureSeeded()
+        val remoteVersion = remote.catalogVersion()
+        val localVersion = catalogDao.version() ?: 0L
+        if (remoteVersion == null) {
+            /* nothing online yet: the first admin uploads the catalog from the app */
+            if (isAdmin) publishLocalCatalog(localVersion)
+        } else if (remoteVersion > localVersion) {
+            val books = remote.fetchBooks()
+            val categories = remote.fetchCategories()
+            catalogDao.replaceCatalog(
+                books.map { it.toLocal() },
+                categories.map { it.toLocal() },
+                remoteVersion
+            )
+        }
+    }
+
+    private suspend fun publishLocalCatalog(version: Long) {
+        val books = catalogDao.allBooks().map { it.toBook() }
+        if (books.isEmpty()) return
+        val categories = catalogDao.allCategories().map { it.toCategory() }
+        remote.publishCatalog(books, categories, maxOf(version, 1L))
+    }
+
+    private suspend fun syncAfterWrite() {
+        try {
+            syncCatalog()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            /* the change is saved online, the phone updates on the next start */
+        }
+    }
+
+    /* catalog changes (admin): write online, then pull the new version */
+    suspend fun insertBook(book: BookEntity): String {
+        val id = remote.insertBook(book)
+        syncAfterWrite()
+        return id
+    }
+
+    suspend fun updateBook(book: BookEntity) {
+        remote.updateBook(book)
+        syncAfterWrite()
+    }
+
+    suspend fun deleteBook(book: BookEntity) {
+        remote.deleteBook(book.id)
+        syncAfterWrite()
+    }
+
+    suspend fun addCategory(name: String): String {
+        val id = remote.addCategory(name)
+        syncAfterWrite()
+        return id
+    }
+
+    suspend fun deleteCategory(category: CategoryEntity) {
+        remote.deleteCategory(category.id)
+        syncAfterWrite()
+    }
 
     /* loans */
     suspend fun requestReturn(bookId: String): Boolean {
         val uid = remote.currentUid() ?: throw IllegalStateException("Sign in required")
         return remote.requestReturn(bookId, uid)
     }
+
     suspend fun confirmReturn(bookId: String): Boolean = remote.confirmReturn(bookId)
+
     suspend fun borrowBook(
         bookId: String,
         borrowerName: String
     ): Boolean {
         val uid = remote.currentUid() ?: throw IllegalStateException("Sign in required")
-        return remote.borrowIfAvailable(bookId, borrowerName, uid)
-    }
-
-    /* categories */
-    val categories: Flow<List<CategoryEntity>> = remote.categoriesFlow()
-    suspend fun addCategory(name: String): String = remote.addCategory(name)
-
-    suspend fun deleteCategory(category: CategoryEntity) = remote.deleteCategory(category.id)
-
-    /* local cache (room): offline book list + active loan for this user */
-    val offlineBook: Flow<List<OfflineBookEntity>> = offlineDao.getOfflineBook()
-    val myBorrows: Flow<List<BorrowWithBook>> = offlineDao.getBorrowsWithBook()
-
-    suspend fun cacheSnapshot(items: List<BookWithLoans>) {
-        val uid = remote.currentUid()
-        val now = System.currentTimeMillis()
-        val books = items.map {
-            OfflineBookEntity(
-                id = it.book.id,
-                title = it.book.title,
-                author = it.book.author,
-                isbn = it.book.isbn,
-                coverBase64 = it.book.coverBase64,
-                coverUrl = it.book.coverUrl,
-                cachedAt = now
-            )
-        }
-        val borrows = items.mapNotNull { item ->
-            val loan = item.activeLoan
-            if (loan != null && uid != null && loan.borrowerUid == uid) {
-                CurrentBorrowEntity(
-                    loanId = loan.id,
-                    bookId = item.book.id,
-                    borrowerName = loan.borrowerName,
-                    borrowedAt = loan.borrowedAt,
-                    dueAt = loan.dueAt
-                )
-            } else null
-        }
-        offlineDao.replaceCache(books, borrows)
+        val title = catalogDao.titleOf(bookId).orEmpty()
+        return remote.borrowIfAvailable(bookId, title, borrowerName, uid)
     }
 
     /* Network */

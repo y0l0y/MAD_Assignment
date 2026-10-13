@@ -192,7 +192,7 @@ fun BookListContent(
                             BookItemCard(
                                 item = item,
                                 isAdminMode = vm.isAdminMode,
-                                canReturn = item.activeLoan?.borrowerUid == vm.currentUserId,
+                                canReturn = vm.currentUserId != null && item.activeLoan?.borrowerUid == vm.currentUserId,
                                 onItemClick = { onItemClick(item.book) },
                                 onBorrowClick = {
                                     if (vm.currentUserId == null) onNavigateToAuth()
@@ -300,6 +300,12 @@ fun BookItemCard(
                     Text(
                         text = "Status: Available",
                         color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                } else if (!item.availabilityKnown) {
+                    Text(
+                        text = "Status: Checking availability...",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.bodySmall
                     )
                 } else {

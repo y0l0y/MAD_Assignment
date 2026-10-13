@@ -35,7 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.LoanEntity
-import com.example.mad_assignment.model.entity.OfflineBookEntity
 import com.example.mad_assignment.viewModel.BookViewModel
 
 @Composable
@@ -45,7 +44,6 @@ fun MyBookScreen(
 ) {
     MyBookContent(
         loans = vm.myLoans.mapNotNull { item -> item.activeLoan?.let { item.book to it } },
-        offlineBooks = vm.offlineBook,
         onReturn = { vm.requestReturn(it) },
         onNavigateBack = onNavigateBack
     )
@@ -55,11 +53,9 @@ fun MyBookScreen(
 @Composable
 fun MyBookContent(
     loans: List<Pair<BookEntity, LoanEntity>>,
-    offlineBooks: List<OfflineBookEntity>,
     onReturn: (String) -> Unit,
     onNavigateBack: () -> Unit
 ) {
-    var selectedTab by rememberSaveable { mutableIntStateOf(0) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -80,26 +76,10 @@ fun MyBookContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            PrimaryTabRow(selectedTabIndex = selectedTab) {
-                Tab(
-                    selected = selectedTab == 0,
-                    onClick = { selectedTab = 0 },
-                    text = { Text("Not returned") }
-                )
-                Tab(
-                    selected = selectedTab == 1,
-                    onClick = { selectedTab = 1 },
-                    text = { Text("Saved Offline") }
-                )
-            }
-            if (selectedTab == 0) {
-                BorrowedBookList(
-                    loans = loans,
-                    onReturn = onReturn
-                )
-            } else {
-                OfflineBookList(books = offlineBooks)
-            }
+            BorrowedBookList(
+                loans = loans,
+                onReturn = onReturn
+            )
         }
     }
 }
@@ -159,50 +139,6 @@ private fun BorrowedBookList(
                         TextButton(onClick = { onReturn(book.id) }) {
                             Text("Request return")
                         }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun OfflineBookList(books: List<OfflineBookEntity>) {
-    if (books.isEmpty()) {
-        EmptyMessage("No books saved yet. Open the library once while online.")
-        return
-    }
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(books, key = { it.id }) { book ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    BookCover(
-                        coverBase64 = book.coverBase64,
-                        coverUrl = book.coverUrl,
-                        title = book.title,
-                        modifier = Modifier.size(60.dp, 80.dp)
-                    )
-                    Column(modifier = Modifier.padding(start = 12.dp)) {
-                        Text(
-                            text = book.title,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = "Author: ${book.author}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = "ISBN: ${book.isbn}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
                     }
                 }
             }
