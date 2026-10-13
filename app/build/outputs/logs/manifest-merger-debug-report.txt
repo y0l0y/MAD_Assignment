@@ -1,0 +1,889 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:2:1-28:12
+MERGED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:2:1-23:12
+MERGED from [androidx.navigation:navigation-runtime-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\63f45d108be936f3536218a6df4b9989\transformed\navigation-runtime-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef475de52c45009fbafb7feb2e51cd73\transformed\navigation-common-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-compose-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bf70b9fcf3ae6b885ea29e221f02aae3\transformed\navigation-compose-release\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:17:1-75:12
+MERGED from [com.google.mlkit:barcode-scanning-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\61d6f8c2f7a6e63830a0131a5cfaf2b4\transformed\barcode-scanning-common-17.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:2:1-26:12
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8ed85ec5da5b158402bc64e7798e08cd\transformed\credentials-1.2.0-rc01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:17:1-40:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\601c08d5a2eae94186417851b3cfcbb1\transformed\play-services-auth-api-phone-18.0.2\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.play:integrity:1.3.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68b7e949d5504b449334dfce7ea2dc39\transformed\integrity-1.3.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0670780c41b8756fa55be129ea33c93b\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\982c6def56af1c5d19219dca89792ed4\transformed\firebase-appcheck-interop-17.0.0\AndroidManifest.xml:15:1-25:12
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d1fcfcc0003f7105acf14a53a791a162\transformed\firebase-database-collection-18.0.1\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef4e3c6b1905c72e08b442f7f2a84736\transformed\play-services-fido-20.1.0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c9deb031ff8b90eeee5cc13b83f97d45\transformed\play-services-auth-base-18.0.4\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:16:1-24:12
+MERGED from [androidx.activity:activity-ktx:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\25e5d19d3e8914f5a86c37cb7a0111dd\transformed\activity-ktx-1.13.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-compose:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\994abedf871b6d524df46eb4792fec58\transformed\coil-compose-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-compose-base:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\15edf014df4e941c4917d144a3112c97\transformed\coil-compose-base-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\45f684c00ddaef84aa48a7fd8258da8c\transformed\coil-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-base:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f63eb3449ead5fd055c575689d5572fb\transformed\coil-base-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\cc5f0fa8aa26f47e1198d05ed7c00997\transformed\navigationevent-compose\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d65de8fa71c042a86b1e0cd9ca67c49a\transformed\navigationevent\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-retain-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\1f688a53136cbef1832d27a3ab538a9f\transformed\runtime-retain\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\339cb34bbeabc08f83d66c5d974e3adf\transformed\runtime-annotation\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0ae8d4be85af5f7475130bcd7190631\transformed\animation-core\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-ripple-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\484bef8fb07c2584dc1bfc1d9e2b6cec\transformed\material-ripple\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\cdbc553f948d4a02433086099628dbc6\transformed\animation\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9a21134e91ee7460eb939676bd965c57\transformed\foundation-layout\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\01bf5ad2004f20f8ebb047572d57430a\transformed\foundation\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a360742d6827e65df52aca16e79d17f3\transformed\ui-tooling-data\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6e90b6aa691d6105ae1bfe9873081d14\transformed\ui-tooling-preview\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-util-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2f184c9d203812b698406c8029295e02\transformed\ui-util\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9b60bebd79ddacc13e6073b26749d152\transformed\ui-unit\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d9291b44bcc73752d9d6c311cf781926\transformed\ui-graphics\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\5657575a7260355744e8cee6733dca17\transformed\ui-geometry\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:17:1-29:12
+MERGED from [androidx.compose.ui:ui-text-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\22b68ac7eedf742c284fe45715108916\transformed\ui-text\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\50ce9bfdb14f19db47a55e8316a8c638\transformed\runtime-saveable\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.transition:transition:1.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\754eaa439d946a46051d61763307c041\transformed\transition-1.6.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\44d7c9c6e763f3215f80c9f2c5b74971\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\39ad85d0fd2d362c6648cc441876f058\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8ae9ce6f38aa02ac362fc39d925c70dc\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a6bf6fd2bc4493f79272eef15bb1b398\transformed\lifecycle-livedata-core-ktx-2.11.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0c00ec20ac2fde0900ade763f10f5771\transformed\lifecycle-livedata-2.11.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a14c8b5a99944ba9a3a929dff5afc7d8\transformed\lifecycle-livedata-core-2.11.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d96e32ef5a6343c9cec24dc6ec06019a\transformed\lifecycle-viewmodel-2.11.0\AndroidManifest.xml:2:1-5:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8f3014e801a48a35cfaa061106cf35af\transformed\lifecycle-viewmodel\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7146985cdd8247ec6ab00462f7b497c9\transformed\lifecycle-runtime-compose\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-compose-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0a2e08b1c427c7ee82a57ac64f86d3bc\transformed\savedstate-compose\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6aca70e5cc6b333e65e7dcceb051a370\transformed\savedstate-ktx-1.4.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bedb48aea0b85782d342b7f768370b0e\transformed\savedstate\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bbdbb7f965ddbeb34aaa2447bcaa4307\transformed\lifecycle-viewmodel-savedstate\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3d3ed6e5280889e89ae0ba2103bde286\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b38d8c867a1e27f8a63e17f99dae0119\transformed\core-ktx-1.19.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.browser:browser:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0bc520f18f10039b7cfa5dd397d8c2a9\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7587677d8dd8d6f42964ddc5d7550f8a\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a8b17c28c906da31063bb5b898699d7c\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d79190c9040ead1a3f7fffea7039ce4c\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\99487cf101f6d9bb52e9f522edccc528\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\60f7460d3539abdfedfb5212a1fbb403\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\50655fad0b023d4778867890b9e7c0a9\transformed\autofill-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.window:window-core-android:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\1f3c3748449d499c3aad6deafb624038\transformed\window-core\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.graphics:graphics-path:1.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68d4dc07e623d024cfa608c3daf528cc\transformed\graphics-path-1.0.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a506f8bb61e6aa531fe2aa318b954879\transformed\lifecycle-runtime\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c4cb19f81a46dd94fd8bb8a8fa19d1db\transformed\lifecycle-viewmodel-ktx-2.11.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c7f579db613f4fdeb0808e7a799e9e0e\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\137b0e7d9368e9ab0e3fcaa5ae183f36\transformed\lifecycle-viewmodel-compose\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e1aaa469920c72d35897ccd096e06e22\transformed\accompanist-drawablepainter-0.32.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\92fbc225f0176ee6246acad9923ba9da\transformed\material-icons-extended-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\aa85eab11a021cf11da070512ffb5c5f\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d1f83d063a06dda6f4d298f311fb648e\transformed\ui\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.compose.material3:material3-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d93bcdf2e91edce689177081031e426e\transformed\material3\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8368cf543a8af88eecb2e820d973d3ce\transformed\runtime\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-core-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\07bc353fcec895ca686cde12a6dcbed1\transformed\datastore-core\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a84a161668ab3d2092edebc5fb27856f\transformed\datastore-preferences-core\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\47549075455e9889a48015a5547e7b6b\transformed\datastore\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3a32e3704fd8b8a3840d2b66b6d2f4e6\transformed\datastore-preferences\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-ktx:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4714e2dae4da0840e600e480efa09665\transformed\room-ktx-2.8.5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:17:1-31:12
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d0becf1941f0c482c3090f76883ff0bd\transformed\play-services-tasks-18.4.0\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\af5691b6132d71ee9a046e0a432f4945\transformed\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4905bead96a2c218e75f12c69371d30c\transformed\activity-1.13.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-compose:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6c52a492d44d38fd3ba150a17259b2dd\transformed\activity-compose-1.13.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9854c30ffe50330822e6177e4a5e7755\transformed\core-viewtree-1.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9ae095f039226965ac8ed7fe7ec8f22f\transformed\annotation-experimental-1.5.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\459245d8c8b8018771e1dbd70318df40\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:15:1-38:12
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.datatransport:transport-api:2.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3975262064029c5a7a22ef6c5acd9a53\transformed\transport-api-2.2.1\AndroidManifest.xml:15:1-22:12
+MERGED from [com.google.firebase:firebase-encoders-json:17.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e4f0b72fa782e8d8dc7968495e9e2603\transformed\firebase-encoders-json-17.1.0\AndroidManifest.xml:15:1-23:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4c1fea9c39d7b42122c03a632fab1999\transformed\tracing-1.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\52de22ea84c492cd35d74361a0a42f35\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\5aa482b0a5aae3b69d6300a6849e0651\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-components:19.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e8e0ef274bb11a0bbf24d27233530de3\transformed\firebase-components-19.0.0\AndroidManifest.xml:15:1-20:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\67e777fa756df94674bb61e5e113dd36\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4502d82f939c2d731a11549700f7fcc7\transformed\exifinterface-1.3.7\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.sqlite:sqlite-framework-android:2.6.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\39b72596d6ace860c8ac8dbc5b11b701\transformed\sqlite-framework\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-android:2.6.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\dbb673d8c5562beb3acc62a34c11f01d\transformed\sqlite\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\00f62dfe498a8066b8ea882fab09e347\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\860cb514e9ad9e9ec2355967b2009547\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\09dad5c1a848a880986da4b3f41627b3\transformed\googleid-1.1.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3c7703d1f1fafe9666b85cd0e96fbb37\transformed\grpc-android-1.62.2\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b5d9f5a2754529737fe150250855633d\transformed\protolite-well-known-types-18.0.1\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\422a84c6ff1b930666264adf8bb65952\transformed\image-1.0.0-beta1\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:2:1-21:12
+	package
+		INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:5:5-67
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:25:5-67
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:25:5-67
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:11:5-67
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:11:5-67
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:7:5-67
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:7:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:26:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:26:5-67
+	android:name
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:5:22-64
+application
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:6:5-27:19
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:6:5-27:19
+MERGED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:8:5-21:19
+MERGED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:8:5-21:19
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:28:5-73:19
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:28:5-73:19
+MERGED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:8:5-24:19
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:8:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:13:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:13:5-24:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:23:5-42:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:23:5-42:19
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.play:integrity:1.3.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68b7e949d5504b449334dfce7ea2dc39\transformed\integrity-1.3.0\AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.android.play:integrity:1.3.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68b7e949d5504b449334dfce7ea2dc39\transformed\integrity-1.3.0\AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0670780c41b8756fa55be129ea33c93b\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0670780c41b8756fa55be129ea33c93b\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\982c6def56af1c5d19219dca89792ed4\transformed\firebase-appcheck-interop-17.0.0\AndroidManifest.xml:23:5-20
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\982c6def56af1c5d19219dca89792ed4\transformed\firebase-appcheck-interop-17.0.0\AndroidManifest.xml:23:5-20
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef4e3c6b1905c72e08b442f7f2a84736\transformed\play-services-fido-20.1.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef4e3c6b1905c72e08b442f7f2a84736\transformed\play-services-fido-20.1.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:19:5-23:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:22:5-27:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:22:5-27:19
+MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:22:5-29:19
+MERGED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:22:5-29:19
+MERGED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:23:5-29:19
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d0becf1941f0c482c3090f76883ff0bd\transformed\play-services-tasks-18.4.0\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d0becf1941f0c482c3090f76883ff0bd\transformed\play-services-tasks-18.4.0\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\459245d8c8b8018771e1dbd70318df40\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\459245d8c8b8018771e1dbd70318df40\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:28:5-36:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:28:5-36:19
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:25:5-39:19
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:25:5-39:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\422a84c6ff1b930666264adf8bb65952\transformed\image-1.0.0-beta1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\422a84c6ff1b930666264adf8bb65952\transformed\image-1.0.0-beta1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:11:5-19:19
+MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:11:5-19:19
+	android:extractNativeLibs
+		INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:13:9-35
+	android:label
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:11:9-41
+	android:fullBackupContent
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:9:9-54
+	android:roundIcon
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:12:9-54
+	android:icon
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:10:9-43
+	android:allowBackup
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:7:9-35
+	android:theme
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:14:9-52
+	android:dataExtractionRules
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:8:9-65
+activity#com.example.mad_assignment.MainActivity
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:15:9-26:20
+	android:label
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:18:13-45
+	android:windowSoftInputMode
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:20:13-55
+	android:exported
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:17:13-36
+	android:theme
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:19:13-56
+	android:name
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:16:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:21:13-25:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:22:17-69
+	android:name
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:22:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:24:17-77
+	android:name
+		ADDED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:24:27-74
+uses-sdk
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+MERGED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:6:5-44
+MERGED from [androidx.navigation:navigation-runtime-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\63f45d108be936f3536218a6df4b9989\transformed\navigation-runtime-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\63f45d108be936f3536218a6df4b9989\transformed\navigation-runtime-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef475de52c45009fbafb7feb2e51cd73\transformed\navigation-common-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef475de52c45009fbafb7feb2e51cd73\transformed\navigation-common-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-compose-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bf70b9fcf3ae6b885ea29e221f02aae3\transformed\navigation-compose-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-compose-android:2.9.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bf70b9fcf3ae6b885ea29e221f02aae3\transformed\navigation-compose-release\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:21:5-23:151
+MERGED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:21:5-23:151
+MERGED from [com.google.mlkit:barcode-scanning-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\61d6f8c2f7a6e63830a0131a5cfaf2b4\transformed\barcode-scanning-common-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.mlkit:barcode-scanning-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\61d6f8c2f7a6e63830a0131a5cfaf2b4\transformed\barcode-scanning-common-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:6:5-44
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8ed85ec5da5b158402bc64e7798e08cd\transformed\credentials-1.2.0-rc01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8ed85ec5da5b158402bc64e7798e08cd\transformed\credentials-1.2.0-rc01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:21:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\601c08d5a2eae94186417851b3cfcbb1\transformed\play-services-auth-api-phone-18.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\601c08d5a2eae94186417851b3cfcbb1\transformed\play-services-auth-api-phone-18.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:integrity:1.3.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68b7e949d5504b449334dfce7ea2dc39\transformed\integrity-1.3.0\AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.play:integrity:1.3.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68b7e949d5504b449334dfce7ea2dc39\transformed\integrity-1.3.0\AndroidManifest.xml:4:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0670780c41b8756fa55be129ea33c93b\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0670780c41b8756fa55be129ea33c93b\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\982c6def56af1c5d19219dca89792ed4\transformed\firebase-appcheck-interop-17.0.0\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\982c6def56af1c5d19219dca89792ed4\transformed\firebase-appcheck-interop-17.0.0\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d1fcfcc0003f7105acf14a53a791a162\transformed\firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d1fcfcc0003f7105acf14a53a791a162\transformed\firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef4e3c6b1905c72e08b442f7f2a84736\transformed\play-services-fido-20.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ef4e3c6b1905c72e08b442f7f2a84736\transformed\play-services-fido-20.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c9deb031ff8b90eeee5cc13b83f97d45\transformed\play-services-auth-base-18.0.4\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c9deb031ff8b90eeee5cc13b83f97d45\transformed\play-services-auth-base-18.0.4\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:18:5-43
+MERGED from [androidx.activity:activity-ktx:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\25e5d19d3e8914f5a86c37cb7a0111dd\transformed\activity-ktx-1.13.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\25e5d19d3e8914f5a86c37cb7a0111dd\transformed\activity-ktx-1.13.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\994abedf871b6d524df46eb4792fec58\transformed\coil-compose-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\994abedf871b6d524df46eb4792fec58\transformed\coil-compose-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\15edf014df4e941c4917d144a3112c97\transformed\coil-compose-base-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\15edf014df4e941c4917d144a3112c97\transformed\coil-compose-base-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\45f684c00ddaef84aa48a7fd8258da8c\transformed\coil-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\45f684c00ddaef84aa48a7fd8258da8c\transformed\coil-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f63eb3449ead5fd055c575689d5572fb\transformed\coil-base-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f63eb3449ead5fd055c575689d5572fb\transformed\coil-base-2.7.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\cc5f0fa8aa26f47e1198d05ed7c00997\transformed\navigationevent-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\cc5f0fa8aa26f47e1198d05ed7c00997\transformed\navigationevent-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d65de8fa71c042a86b1e0cd9ca67c49a\transformed\navigationevent\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d65de8fa71c042a86b1e0cd9ca67c49a\transformed\navigationevent\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-retain-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\1f688a53136cbef1832d27a3ab538a9f\transformed\runtime-retain\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-retain-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\1f688a53136cbef1832d27a3ab538a9f\transformed\runtime-retain\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\339cb34bbeabc08f83d66c5d974e3adf\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\339cb34bbeabc08f83d66c5d974e3adf\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0ae8d4be85af5f7475130bcd7190631\transformed\animation-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0ae8d4be85af5f7475130bcd7190631\transformed\animation-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\484bef8fb07c2584dc1bfc1d9e2b6cec\transformed\material-ripple\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\484bef8fb07c2584dc1bfc1d9e2b6cec\transformed\material-ripple\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\cdbc553f948d4a02433086099628dbc6\transformed\animation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\cdbc553f948d4a02433086099628dbc6\transformed\animation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9a21134e91ee7460eb939676bd965c57\transformed\foundation-layout\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9a21134e91ee7460eb939676bd965c57\transformed\foundation-layout\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\01bf5ad2004f20f8ebb047572d57430a\transformed\foundation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.10.4] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\01bf5ad2004f20f8ebb047572d57430a\transformed\foundation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a360742d6827e65df52aca16e79d17f3\transformed\ui-tooling-data\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a360742d6827e65df52aca16e79d17f3\transformed\ui-tooling-data\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6e90b6aa691d6105ae1bfe9873081d14\transformed\ui-tooling-preview\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6e90b6aa691d6105ae1bfe9873081d14\transformed\ui-tooling-preview\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2f184c9d203812b698406c8029295e02\transformed\ui-util\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2f184c9d203812b698406c8029295e02\transformed\ui-util\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9b60bebd79ddacc13e6073b26749d152\transformed\ui-unit\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9b60bebd79ddacc13e6073b26749d152\transformed\ui-unit\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d9291b44bcc73752d9d6c311cf781926\transformed\ui-graphics\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d9291b44bcc73752d9d6c311cf781926\transformed\ui-graphics\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\5657575a7260355744e8cee6733dca17\transformed\ui-geometry\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\5657575a7260355744e8cee6733dca17\transformed\ui-geometry\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\22b68ac7eedf742c284fe45715108916\transformed\ui-text\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\22b68ac7eedf742c284fe45715108916\transformed\ui-text\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\50ce9bfdb14f19db47a55e8316a8c638\transformed\runtime-saveable\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\50ce9bfdb14f19db47a55e8316a8c638\transformed\runtime-saveable\AndroidManifest.xml:5:5-44
+MERGED from [androidx.transition:transition:1.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\754eaa439d946a46051d61763307c041\transformed\transition-1.6.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.transition:transition:1.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\754eaa439d946a46051d61763307c041\transformed\transition-1.6.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\44d7c9c6e763f3215f80c9f2c5b74971\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\44d7c9c6e763f3215f80c9f2c5b74971\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\39ad85d0fd2d362c6648cc441876f058\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\39ad85d0fd2d362c6648cc441876f058\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8ae9ce6f38aa02ac362fc39d925c70dc\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8ae9ce6f38aa02ac362fc39d925c70dc\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a6bf6fd2bc4493f79272eef15bb1b398\transformed\lifecycle-livedata-core-ktx-2.11.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a6bf6fd2bc4493f79272eef15bb1b398\transformed\lifecycle-livedata-core-ktx-2.11.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0c00ec20ac2fde0900ade763f10f5771\transformed\lifecycle-livedata-2.11.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0c00ec20ac2fde0900ade763f10f5771\transformed\lifecycle-livedata-2.11.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a14c8b5a99944ba9a3a929dff5afc7d8\transformed\lifecycle-livedata-core-2.11.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a14c8b5a99944ba9a3a929dff5afc7d8\transformed\lifecycle-livedata-core-2.11.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d96e32ef5a6343c9cec24dc6ec06019a\transformed\lifecycle-viewmodel-2.11.0\AndroidManifest.xml:4:5-43
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d96e32ef5a6343c9cec24dc6ec06019a\transformed\lifecycle-viewmodel-2.11.0\AndroidManifest.xml:4:5-43
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8f3014e801a48a35cfaa061106cf35af\transformed\lifecycle-viewmodel\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8f3014e801a48a35cfaa061106cf35af\transformed\lifecycle-viewmodel\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7146985cdd8247ec6ab00462f7b497c9\transformed\lifecycle-runtime-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7146985cdd8247ec6ab00462f7b497c9\transformed\lifecycle-runtime-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-compose-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0a2e08b1c427c7ee82a57ac64f86d3bc\transformed\savedstate-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-compose-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0a2e08b1c427c7ee82a57ac64f86d3bc\transformed\savedstate-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6aca70e5cc6b333e65e7dcceb051a370\transformed\savedstate-ktx-1.4.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6aca70e5cc6b333e65e7dcceb051a370\transformed\savedstate-ktx-1.4.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bedb48aea0b85782d342b7f768370b0e\transformed\savedstate\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bedb48aea0b85782d342b7f768370b0e\transformed\savedstate\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bbdbb7f965ddbeb34aaa2447bcaa4307\transformed\lifecycle-viewmodel-savedstate\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bbdbb7f965ddbeb34aaa2447bcaa4307\transformed\lifecycle-viewmodel-savedstate\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3d3ed6e5280889e89ae0ba2103bde286\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3d3ed6e5280889e89ae0ba2103bde286\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b38d8c867a1e27f8a63e17f99dae0119\transformed\core-ktx-1.19.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b38d8c867a1e27f8a63e17f99dae0119\transformed\core-ktx-1.19.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.browser:browser:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0bc520f18f10039b7cfa5dd397d8c2a9\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.browser:browser:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\0bc520f18f10039b7cfa5dd397d8c2a9\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7587677d8dd8d6f42964ddc5d7550f8a\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7587677d8dd8d6f42964ddc5d7550f8a\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a8b17c28c906da31063bb5b898699d7c\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a8b17c28c906da31063bb5b898699d7c\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d79190c9040ead1a3f7fffea7039ce4c\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d79190c9040ead1a3f7fffea7039ce4c\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\99487cf101f6d9bb52e9f522edccc528\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\99487cf101f6d9bb52e9f522edccc528\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\60f7460d3539abdfedfb5212a1fbb403\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\60f7460d3539abdfedfb5212a1fbb403\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\50655fad0b023d4778867890b9e7c0a9\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\50655fad0b023d4778867890b9e7c0a9\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window-core-android:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\1f3c3748449d499c3aad6deafb624038\transformed\window-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.window:window-core-android:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\1f3c3748449d499c3aad6deafb624038\transformed\window-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.graphics:graphics-path:1.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68d4dc07e623d024cfa608c3daf528cc\transformed\graphics-path-1.0.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.graphics:graphics-path:1.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68d4dc07e623d024cfa608c3daf528cc\transformed\graphics-path-1.0.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a506f8bb61e6aa531fe2aa318b954879\transformed\lifecycle-runtime\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a506f8bb61e6aa531fe2aa318b954879\transformed\lifecycle-runtime\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c4cb19f81a46dd94fd8bb8a8fa19d1db\transformed\lifecycle-viewmodel-ktx-2.11.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c4cb19f81a46dd94fd8bb8a8fa19d1db\transformed\lifecycle-viewmodel-ktx-2.11.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c7f579db613f4fdeb0808e7a799e9e0e\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\c7f579db613f4fdeb0808e7a799e9e0e\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\137b0e7d9368e9ab0e3fcaa5ae183f36\transformed\lifecycle-viewmodel-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\137b0e7d9368e9ab0e3fcaa5ae183f36\transformed\lifecycle-viewmodel-compose\AndroidManifest.xml:5:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e1aaa469920c72d35897ccd096e06e22\transformed\accompanist-drawablepainter-0.32.0\AndroidManifest.xml:21:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e1aaa469920c72d35897ccd096e06e22\transformed\accompanist-drawablepainter-0.32.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\92fbc225f0176ee6246acad9923ba9da\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\92fbc225f0176ee6246acad9923ba9da\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\aa85eab11a021cf11da070512ffb5c5f\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.8] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\aa85eab11a021cf11da070512ffb5c5f\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d1f83d063a06dda6f4d298f311fb648e\transformed\ui\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d1f83d063a06dda6f4d298f311fb648e\transformed\ui\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d93bcdf2e91edce689177081031e426e\transformed\material3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d93bcdf2e91edce689177081031e426e\transformed\material3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8368cf543a8af88eecb2e820d973d3ce\transformed\runtime\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.12.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8368cf543a8af88eecb2e820d973d3ce\transformed\runtime\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\07bc353fcec895ca686cde12a6dcbed1\transformed\datastore-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\07bc353fcec895ca686cde12a6dcbed1\transformed\datastore-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a84a161668ab3d2092edebc5fb27856f\transformed\datastore-preferences-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\a84a161668ab3d2092edebc5fb27856f\transformed\datastore-preferences-core\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\47549075455e9889a48015a5547e7b6b\transformed\datastore\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\47549075455e9889a48015a5547e7b6b\transformed\datastore\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3a32e3704fd8b8a3840d2b66b6d2f4e6\transformed\datastore-preferences\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3a32e3704fd8b8a3840d2b66b6d2f4e6\transformed\datastore-preferences\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4714e2dae4da0840e600e480efa09665\transformed\room-ktx-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4714e2dae4da0840e600e480efa09665\transformed\room-ktx-2.8.5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d0becf1941f0c482c3090f76883ff0bd\transformed\play-services-tasks-18.4.0\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d0becf1941f0c482c3090f76883ff0bd\transformed\play-services-tasks-18.4.0\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\af5691b6132d71ee9a046e0a432f4945\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\af5691b6132d71ee9a046e0a432f4945\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4905bead96a2c218e75f12c69371d30c\transformed\activity-1.13.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4905bead96a2c218e75f12c69371d30c\transformed\activity-1.13.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-compose:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6c52a492d44d38fd3ba150a17259b2dd\transformed\activity-compose-1.13.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.13.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6c52a492d44d38fd3ba150a17259b2dd\transformed\activity-compose-1.13.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9854c30ffe50330822e6177e4a5e7755\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9854c30ffe50330822e6177e4a5e7755\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9ae095f039226965ac8ed7fe7ec8f22f\transformed\annotation-experimental-1.5.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9ae095f039226965ac8ed7fe7ec8f22f\transformed\annotation-experimental-1.5.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\459245d8c8b8018771e1dbd70318df40\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\459245d8c8b8018771e1dbd70318df40\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-api:2.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3975262064029c5a7a22ef6c5acd9a53\transformed\transport-api-2.2.1\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-api:2.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3975262064029c5a7a22ef6c5acd9a53\transformed\transport-api-2.2.1\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-encoders-json:17.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e4f0b72fa782e8d8dc7968495e9e2603\transformed\firebase-encoders-json-17.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-encoders-json:17.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e4f0b72fa782e8d8dc7968495e9e2603\transformed\firebase-encoders-json-17.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4c1fea9c39d7b42122c03a632fab1999\transformed\tracing-1.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.tracing:tracing:1.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4c1fea9c39d7b42122c03a632fab1999\transformed\tracing-1.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\52de22ea84c492cd35d74361a0a42f35\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\52de22ea84c492cd35d74361a0a42f35\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\5aa482b0a5aae3b69d6300a6849e0651\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\5aa482b0a5aae3b69d6300a6849e0651\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-components:19.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e8e0ef274bb11a0bbf24d27233530de3\transformed\firebase-components-19.0.0\AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:19.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e8e0ef274bb11a0bbf24d27233530de3\transformed\firebase-components-19.0.0\AndroidManifest.xml:18:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\67e777fa756df94674bb61e5e113dd36\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\67e777fa756df94674bb61e5e113dd36\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4502d82f939c2d731a11549700f7fcc7\transformed\exifinterface-1.3.7\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4502d82f939c2d731a11549700f7fcc7\transformed\exifinterface-1.3.7\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.sqlite:sqlite-framework-android:2.6.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\39b72596d6ace860c8ac8dbc5b11b701\transformed\sqlite-framework\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework-android:2.6.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\39b72596d6ace860c8ac8dbc5b11b701\transformed\sqlite-framework\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-android:2.6.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\dbb673d8c5562beb3acc62a34c11f01d\transformed\sqlite\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-android:2.6.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\dbb673d8c5562beb3acc62a34c11f01d\transformed\sqlite\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\00f62dfe498a8066b8ea882fab09e347\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\00f62dfe498a8066b8ea882fab09e347\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\860cb514e9ad9e9ec2355967b2009547\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\860cb514e9ad9e9ec2355967b2009547\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\09dad5c1a848a880986da4b3f41627b3\transformed\googleid-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\09dad5c1a848a880986da4b3f41627b3\transformed\googleid-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3c7703d1f1fafe9666b85cd0e96fbb37\transformed\grpc-android-1.62.2\AndroidManifest.xml:5:5-44
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3c7703d1f1fafe9666b85cd0e96fbb37\transformed\grpc-android-1.62.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b5d9f5a2754529737fe150250855633d\transformed\protolite-well-known-types-18.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b5d9f5a2754529737fe150250855633d\transformed\protolite-well-known-types-18.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\422a84c6ff1b930666264adf8bb65952\transformed\image-1.0.0-beta1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\422a84c6ff1b930666264adf8bb65952\transformed\image-1.0.0-beta1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:7:5-9:41
+	tools:overrideLibrary
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:23:9-148
+	android:targetSdkVersion
+		INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml
+activity#com.google.mlkit.vision.codescanner.internal.GmsBarcodeScanningDelegateActivity
+ADDED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:15:9-20:20
+	android:screenOrientation
+		ADDED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:18:13-49
+	android:exported
+		ADDED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:17:13-37
+	tools:ignore
+		ADDED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:19:13-42
+	android:name
+		ADDED from [com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:16:13-107
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:26:5-79
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:10:5-79
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:10:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:8:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:8:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:22:5-79
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3c7703d1f1fafe9666b85cd0e96fbb37\transformed\grpc-android-1.62.2\AndroidManifest.xml:7:5-79
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\3c7703d1f1fafe9666b85cd0e96fbb37\transformed\grpc-android-1.62.2\AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:26:22-76
+activity#com.google.firebase.auth.internal.GenericIdpActivity
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:29:9-46:20
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:31:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:33:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:32:13-36
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:34:13-72
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:30:13-80
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:genericidp
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:35:13-45:29
+action#android.intent.action.VIEW
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:36:25-66
+category#android.intent.category.DEFAULT
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:38:17-76
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:38:27-73
+category#android.intent.category.BROWSABLE
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:39:17-78
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:39:27-75
+data
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:41:17-44:51
+	android:path
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:43:21-37
+	android:host
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:42:21-49
+	android:scheme
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:44:21-48
+activity#com.google.firebase.auth.internal.RecaptchaActivity
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:47:9-64:20
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:49:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:51:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:50:13-36
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:52:13-72
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:48:13-79
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:recaptcha
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:53:13-63:29
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:30:9-38:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:68:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:34:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:32:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:67:13-84
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:69:13-71:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:71:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:70:17-109
+service#com.google.mlkit.common.internal.MlKitComponentDiscoveryService
+ADDED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:15:9-23:19
+MERGED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:15:9-23:19
+	android:exported
+		ADDED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:11:13-37
+	tools:targetApi
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:19:13-32
+	android:directBootAware
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:17:13-43
+	android:name
+		ADDED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:10:13-91
+meta-data#com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar
+ADDED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:13:17-124
+provider#com.google.mlkit.common.internal.MlKitInitProvider
+ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:9:9-13:38
+	android:authorities
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:11:13-69
+	android:exported
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:12:13-37
+	android:initOrder
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:13:13-35
+	android:name
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:10:13-78
+meta-data#com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar
+ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:20:13-22:85
+	android:value
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:21:17-120
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar
+ADDED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:17:13-19:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:19:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:18:17-122
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
+ADDED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:20:13-22:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:21:17-111
+service#androidx.credentials.playservices.CredentialProviderMetadataHolder
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:24:9-32:19
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:26:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:28:13-60
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:25:13-94
+meta-data#androidx.credentials.CREDENTIAL_PROVIDER_KEY
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:29:13-31:104
+	android:value
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:31:17-101
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:30:17-76
+activity#androidx.credentials.playservices.HiddenActivity
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:34:9-41:20
+	android:fitsSystemWindows
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:39:13-45
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:38:13-37
+	android:configChanges
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:36:13-87
+	android:theme
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:40:13-48
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:35:13-76
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:33:9-37:51
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:35:13-36
+	android:visibleToInstantApps
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:37:13-48
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:34:13-89
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:9:5-98
+	android:name
+		ADDED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:9:22-95
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:23:9-28:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:25:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:27:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:26:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:28:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:24:13-77
+meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:35:13-37:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:37:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:36:17-109
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:20:19-85
+activity#androidx.activity.ComponentActivity
+ADDED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:23:9-26:79
+	android:exported
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:25:13-36
+	android:theme
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:26:13-76
+	android:name
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:24:13-63
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2ab642142475822714ec3cad5f02d6cb\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:30:17-75
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:30:17-78
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:23:9-25:40
+	android:required
+		ADDED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:24:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:26:9-28:40
+	android:required
+		ADDED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:28:13-37
+	android:name
+		ADDED from [androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:27:13-51
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:23:9-81
+permission#com.example.mad_assignment.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:26:22-94
+uses-permission#com.example.mad_assignment.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:26:22-94
+activity#androidx.compose.ui.tooling.PreviewActivity
+ADDED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:24:13-71
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:25:13-74
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:22:13-58
+service#com.google.android.datatransport.runtime.backends.TransportBackendDiscovery
+ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:29:9-35:19
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:36:9-38:40
+MERGED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:36:9-38:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:31:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:30:13-103
+meta-data#backend:com.google.android.datatransport.cct.CctBackendFactory
+ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:32:13-34:39
+	android:value
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:34:17-36
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:33:17-94
+service#com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService
+ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:26:9-30:19
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:28:13-37
+	android:permission
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:29:13-69
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:27:13-117
+receiver#com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver
+ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:32:9-34:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:34:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:33:13-132
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+activity#com.google.android.play.core.common.PlayCoreDialogWrapperActivity
+ADDED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:14:9-18:65
+	android:stateNotNeeded
+		ADDED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:17:13-42
+	android:exported
+		ADDED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:16:13-37
+	android:theme
+		ADDED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:18:13-62
+	android:name
+		ADDED from [com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:15:13-93

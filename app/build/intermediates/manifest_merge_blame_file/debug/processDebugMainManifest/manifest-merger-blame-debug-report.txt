@@ -1,0 +1,461 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.mad_assignment"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+7-->INJECTED
+8        android:minSdkVersion="24"
+8-->INJECTED
+9        android:targetSdkVersion="37" />
+9-->INJECTED
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:5:5-67
+11-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:26:5-79
+12-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:26:22-76
+13    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+13-->[com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:9:5-98
+13-->[com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7c6fc634c5f7231e085b5ead35d2f266\transformed\recaptcha-18.6.1\AndroidManifest.xml:9:22-95
+14
+15    <permission
+15-->[androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:22:5-24:47
+16        android:name="com.example.mad_assignment.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+16-->[androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:23:9-81
+17        android:protectionLevel="signature" />
+17-->[androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:24:9-44
+18
+19    <uses-permission android:name="com.example.mad_assignment.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+19-->[androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:26:5-97
+19-->[androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:26:22-94
+20
+21    <application
+21-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:6:5-27:19
+22        android:allowBackup="true"
+22-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:7:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.19.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\4805478f9b904f4e0809098456bb14b5\transformed\core-1.19.0\AndroidManifest.xml:28:18-86
+24        android:dataExtractionRules="@xml/data_extraction_rules"
+24-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:8:9-65
+25        android:debuggable="true"
+26        android:extractNativeLibs="false"
+26-->INJECTED
+27        android:fullBackupContent="@xml/backup_rules"
+27-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:9:9-54
+28        android:icon="@mipmap/ic_launcher"
+28-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:10:9-43
+29        android:label="@string/app_name"
+29-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:11:9-41
+30        android:roundIcon="@mipmap/ic_launcher_round"
+30-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:12:9-54
+31        android:supportsRtl="true"
+31-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:13:9-35
+32        android:testOnly="true"
+33        android:theme="@style/Theme.MAD_Assignment" >
+33-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:14:9-52
+34        <activity
+34-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:15:9-26:20
+35            android:name="com.example.mad_assignment.MainActivity"
+35-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:16:13-41
+36            android:exported="true"
+36-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:17:13-36
+37            android:label="@string/app_name"
+37-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:18:13-45
+38            android:theme="@style/Theme.MAD_Assignment"
+38-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:19:13-56
+39            android:windowSoftInputMode="adjustResize" >
+39-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:20:13-55
+40            <intent-filter>
+40-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:21:13-25:29
+41                <action android:name="android.intent.action.MAIN" />
+41-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:22:17-69
+41-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:22:25-66
+42
+43                <category android:name="android.intent.category.LAUNCHER" />
+43-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:24:17-77
+43-->C:\Users\Bing Yuan\MAD_Assignment\app\src\main\AndroidManifest.xml:24:27-74
+44            </intent-filter>
+45        </activity>
+46        <!--
+47        This activity is an invisible delegate activity to start scanner activity
+48        and receive result, so it's unnecessary to support screen orientation and
+49        we can avoid any side effect from activity recreation in any case.
+50        -->
+51        <activity
+51-->[com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:15:9-20:20
+52            android:name="com.google.mlkit.vision.codescanner.internal.GmsBarcodeScanningDelegateActivity"
+52-->[com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:16:13-107
+53            android:exported="false"
+53-->[com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:17:13-37
+54            android:screenOrientation="portrait" >
+54-->[com.google.android.gms:play-services-code-scanner:16.1.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e6065ca9220fac9ca7b197ecb0525d7c\transformed\play-services-code-scanner-16.1.0\AndroidManifest.xml:18:13-49
+55        </activity>
+56        <activity
+56-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:29:9-46:20
+57            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+57-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:30:13-80
+58            android:excludeFromRecents="true"
+58-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:31:13-46
+59            android:exported="true"
+59-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:32:13-36
+60            android:launchMode="singleTask"
+60-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:33:13-44
+61            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+61-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:34:13-72
+62            <intent-filter>
+62-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:35:13-45:29
+63                <action android:name="android.intent.action.VIEW" />
+63-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:36:17-69
+63-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:36:25-66
+64
+65                <category android:name="android.intent.category.DEFAULT" />
+65-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:38:17-76
+65-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:38:27-73
+66                <category android:name="android.intent.category.BROWSABLE" />
+66-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:39:17-78
+66-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:39:27-75
+67
+68                <data
+68-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:41:17-44:51
+69                    android:host="firebase.auth"
+69-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:42:21-49
+70                    android:path="/"
+70-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:43:21-37
+71                    android:scheme="genericidp" />
+71-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:44:21-48
+72            </intent-filter>
+73        </activity>
+74        <activity
+74-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:47:9-64:20
+75            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+75-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:48:13-79
+76            android:excludeFromRecents="true"
+76-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:49:13-46
+77            android:exported="true"
+77-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:50:13-36
+78            android:launchMode="singleTask"
+78-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:51:13-44
+79            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+79-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:52:13-72
+80            <intent-filter>
+80-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:53:13-63:29
+81                <action android:name="android.intent.action.VIEW" />
+81-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:36:17-69
+81-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:36:25-66
+82
+83                <category android:name="android.intent.category.DEFAULT" />
+83-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:38:17-76
+83-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:38:27-73
+84                <category android:name="android.intent.category.BROWSABLE" />
+84-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:39:17-78
+84-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:39:27-75
+85
+86                <data
+86-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:41:17-44:51
+87                    android:host="firebase.auth"
+87-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:42:21-49
+88                    android:path="/"
+88-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:43:21-37
+89                    android:scheme="recaptcha" />
+89-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:44:21-48
+90            </intent-filter>
+91        </activity>
+92
+93        <service
+93-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:66:9-72:19
+94            android:name="com.google.firebase.components.ComponentDiscoveryService"
+94-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:67:13-84
+95            android:directBootAware="true"
+95-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:32:13-43
+96            android:exported="false" >
+96-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:68:13-37
+97            <meta-data
+97-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:69:13-71:85
+98                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+98-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:70:17-109
+99                android:value="com.google.firebase.components.ComponentRegistrar" />
+99-->[com.google.firebase:firebase-auth:24.2.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\7b8b826cb137b2e258d7443c7ba34625\transformed\firebase-auth-24.2.0\AndroidManifest.xml:71:17-82
+100            <meta-data
+100-->[com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:17:13-19:85
+101                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
+101-->[com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:18:17-122
+102                android:value="com.google.firebase.components.ComponentRegistrar" />
+102-->[com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:19:17-82
+103            <meta-data
+103-->[com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:20:13-22:85
+104                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+104-->[com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:21:17-111
+105                android:value="com.google.firebase.components.ComponentRegistrar" />
+105-->[com.google.firebase:firebase-firestore:26.6.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\77af5db2e53ecb79edce28d03e777f09\transformed\firebase-firestore-26.6.0\AndroidManifest.xml:22:17-82
+106            <meta-data
+106-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:35:13-37:85
+107                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+107-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:36:17-109
+108                android:value="com.google.firebase.components.ComponentRegistrar" />
+108-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:37:17-82
+109        </service>
+110        <service
+110-->[com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:9:9-15:19
+111            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+111-->[com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:10:13-91
+112            android:directBootAware="true"
+112-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:17:13-43
+113            android:exported="false" >
+113-->[com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:11:13-37
+114            <meta-data
+114-->[com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:12:13-14:85
+115                android:name="com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar"
+115-->[com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:13:17-124
+116                android:value="com.google.firebase.components.ComponentRegistrar" />
+116-->[com.google.mlkit:vision-common:17.0.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e2a23e05b1d530a8563589473b6e324c\transformed\vision-common-17.0.0\AndroidManifest.xml:14:17-82
+117            <meta-data
+117-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:20:13-22:85
+118                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+118-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:21:17-120
+119                android:value="com.google.firebase.components.ComponentRegistrar" />
+119-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:22:17-82
+120        </service>
+121
+122        <provider
+122-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:9:9-13:38
+123            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+123-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:10:13-78
+124            android:authorities="com.example.mad_assignment.mlkitinitprovider"
+124-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:11:13-69
+125            android:exported="false"
+125-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:12:13-37
+126            android:initOrder="99" />
+126-->[com.google.mlkit:common:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\b87bc14b4e3151fb3aac1c3c71155fff\transformed\common-18.9.0\AndroidManifest.xml:13:13-35
+127
+128        <service
+128-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:24:9-32:19
+129            android:name="androidx.credentials.playservices.CredentialProviderMetadataHolder"
+129-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:25:13-94
+130            android:enabled="true"
+130-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:26:13-35
+131            android:exported="false" >
+131-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:27:13-37
+132            <meta-data
+132-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:29:13-31:104
+133                android:name="androidx.credentials.CREDENTIAL_PROVIDER_KEY"
+133-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:30:17-76
+134                android:value="androidx.credentials.playservices.CredentialProviderPlayServicesImpl" />
+134-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:31:17-101
+135        </service>
+136
+137        <activity
+137-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:34:9-41:20
+138            android:name="androidx.credentials.playservices.HiddenActivity"
+138-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:35:13-76
+139            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+139-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:36:13-87
+140            android:enabled="true"
+140-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:37:13-35
+141            android:exported="false"
+141-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:38:13-37
+142            android:fitsSystemWindows="true"
+142-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:39:13-45
+143            android:theme="@style/Theme.Hidden" >
+143-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\bcee2b797e851e4be6af7116c0be9534\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:40:13-48
+144        </activity>
+145        <activity
+145-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:23:9-27:75
+146            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+146-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:24:13-93
+147            android:excludeFromRecents="true"
+147-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:25:13-46
+148            android:exported="false"
+148-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:26:13-37
+149            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+149-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:27:13-72
+150        <!--
+151            Service handling Google Sign-In user revocation. For apps that do not integrate with
+152            Google Sign-In, this service will never be started.
+153        -->
+154        <service
+154-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:33:9-37:51
+155            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+155-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:34:13-89
+156            android:exported="true"
+156-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:35:13-36
+157            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+157-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:36:13-107
+158            android:visibleToInstantApps="true" />
+158-->[com.google.android.gms:play-services-auth:20.7.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f2eec6257d60131c600fee35a526a5af\transformed\play-services-auth-20.7.0\AndroidManifest.xml:37:13-48
+159
+160        <provider
+160-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:23:9-28:39
+161            android:name="com.google.firebase.provider.FirebaseInitProvider"
+161-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:24:13-77
+162            android:authorities="com.example.mad_assignment.firebaseinitprovider"
+162-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:25:13-72
+163            android:directBootAware="true"
+163-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:26:13-43
+164            android:exported="false"
+164-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:27:13-37
+165            android:initOrder="100" />
+165-->[com.google.firebase:firebase-common:22.2.1] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\d4b0694a592ab62bb60bff38feeec673\transformed\firebase-common-22.2.1\AndroidManifest.xml:28:13-36
+166
+167        <activity
+167-->[com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:20:9-22:45
+168            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+168-->[com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:20:19-85
+169            android:exported="false"
+169-->[com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:22:19-43
+170            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+170-->[com.google.android.gms:play-services-base:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\f0f41569c5c109f9e772727718620432\transformed\play-services-base-18.9.0\AndroidManifest.xml:21:19-78
+171        <activity
+171-->[androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:23:9-26:79
+172            android:name="androidx.activity.ComponentActivity"
+172-->[androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:24:13-63
+173            android:exported="true"
+173-->[androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:25:13-36
+174            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+174-->[androidx.compose.ui:ui-test-manifest:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\ae978e21c09f211d47f7ea30302ccafd\transformed\ui-test-manifest-1.11.0\AndroidManifest.xml:26:13-76
+175
+176        <provider
+176-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:24:9-32:20
+177            android:name="androidx.startup.InitializationProvider"
+177-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:25:13-67
+178            android:authorities="com.example.mad_assignment.androidx-startup"
+178-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:26:13-68
+179            android:exported="false" >
+179-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:27:13-37
+180            <meta-data
+180-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:29:13-31:52
+181                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+181-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:30:17-75
+182                android:value="androidx.startup" />
+182-->[androidx.emoji2:emoji2:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\9fbd7759aa9ff333a6ae3b113d5643ea\transformed\emoji2-1.4.0\AndroidManifest.xml:31:17-49
+183            <meta-data
+183-->[androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:29:13-31:52
+184                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+184-->[androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:30:17-78
+185                android:value="androidx.startup" />
+185-->[androidx.lifecycle:lifecycle-process:2.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\21c16bb1da0d80d4b7f610f3436c8cf7\transformed\lifecycle-process-2.11.0\AndroidManifest.xml:31:17-49
+186            <meta-data
+186-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+187                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+187-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+188                android:value="androidx.startup" />
+188-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+189        </provider>
+190
+191        <uses-library
+191-->[androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:23:9-25:40
+192            android:name="androidx.window.extensions"
+192-->[androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:24:13-54
+193            android:required="false" />
+193-->[androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:25:13-37
+194        <uses-library
+194-->[androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:26:9-28:40
+195            android:name="androidx.window.sidecar"
+195-->[androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:27:13-51
+196            android:required="false" />
+196-->[androidx.window:window:1.5.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\68743e63dd9bea113ced11ece0af1123\transformed\window-1.5.0\AndroidManifest.xml:28:13-37
+197
+198        <activity
+198-->[androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:23:9-25:39
+199            android:name="androidx.compose.ui.tooling.PreviewActivity"
+199-->[androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:24:13-71
+200            android:exported="true" />
+200-->[androidx.compose.ui:ui-tooling-android:1.11.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\814e5b0856fcf925e96e6613f65cd54d\transformed\ui-tooling\AndroidManifest.xml:25:13-36
+201
+202        <service
+202-->[androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:24:9-28:63
+203            android:name="androidx.room.MultiInstanceInvalidationService"
+203-->[androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:25:13-74
+204            android:directBootAware="true"
+204-->[androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:26:13-43
+205            android:exported="false" />
+205-->[androidx.room:room-runtime-android:2.8.5] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\2c177a47b257a4ad403ce5d7ded4d024\transformed\room-runtime\AndroidManifest.xml:27:13-37
+206
+207        <meta-data
+207-->[com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:21:9-23:69
+208            android:name="com.google.android.gms.version"
+208-->[com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:22:13-58
+209            android:value="@integer/google_play_services_version" />
+209-->[com.google.android.gms:play-services-basement:18.9.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\58e32e37e830dddaefde0acd2335c480\transformed\play-services-basement-18.9.0\AndroidManifest.xml:23:13-66
+210
+211        <service
+211-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:29:9-35:19
+212            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+212-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:30:13-103
+213            android:exported="false" >
+213-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:31:13-37
+214            <meta-data
+214-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:32:13-34:39
+215                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+215-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:33:17-94
+216                android:value="cct" />
+216-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\8b240fdf8ec82cce45921928e2607909\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:34:17-36
+217        </service>
+218        <service
+218-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:26:9-30:19
+219            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+219-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:27:13-117
+220            android:exported="false"
+220-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:28:13-37
+221            android:permission="android.permission.BIND_JOB_SERVICE" >
+221-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:29:13-69
+222        </service>
+223
+224        <receiver
+224-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:32:9-34:40
+225            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+225-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:33:13-132
+226            android:exported="false" />
+226-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\6be327f162088f16e525f0b9d0f246b5\transformed\transport-runtime-2.2.6\AndroidManifest.xml:34:13-37
+227        <receiver
+227-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+228            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+228-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+229            android:directBootAware="false"
+229-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+230            android:enabled="true"
+230-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+231            android:exported="true"
+231-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+232            android:permission="android.permission.DUMP" >
+232-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+233            <intent-filter>
+233-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+234                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+234-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+234-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+235            </intent-filter>
+236            <intent-filter>
+236-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+237                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+237-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+237-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+238            </intent-filter>
+239            <intent-filter>
+239-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+240                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+240-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+240-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+241            </intent-filter>
+242            <intent-filter>
+242-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+243                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+243-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+243-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\879f75db2f55e6714c6367a468adbe96\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+244            </intent-filter>
+245        </receiver> <!-- The activities will be merged into the manifest of the hosting app. -->
+246        <activity
+246-->[com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:14:9-18:65
+247            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+247-->[com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:15:13-93
+248            android:exported="false"
+248-->[com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:16:13-37
+249            android:stateNotNeeded="true"
+249-->[com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:17:13-42
+250            android:theme="@style/Theme.PlayCore.Transparent" />
+250-->[com.google.android.play:core-common:2.0.3] C:\Users\Bing Yuan\.gradle\caches\9.5.0\transforms\e214a3c27787fed55115d5f3a898239c\transformed\core-common-2.0.3\AndroidManifest.xml:18:13-62
+251    </application>
+252
+253</manifest>

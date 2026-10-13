@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">266427812615</string>
+    <string name="google_api_key" translatable="false">AIzaSyBC1hFXCmncLcS7xYaI79XR5YUgS87mIxA</string>
+    <string name="google_app_id" translatable="false">1:266427812615:android:24a102ecfd7f8bb2a553a2</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBC1hFXCmncLcS7xYaI79XR5YUgS87mIxA</string>
+    <string name="google_storage_bucket" translatable="false">clublib-88888.firebasestorage.app</string>
+    <string name="project_id" translatable="false">clublib-88888</string>
+</resources>
