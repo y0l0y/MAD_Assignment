@@ -1,9 +1,0 @@
-com.example.mad_assignment.app-pngs-0 C:\Users\Bing Yuan\MAD_Assignment\app\build\generated\res\pngs\debug
-com.example.mad_assignment.app-res-1 C:\Users\Bing Yuan\MAD_Assignment\app\build\generated\res\processDebugGoogleServices
-com.example.mad_assignment.app-updated_navigation_xml-2 C:\Users\Bing Yuan\MAD_Assignment\app\build\generated\updated_navigation_xml\debug
-com.example.mad_assignment.app-packageDebugResources-3 C:\Users\Bing Yuan\MAD_Assignment\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.mad_assignment.app-packageDebugResources-4 C:\Users\Bing Yuan\MAD_Assignment\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.mad_assignment.app-debug-5 C:\Users\Bing Yuan\MAD_Assignment\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.mad_assignment.app-debug-6 C:\Users\Bing Yuan\MAD_Assignment\app\src\debug\res
-com.example.mad_assignment.app-main-7 C:\Users\Bing Yuan\MAD_Assignment\app\src\main\res
-gradleHome-0 C:\Users\Bing Yuan\.gradle
