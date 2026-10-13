@@ -5,6 +5,8 @@ import com.google.firebase.firestore.DocumentId
 data class LoanEntity(
     @DocumentId val id: String = "",
     val bookId: String = "",
+    /* copied at borrow time so the admin tables need no lookup */
+    val bookTitle: String = "",
     val borrowerName: String = "",
     val borrowerUid: String = "",
     val borrowedAt: Long = System.currentTimeMillis(),

@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.mad_assignment.model.dao_and_database.AppDatabase
 import com.example.mad_assignment.model.other.BookRepository
+import com.example.mad_assignment.model.other.CatalogSeed
 import com.example.mad_assignment.model.other.CoverStorage
 import com.example.mad_assignment.model.other.UserPreferencesRepository
 import com.example.mad_assignment.model.remote.FirebaseDataSource
@@ -28,9 +29,10 @@ class MainActivity : ComponentActivity() {
                 val db = AppDatabase.getDatabase(applicationContext)
                 BookViewModel(
                     repository = BookRepository(
-                        offlineDao = db.offlineDao(),
+                        catalogDao = db.catalogDao(),
                         remote = FirebaseDataSource(),
-                        api = NetworkModule.api
+                        api = NetworkModule.api,
+                        seed = CatalogSeed(applicationContext)
                     ),
                     preferencesRepo = UserPreferencesRepository(applicationContext),
                     coverStorage = CoverStorage(applicationContext)

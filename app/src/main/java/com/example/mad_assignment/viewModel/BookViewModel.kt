@@ -9,9 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
-import com.example.mad_assignment.model.entity.BorrowWithBook
 import com.example.mad_assignment.model.entity.CategoryEntity
-import com.example.mad_assignment.model.entity.OfflineBookEntity
 import com.example.mad_assignment.model.entity.Roles
 import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.other.BookQuery
@@ -45,6 +43,7 @@ class BookViewModel (
 ) : ViewModel() {
     private companion object {
         const val WRITE_TIMEOUT_MS = 10_000L
+        const val SYNC_TIMEOUT_MS = 15_000L
         const val CONNECTION_MESSAGE = "Unable to reach the server. Please check your connection and try again."
     }
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
@@ -54,12 +53,6 @@ class BookViewModel (
     var books by mutableStateOf(listOf<BookWithLoans>())
         private set
     var categories by mutableStateOf(listOf<CategoryEntity>())
-        private set
-
-    /* local cache */
-    var offlineBook by mutableStateOf(listOf<OfflineBookEntity>())
-        private set
-    var myBorrows by mutableStateOf(listOf<BorrowWithBook>())
         private set
 
     /* loading / error state */
@@ -110,18 +103,22 @@ class BookViewModel (
             repository.authState.collectLatest { uid ->
                 currentUserId = uid
                 profile = null
-                repository.clearMyBorrows()
                 /* sign up loads the profile itself once the document is written */
                 if (uid != null && !signUpInProgress) {
                     profile = loadProfileOrNull()
                 }
+                syncCatalogQuietly()
             }
         }
+        /* show the bundled book list straight away, even offline */
         viewModelScope.launch {
-            repository.offlineBook.collectLatest { offlineBook = it }
-        }
-        viewModelScope.launch {
-            repository.myBorrows.collectLatest { myBorrows = it }
+            try {
+                repository.ensureSeeded()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                // the list stays empty until the next start
+            }
         }
         viewModelScope.launch {
             preferencesRepo.darkModeFlow.collectLatest { isDarkMode = it }
@@ -151,7 +148,6 @@ class BookViewModel (
                     books = items
                     isLoading = false
                     loadError = null
-                    repository.cacheSnapshot(items)
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -163,6 +159,19 @@ class BookViewModel (
     }
 
     fun reload() = startLoading()
+
+    /* check the online catalog version (admin: first upload); offline keeps the local list */
+    private suspend fun syncCatalogQuietly() {
+        try {
+            withTimeoutOrNull(SYNC_TIMEOUT_MS.milliseconds) {
+                repository.syncCatalog(isAdmin = isAdminMode)
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            // offline or no access: keep the local catalog
+        }
+    }
 
     /* same feature with viewModelScope.launch just add a try and catch to handle error */
     private fun launchWrite(block: suspend () -> Unit): Job = viewModelScope.launch {
@@ -415,6 +424,10 @@ class BookViewModel (
     }
 
     fun deleteBook(book: BookEntity) = launchWrite {
+        if (books.find { it.book.id == book.id }?.isAvailable == false) {
+            borrowErrorMessage = "This book is borrowed (or its status is unknown) and cannot be deleted."
+            return@launchWrite
+        }
         repository.deleteBook(book)
     }
 
@@ -451,7 +464,7 @@ class BookViewModel (
 
     fun updateBookAuthor(book: BookEntity, newAuthor: String): String? {
         BookRules.validateAuthor(newAuthor)?.let { return it }
-        viewModelScope.launch {
+        launchWrite {
             repository.updateBook(
                 book.copy(
                     author = newAuthor.trim()

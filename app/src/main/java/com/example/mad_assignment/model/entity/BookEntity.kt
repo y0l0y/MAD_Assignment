@@ -9,7 +9,6 @@ data class BookEntity(
     val isbn: String = "",
     val categoryId: String? = null,
     val coverBase64: String? = null,
-    val coverUrl: String? = null,
-    val activeLoanId: String? = null
+    val coverUrl: String? = null
 )
 
