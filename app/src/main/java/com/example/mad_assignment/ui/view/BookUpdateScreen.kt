@@ -1,6 +1,5 @@
 package com.example.mad_assignment.ui.view
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -41,25 +40,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.BookEntity
-import com.example.mad_assignment.model.entity.CategoryEntity
 import com.example.mad_assignment.model.other.decodeCover
+import com.example.mad_assignment.viewModel.BookViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookUpdateScreen(
+    vm: BookViewModel,
     bookID: String,
-    books : List<BookEntity>,
-    categories: List<CategoryEntity>,
-    onAddCategory: (String) -> String?,
-    onDeleteCategory: (CategoryEntity) -> Unit,
-    onUpdateCategory: (BookEntity, String?) -> Unit,
-    onUpdateCover: (BookEntity, Uri) -> Unit,
-    onUpdateTitle: (BookEntity, String) -> String?,
-    onUpdateAuthor: (BookEntity, String) -> String?,
-    onUpdateIsbn: (BookEntity, String) -> String?,
     onNavigateBack: () -> Unit
 ) {
-    val book = books.find { it.id == bookID }
+    val book = vm.books.find { it.book.id == bookID }?.book
     var editingField by rememberSaveable { mutableStateOf<String?>(null) }
     var fieldValue by rememberSaveable { mutableStateOf("") }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null)}
@@ -68,7 +59,7 @@ fun BookUpdateScreen(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
         if (uri != null && book != null)
-            onUpdateCover(book, uri)
+            vm.updateBookCover(book, uri)
     }
 
     Scaffold(
@@ -109,11 +100,11 @@ fun BookUpdateScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     if (editingField == null) {
                         CategoryPicker(
-                            categories = categories,
+                            categories = vm.categories,
                             selectedId = book.categoryId,
-                            onSelected = { onUpdateCategory(book, it) },
-                            onAddCategory = onAddCategory,
-                            onDeleteCategory = onDeleteCategory,
+                            onSelected = { vm.updateBookCategory(book, it) },
+                            onAddCategory = { vm.addCategory(it) },
+                            onDeleteCategory = { vm.deleteCategory(it) },
                             modifier = Modifier.fillMaxWidth()
                         )
                         BookUpdateActions(
@@ -142,9 +133,9 @@ fun BookUpdateScreen(
                             },
                             onSave = {
                                 val error = when (editingField) {
-                                    "title" -> onUpdateTitle(book, fieldValue)
-                                    "author" -> onUpdateAuthor(book, fieldValue)
-                                    "isbn" -> onUpdateIsbn(book, fieldValue)
+                                    "title" -> vm.updateBookTitle(book, fieldValue)
+                                    "author" -> vm.updateBookAuthor(book, fieldValue)
+                                    "isbn" -> vm.updateBookIsbn(book, fieldValue)
                                     else -> null
                                 }
                                 if (error == null) {

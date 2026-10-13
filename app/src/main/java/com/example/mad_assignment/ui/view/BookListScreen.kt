@@ -15,11 +15,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness6
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
@@ -79,8 +82,8 @@ fun BookListScreen(
     BookListContent(
         vm = vm,
         onNavigationToAdd = onNavigationToAdd,
-        onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToApiSearch = onNavigateToApiSearch,
+        onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToMyBooks = onNavigateToMyBooks,
         onNavigateToAuth = onNavigateToAuth,
         onItemClick = onItemClick,
@@ -93,8 +96,8 @@ fun BookListScreen(
 fun BookListContent(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
-    onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
+    onNavigateToLocalSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
@@ -360,112 +363,127 @@ fun BookListDrawerContent(
     onClose: () -> Unit
 ) {
     ModalDrawerSheet {
-        Text(
-            text = "Menu",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(16.dp)
-        )
-        NavigationDrawerItem(
-            label = { Text("Search Book Local") },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search Local"
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Menu",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(16.dp)
                 )
-            },
-            selected = false,
-            onClick = {
-                onNavigateToLocalSearch()
-                onClose()
-            },
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
-        NavigationDrawerItem(
-            label = { Text("Search Book Online") },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Public,
-                    contentDescription = "Search Online"
-                )
-            },
-            selected = false,
-            onClick = {
-                onNavigateToApiSearch()
-                onClose()
-            },
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
-        NavigationDrawerItem(
-            label = { Text("My Books") },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Bookmarks,
-                    contentDescription = null
-                )
-            },
-            selected = false,
-            onClick = {
-                onNavigateToMyBooks()
-                onClose()
-            },
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
-        NavigationDrawerItem(
-            label = { Text(if (isDarkMode) "Light Mode" else "Dark Mode") },
-            icon = {
-                Icon(
-                    imageVector = if (isDarkMode) Icons.Default.Brightness6 else Icons.Default.Brightness4,
-                    contentDescription = "Switch Theme"
-                )
-            },
-            selected = false,
-            onClick = {
-                onToggleDarkMode()
-                onClose()
-            },
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
-        if (accountLabel == null) {
+                IconButton(onClick = onClose) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Close"
+                    )
+                }
+            }
             NavigationDrawerItem(
-                label = { Text("Sign in / Create account") },
+                label = { Text("Search Book Local") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Sign in"
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search Local"
                     )
                 },
                 selected = false,
                 onClick = {
-                    onSignIn()
+                    onNavigateToLocalSearch()
                     onClose()
                 },
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
-        } else {
-            Text(
-                text = accountLabel,
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
-            )
             NavigationDrawerItem(
-                label = { Text("Sign out") },
+                label = { Text("Search Book Online") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Sign out"
+                        imageVector = Icons.Default.Public,
+                        contentDescription = "Search Online"
                     )
                 },
                 selected = false,
                 onClick = {
-                    onSignOut()
+                    onNavigateToApiSearch()
                     onClose()
                 },
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
+            NavigationDrawerItem(
+                label = { Text("My Books") },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Bookmarks,
+                        contentDescription = null
+                    )
+                },
+                selected = false,
+                onClick = {
+                    onNavigateToMyBooks()
+                    onClose()
+                },
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            NavigationDrawerItem(
+                label = { Text(if (isDarkMode) "Light Mode" else "Dark Mode") },
+                icon = {
+                    Icon(
+                        imageVector = if (isDarkMode) Icons.Default.Brightness6 else Icons.Default.Brightness4,
+                        contentDescription = "Switch Theme"
+                    )
+                },
+                selected = false,
+                onClick = {
+                    onToggleDarkMode()
+                    onClose()
+                },
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            if (accountLabel == null) {
+                NavigationDrawerItem(
+                    label = { Text("Sign in / Create account") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Sign in"
+                        )
+                    },
+                    selected = false,
+                    onClick = {
+                        onSignIn()
+                        onClose()
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+            } else {
+                Text(
+                    text = accountLabel,
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("Sign out") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Sign out"
+                        )
+                    },
+                    selected = false,
+                    onClick = {
+                        onSignOut()
+                        onClose()
+                    },
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+            }
         }
     }
 }
-
 @Composable
 fun BookBorrowDialog(
     bookTitle: String,

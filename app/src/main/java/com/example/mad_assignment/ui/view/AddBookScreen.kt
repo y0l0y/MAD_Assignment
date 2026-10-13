@@ -73,7 +73,7 @@ fun AddBookContent(
     var author by rememberSaveable { mutableStateOf(prefill.author) }
     var isbn by rememberSaveable { mutableStateOf(prefill.isbn) }
     var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
-    var coverUrl by rememberSaveable { mutableStateOf<String?>(prefill.coverUrl) }
+    var coverUrl by rememberSaveable { mutableStateOf(prefill.coverUrl) }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
     var categoryId by rememberSaveable { mutableStateOf<String?>(null) }
     var isLookingUp by rememberSaveable { mutableStateOf(false) }

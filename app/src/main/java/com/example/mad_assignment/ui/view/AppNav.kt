@@ -76,41 +76,22 @@ fun AppNav(viewModel: BookViewModel) {
                     isbn = route.isbn,
                     coverUrl = route.coverUrl.ifBlank { null }
                 ),
-                onNavigateBack = {
-                    goBack()
-                }
+                onNavigateBack = { goBack() }
             )
         }
         composable<BookDetail> { backStackEntry ->
             val detailRoute = backStackEntry.toRoute<BookDetail>()
             BookUpdateScreen(
+                vm = viewModel,
                 bookID = detailRoute.bookID,
-                books = viewModel.books.map { it.book },
-                categories = viewModel.categories,
-                onAddCategory = { viewModel.addCategory(it) },
-                onDeleteCategory = { viewModel.deleteCategory(it) },
-                onUpdateCategory = { book, categoryId ->
-                    viewModel.updateBookCategory(book, categoryId)
-                },
-                onUpdateCover = { book, uri ->
-                    viewModel.updateBookCover(book, uri)
-                },
-                onUpdateTitle = { book, newTitle ->
-                    viewModel.updateBookTitle(book, newTitle)
-                },
-                onUpdateAuthor = { book, newAuthor ->
-                    viewModel.updateBookAuthor(book, newAuthor)
-                },
-                onUpdateIsbn = { book, newIsbn ->
-                    viewModel.updateBookIsbn(book, newIsbn)
-                },
-                onNavigateBack = {
-                    goBack()
-                }
+                onNavigateBack = { goBack() }
             )
         }
         composable<LocalBookSearch> {
-            TODO()
+            LocalBookSearchScreen(
+                vm = viewModel,
+                onNavigateBack = { goBack() }
+            )
         }
         composable<ApiBookSearch> {
             ApiBookSearchScreen(
@@ -127,9 +108,7 @@ fun AppNav(viewModel: BookViewModel) {
         composable<MyBooks> {
             MyBookScreen(
                 vm = viewModel,
-                onNavigateBack = {
-                    goBack()
-                }
+                onNavigateBack = { goBack() }
             )
         }
         composable<LoanHistory> { backStackEntry ->
