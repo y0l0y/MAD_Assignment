@@ -40,11 +40,11 @@ class BookRepository(
     fun signOut() = remote.signOut()
     suspend fun loadOrCreateProfile(): UserProfile? = remote.loadOrCreateProfile()
 
-    /* books = local catalog (room) + availability (bookStatus) + loans (firebase) */
-    val books: Flow<List<BookWithLoans>> = combine(
+    /* books = local catalog (room) + availability (bookStatus) + the loans this user may see */
+    fun books(uid: String?, isAdmin: Boolean): Flow<List<BookWithLoans>> = combine(
         catalogDao.books(),
         remote.statusFlow().orInitial(emptyList()),
-        remote.loansFlow().orInitial(emptyList())
+        remote.loansFlow(uid, isAdmin).orInitial(emptyList())
     ) { local, status, loans ->
         /* an empty status list means "not received yet" (offline or not published) */
         val statusKnown = status.isNotEmpty()

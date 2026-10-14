@@ -188,6 +188,9 @@ fun BookListContent(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
+                        if (!vm.isOnline) {
+                            item { OfflineBanner() }
+                        }
                         items(vm.sortedBooks, key = { it.book.id }) { item ->
                             BookItemCard(
                                 item = item,

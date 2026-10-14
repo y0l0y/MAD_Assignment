@@ -15,6 +15,7 @@ import com.google.firebase.firestore.WriteBatch
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.tasks.await
 
 /* turn data change from firestore to flow */
@@ -79,7 +80,13 @@ class FirebaseDataSource(
 
     /* live data: only the small documents, the book list itself is stored in room */
     fun statusFlow(): Flow<List<BookStatus>> = statusCol.asFlow()
-    fun loansFlow(): Flow<List<LoanEntity>> = loansCol.asFlow()
+
+    /* admin: every loan, student: only their own, guest: none */
+    fun loansFlow(uid: String?, isAdmin: Boolean): Flow<List<LoanEntity>> = when {
+        isAdmin -> loansCol.asFlow()
+        uid != null -> loansCol.whereEqualTo("borrowerUid", uid).asFlow()
+        else -> flowOf(emptyList())
+    }
 
     /* catalog (books + categories): read once, then copied into room */
     suspend fun catalogVersion(): Long? = metaDoc.get().await().getLong("version")

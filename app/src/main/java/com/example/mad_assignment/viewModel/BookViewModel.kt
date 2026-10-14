@@ -16,6 +16,7 @@ import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
 import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.NetworkMonitor
 import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.model.other.SortOrder
 import com.example.mad_assignment.model.other.UserPreferencesRepository
@@ -39,11 +40,13 @@ sealed class BookUiState {
 class BookViewModel (
     private val repository: BookRepository,
     private val preferencesRepo: UserPreferencesRepository,
-    private val coverStorage: CoverStorage
+    private val coverStorage: CoverStorage,
+    private val network: NetworkMonitor
 ) : ViewModel() {
     private companion object {
         const val WRITE_TIMEOUT_MS = 10_000L
         const val SYNC_TIMEOUT_MS = 15_000L
+        const val OFFLINE_MESSAGE = "You are offline. Borrowing and returning need an internet connection."
         const val CONNECTION_MESSAGE = "Unable to reach the server. Please check your connection and try again."
     }
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
@@ -88,6 +91,8 @@ class BookViewModel (
     var authError by mutableStateOf<String?>(null)
         private set
     private var signUpInProgress = false
+    var isOnline by mutableStateOf(true)
+        private set
     var isDarkMode by mutableStateOf(false)
         private set
     var currentQuery = ""
@@ -107,6 +112,8 @@ class BookViewModel (
                 if (uid != null && !signUpInProgress) {
                     profile = loadProfileOrNull()
                 }
+                /* the loans this user may read depend on who is signed in and the role */
+                startLoading()
                 syncCatalogQuietly()
             }
         }
@@ -118,6 +125,13 @@ class BookViewModel (
                 throw e
             } catch (_: Exception) {
                 // the list stays empty until the next start
+            }
+        }
+        viewModelScope.launch {
+            network.isOnline.collectLatest { online ->
+                val wasOffline = !isOnline
+                isOnline = online
+                if (online && wasOffline) syncCatalogQuietly()
             }
         }
         viewModelScope.launch {
@@ -144,7 +158,7 @@ class BookViewModel (
                         // the book list show the error
                     }
                 }
-                repository.books.collectLatest { items ->
+                repository.books(currentUserId, isAdminMode).collectLatest { items ->
                     books = items
                     isLoading = false
                     loadError = null
@@ -249,6 +263,7 @@ class BookViewModel (
         runAuth(onSuccess, onFinally = { signUpInProgress = false }) {
             repository.signUp(name.trim(), email.trim(), password)
             profile = repository.loadOrCreateProfile()
+            startLoading()
         }
     }
 
@@ -350,6 +365,10 @@ class BookViewModel (
             borrowErrorMessage = "Please sign in to borrow a book."
             return
         }
+        if (!isOnline) {
+            borrowErrorMessage = OFFLINE_MESSAGE
+            return
+        }
         val userName = profile?.name.orEmpty()
         BookRules.validateBorrowerName(userName)?.let {
             borrowErrorMessage = it
@@ -380,6 +399,10 @@ class BookViewModel (
 
     /* borrower asks the admin to confirm the return */
     fun requestReturn(bookId: String) = viewModelScope.launch {
+        if (!isOnline) {
+            borrowErrorMessage = OFFLINE_MESSAGE
+            return@launch
+        }
         val loan = books.find { it.book.id == bookId }?.activeLoan ?: return@launch
         if (loan.borrowerUid != currentUserId) {
             borrowErrorMessage = "Only the person who borrowed this book can request its return."
@@ -405,6 +428,10 @@ class BookViewModel (
     fun confirmReturn(bookId: String) = viewModelScope.launch {
         if (!isAdminMode) {
             borrowErrorMessage = "Only an admin can confirm a return."
+            return@launch
+        }
+        if (!isOnline) {
+            borrowErrorMessage = OFFLINE_MESSAGE
             return@launch
         }
         try {
