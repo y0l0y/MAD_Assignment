@@ -88,8 +88,6 @@ The core task is tracking which books are available and which are currently borr
    5. `MainActivity.kt`: The entry point of the app.
 2. `app/src/main/assets/catalog\_seed.json`: The book list that ships with the app.
 3. `firestore.rules`: The Firestore security rules.
-4. `tools/validate\_seed.py`: Checks a new `catalog\_seed.json` before it is used.
-5. `app/src/test`: Unit tests (`BookRulesTest`, `BookQueryTest`, `BookWithLoansTest`).
 
 \---
 
@@ -128,8 +126,7 @@ Collections:
 
 ### Changing the starting book list
 
-Edit `app/src/main/assets/catalog\_seed.json` (`{"version": 1, "categories": \[...], "books": \[{"title", "author", "isbn", "category"}]}`)
-and check it with `python tools/validate\_seed.py app/src/main/assets/catalog\_seed.json`.
+Edit `app/src/main/assets/catalog\_seed.json` (`{"version": 1, "categories": \[...], "books": \[{"title", "author", "isbn", "category"}]}`).
 The bundled list is used on first launch. Later changes to the catalog are made by an admin inside the app.
 
 \---
@@ -141,8 +138,6 @@ The bundled list is used on first launch. Later changes to the catalog are made 
 3. Open the project folder in Android Studio
 4. Waiting the Gradle sync
 5. Use **Build -> Make Project** to check
-
-To run the unit tests: `.\\gradlew test`
 
 \---
 

@@ -1,0 +1,151 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* ---------- helpers ---------- */
+
+    function isSignedIn() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function validBook() {
+      let b = request.resource.data;
+      return b.keys().hasOnly(['title', 'author', 'isbn', 'categoryId', 'coverBase64', 'coverUrl'])
+        && b.title is string && b.title.size() > 0 && b.title.size() <= 200
+        && b.author is string && b.author.size() > 0 && b.author.size() <= 100
+        && b.isbn is string && (b.isbn.size() == 10 || b.isbn.size() == 13);
+    }
+
+    /* a borrower may put their own, still open loan into bookStatus (same transaction as the loan) */
+    function takesBook(bookId) {
+      let loan = getAfter(/databases/$(database)/documents/loans/$(request.resource.data.activeLoanId)).data;
+      return isSignedIn()
+        && request.resource.data.keys().hasOnly(['activeLoanId'])
+        && request.resource.data.activeLoanId is string
+        && loan.borrowerUid == request.auth.uid
+        && loan.bookId == bookId
+        && loan.get('returnedAt', null) == null;
+    }
+
+    /* ---------- accounts ---------- */
+
+    match /users/{uid} {
+      allow read: if isSignedIn() && request.auth.uid == uid;
+      allow create: if isSignedIn()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'email', 'role'])
+        && request.resource.data.role == 'student'
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100;
+      allow update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['name', 'email', 'role'])
+        && request.resource.data.role in ['student', 'admin'];
+      allow delete: if false;
+    }
+
+    /* ---------- catalog (public to read, admin to change) ---------- */
+
+    match /meta/{docId} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.data.keys().hasOnly(['version'])
+        && request.resource.data.version is int;
+    }
+
+    match /books/{bookId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validBook();
+      allow delete: if isAdmin()
+        && (!exists(/databases/$(database)/documents/bookStatus/$(bookId))
+            || get(/databases/$(database)/documents/bookStatus/$(bookId)).data.activeLoanId == null);
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['name'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 50;
+      allow delete: if isAdmin();
+    }
+
+    /* ---------- who holds which book (public, no personal data) ---------- */
+
+    match /bookStatus/{bookId} {
+      allow read: if true;
+
+      allow create: if (isAdmin()
+          && request.resource.data.keys().hasOnly(['activeLoanId'])
+          && request.resource.data.activeLoanId == null)
+        || takesBook(bookId);
+
+      allow update: if
+        /* a borrower takes a free book */
+        (resource.data.activeLoanId == null && takesBook(bookId))
+        /* an admin frees a book, only once its loan is marked returned */
+        || (isAdmin()
+          && request.resource.data.keys().hasOnly(['activeLoanId'])
+          && request.resource.data.activeLoanId == null
+          && resource.data.activeLoanId is string
+          && getAfter(/databases/$(database)/documents/loans/$(resource.data.activeLoanId)).data.get('returnedAt', null) != null)
+        /* an admin re-saving a free book (catalog upload) */
+        || (isAdmin()
+          && request.resource.data.keys().hasOnly(['activeLoanId'])
+          && request.resource.data.activeLoanId == null
+          && resource.data.activeLoanId == null);
+
+      allow delete: if isAdmin() && resource.data.activeLoanId == null;
+    }
+
+    /* ---------- loans (private) ---------- */
+
+    match /loans/{loanId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.borrowerUid == request.auth.uid);
+
+      /* a loan can only be created in the same write that puts it into the free book's status */
+      allow create: if isSignedIn()
+        && request.resource.data.borrowerUid == request.auth.uid
+        && request.resource.data.bookId is string
+        && request.resource.data.bookTitle is string
+        && request.resource.data.borrowerName is string
+        && request.resource.data.borrowerName.size() > 0
+        && request.resource.data.borrowerName.size() <= 100
+        && request.resource.data.borrowedAt is number
+        && request.resource.data.dueAt is number
+        && request.resource.data.get('returnedAt', null) == null
+        && request.resource.data.get('returnRequestedAt', null) == null
+        && exists(/databases/$(database)/documents/books/$(request.resource.data.bookId))
+        && (!exists(/databases/$(database)/documents/bookStatus/$(request.resource.data.bookId))
+            || get(/databases/$(database)/documents/bookStatus/$(request.resource.data.bookId)).data.activeLoanId == null)
+        && getAfter(/databases/$(database)/documents/bookStatus/$(request.resource.data.bookId)).data.activeLoanId == loanId;
+
+      allow update:
+        /* the borrower asks for the return */
+        if (isSignedIn()
+          && resource.data.borrowerUid == request.auth.uid
+          && resource.data.get('returnRequestedAt', null) == null
+          && resource.data.get('returnedAt', null) == null
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['returnRequestedAt'])
+          && request.resource.data.returnRequestedAt is number)
+        /* an admin confirms a requested return */
+        || (isAdmin()
+          && resource.data.get('returnRequestedAt', null) != null
+          && resource.data.get('returnedAt', null) == null
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['returnedAt'])
+          && request.resource.data.returnedAt is number);
+
+      allow delete: if false;
+    }
+  }
+}
