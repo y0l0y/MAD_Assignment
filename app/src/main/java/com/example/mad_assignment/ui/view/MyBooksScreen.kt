@@ -42,11 +42,26 @@ fun MyBookScreen(
     vm: BookViewModel,
     onNavigateBack: () -> Unit
 ) {
-    MyBookContent(
-        loans = vm.myLoans.mapNotNull { item -> item.activeLoan?.let { item.book to it } },
-        onReturn = { vm.requestReturn(it) },
-        onNavigateBack = onNavigateBack
-    )
+    if (vm.isAdminMode) {
+        AdminLoansContent(
+            allLoans = vm.allLoans,
+            pendingReturns = vm.pendingReturns,
+            onConfirm = { vm.confirmReturn(it) },
+            onNavigateBack = onNavigateBack
+        )
+    } else {
+        MyBookContent(
+            loans = vm.myLoans.mapNotNull { item -> item.activeLoan?.let { item.book to it } },
+            onReturn = { vm.requestReturn(it) },
+            onNavigateBack = onNavigateBack
+        )
+    }
+    vm.borrowErrorMessage?.let { message ->
+        BookBorrowFailedDialog(
+            message = message,
+            onDismiss = { vm.clearBorrowError() }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

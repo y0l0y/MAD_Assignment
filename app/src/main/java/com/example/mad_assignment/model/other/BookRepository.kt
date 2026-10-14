@@ -4,6 +4,7 @@ import com.example.mad_assignment.model.dao_and_database.CatalogDao
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.model.entity.LoanEntity
 import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.entity.toBook
 import com.example.mad_assignment.model.entity.toCategory
@@ -61,6 +62,10 @@ class BookRepository(
                 )
             }
     }
+
+    /* the loans this user may read (admin: all, student: own), for the loans screens */
+    fun loans(uid: String?, isAdmin: Boolean): Flow<List<LoanEntity>> =
+        remote.loansFlow(uid, isAdmin).orInitial(emptyList())
 
     val categories: Flow<List<CategoryEntity>> =
         catalogDao.categories().map { list -> list.map { it.toCategory() } }

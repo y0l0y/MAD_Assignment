@@ -423,7 +423,7 @@ fun BookListDrawerContent(
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
             NavigationDrawerItem(
-                label = { Text("My Books") },
+                label = { Text(if (accountLabel?.endsWith("(admin)") == true) "Loans (admin)" else "My Books") },
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Bookmarks,

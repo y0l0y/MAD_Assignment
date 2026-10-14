@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.model.entity.LoanEntity
 import com.example.mad_assignment.model.entity.Roles
 import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.other.BookQuery
@@ -62,6 +63,10 @@ class BookViewModel (
     var isLoading by mutableStateOf(true)
         private set
     var loadError by mutableStateOf<String?>(null)
+        private set
+
+    /* loans this user may read: admin = all, student = own */
+    var allLoans by mutableStateOf(listOf<LoanEntity>())
         private set
 
     /* local search / filter/ sort state */
@@ -156,6 +161,17 @@ class BookViewModel (
                         throw e
                     } catch (_: Exception) {
                         // the book list show the error
+                    }
+                }
+                launch {
+                    try {
+                        repository.loans(currentUserId, isAdminMode).collectLatest {
+                            allLoans = it.sortedByDescending { loan -> loan.borrowedAt }
+                        }
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (_: Exception) {
+                        // the book list shows the error
                     }
                 }
                 repository.books(currentUserId, isAdminMode).collectLatest { items ->
@@ -391,6 +407,12 @@ class BookViewModel (
             }
         }
     }
+
+    /* admin: loans whose return was requested, oldest request first */
+    val pendingReturns: List<LoanEntity>
+        get() = allLoans
+            .filter { it.returnedAt == null && it.returnRequestedAt != null }
+            .sortedBy { it.returnRequestedAt }
 
     /* books the signed-in user currently holds (online data only) */
     val myLoans: List<BookWithLoans>
