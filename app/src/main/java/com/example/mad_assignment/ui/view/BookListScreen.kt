@@ -188,6 +188,9 @@ fun BookListContent(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
+                        if (!vm.isOnline) {
+                            item { OfflineBanner() }
+                        }
                         items(vm.sortedBooks, key = { it.book.id }) { item ->
                             BookItemCard(
                                 item = item,
@@ -420,7 +423,7 @@ fun BookListDrawerContent(
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
             NavigationDrawerItem(
-                label = { Text("My Books") },
+                label = { Text(if (accountLabel?.endsWith("(admin)") == true) "Loans (admin)" else "My Books") },
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Bookmarks,

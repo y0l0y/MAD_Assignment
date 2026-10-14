@@ -10,12 +10,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.model.entity.LoanEntity
 import com.example.mad_assignment.model.entity.Roles
 import com.example.mad_assignment.model.entity.UserProfile
 import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
 import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.NetworkMonitor
 import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.model.other.SortOrder
 import com.example.mad_assignment.model.other.UserPreferencesRepository
@@ -39,11 +41,13 @@ sealed class BookUiState {
 class BookViewModel (
     private val repository: BookRepository,
     private val preferencesRepo: UserPreferencesRepository,
-    private val coverStorage: CoverStorage
+    private val coverStorage: CoverStorage,
+    private val network: NetworkMonitor
 ) : ViewModel() {
     private companion object {
         const val WRITE_TIMEOUT_MS = 10_000L
         const val SYNC_TIMEOUT_MS = 15_000L
+        const val OFFLINE_MESSAGE = "You are offline. Borrowing and returning need an internet connection."
         const val CONNECTION_MESSAGE = "Unable to reach the server. Please check your connection and try again."
     }
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
@@ -59,6 +63,10 @@ class BookViewModel (
     var isLoading by mutableStateOf(true)
         private set
     var loadError by mutableStateOf<String?>(null)
+        private set
+
+    /* loans this user may read: admin = all, student = own */
+    var allLoans by mutableStateOf(listOf<LoanEntity>())
         private set
 
     /* local search / filter/ sort state */
@@ -88,6 +96,8 @@ class BookViewModel (
     var authError by mutableStateOf<String?>(null)
         private set
     private var signUpInProgress = false
+    var isOnline by mutableStateOf(true)
+        private set
     var isDarkMode by mutableStateOf(false)
         private set
     var currentQuery = ""
@@ -107,6 +117,8 @@ class BookViewModel (
                 if (uid != null && !signUpInProgress) {
                     profile = loadProfileOrNull()
                 }
+                /* the loans this user may read depend on who is signed in and the role */
+                startLoading()
                 syncCatalogQuietly()
             }
         }
@@ -118,6 +130,13 @@ class BookViewModel (
                 throw e
             } catch (_: Exception) {
                 // the list stays empty until the next start
+            }
+        }
+        viewModelScope.launch {
+            network.isOnline.collectLatest { online ->
+                val wasOffline = !isOnline
+                isOnline = online
+                if (online && wasOffline) syncCatalogQuietly()
             }
         }
         viewModelScope.launch {
@@ -144,7 +163,18 @@ class BookViewModel (
                         // the book list show the error
                     }
                 }
-                repository.books.collectLatest { items ->
+                launch {
+                    try {
+                        repository.loans(currentUserId, isAdminMode).collectLatest {
+                            allLoans = it.sortedByDescending { loan -> loan.borrowedAt }
+                        }
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (_: Exception) {
+                        // the book list shows the error
+                    }
+                }
+                repository.books(currentUserId, isAdminMode).collectLatest { items ->
                     books = items
                     isLoading = false
                     loadError = null
@@ -249,6 +279,7 @@ class BookViewModel (
         runAuth(onSuccess, onFinally = { signUpInProgress = false }) {
             repository.signUp(name.trim(), email.trim(), password)
             profile = repository.loadOrCreateProfile()
+            startLoading()
         }
     }
 
@@ -350,6 +381,10 @@ class BookViewModel (
             borrowErrorMessage = "Please sign in to borrow a book."
             return
         }
+        if (!isOnline) {
+            borrowErrorMessage = OFFLINE_MESSAGE
+            return
+        }
         val userName = profile?.name.orEmpty()
         BookRules.validateBorrowerName(userName)?.let {
             borrowErrorMessage = it
@@ -373,6 +408,12 @@ class BookViewModel (
         }
     }
 
+    /* admin: loans whose return was requested, oldest request first */
+    val pendingReturns: List<LoanEntity>
+        get() = allLoans
+            .filter { it.returnedAt == null && it.returnRequestedAt != null }
+            .sortedBy { it.returnRequestedAt }
+
     /* books the signed-in user currently holds (online data only) */
     val myLoans: List<BookWithLoans>
         get() = currentUserId?.let { uid -> books.filter { it.activeLoan?.borrowerUid == uid } }
@@ -380,6 +421,10 @@ class BookViewModel (
 
     /* borrower asks the admin to confirm the return */
     fun requestReturn(bookId: String) = viewModelScope.launch {
+        if (!isOnline) {
+            borrowErrorMessage = OFFLINE_MESSAGE
+            return@launch
+        }
         val loan = books.find { it.book.id == bookId }?.activeLoan ?: return@launch
         if (loan.borrowerUid != currentUserId) {
             borrowErrorMessage = "Only the person who borrowed this book can request its return."
@@ -405,6 +450,10 @@ class BookViewModel (
     fun confirmReturn(bookId: String) = viewModelScope.launch {
         if (!isAdminMode) {
             borrowErrorMessage = "Only an admin can confirm a return."
+            return@launch
+        }
+        if (!isOnline) {
+            borrowErrorMessage = OFFLINE_MESSAGE
             return@launch
         }
         try {

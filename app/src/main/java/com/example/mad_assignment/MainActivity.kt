@@ -16,6 +16,7 @@ import com.example.mad_assignment.model.dao_and_database.AppDatabase
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.CatalogSeed
 import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.NetworkMonitor
 import com.example.mad_assignment.model.other.UserPreferencesRepository
 import com.example.mad_assignment.model.remote.FirebaseDataSource
 import com.example.mad_assignment.network.NetworkModule
@@ -35,7 +36,8 @@ class MainActivity : ComponentActivity() {
                         seed = CatalogSeed(applicationContext)
                     ),
                     preferencesRepo = UserPreferencesRepository(applicationContext),
-                    coverStorage = CoverStorage(applicationContext)
+                    coverStorage = CoverStorage(applicationContext),
+                    network = NetworkMonitor(applicationContext)
                 )
             }
         }
