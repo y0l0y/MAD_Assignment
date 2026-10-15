@@ -10,7 +10,7 @@ The core task is tracking which books are available and which are currently borr
 * **Admin tools.** Admins add, edit and delete books and categories, see the queue of returns waiting for confirmation, and see every loan with overdue loans highlighted.
 * **Extras.** Search the book list (title, author, ISBN), filter by category, sort, search Open Library online, scan an ISBN barcode, and switch the colour theme.
 
-\---
+---
 
 ## How it works
 
@@ -28,15 +28,15 @@ The core task is tracking which books are available and which are currently borr
 
 **Privacy.** Students only read their own loans and cannot see who borrowed a book. Admins see everything.
 
-\---
+---
 
 ## System structure and configuration
 
-1. The code is under `app/src/main/java/com/example/mad\_assignment`
+1. The code is under `app/src/main/java/com/example/mad_assignment`
 
    1. `Model` folder
 
-      1. `dao\_and\_database` folder
+      1. `dao_and_database` folder
 
          1. `AppDatabase.kt`: Builds and configures the Room (SQLite) database.
          2. `CatalogDao.kt`: Queries for the local book list, categories and catalog version.
@@ -55,7 +55,7 @@ The core task is tracking which books are available and which are currently borr
          2. `BookQuery.kt`: Text search, category filter and sorting.
          3. `BookRepository.kt`: Combines the local catalog, Firebase and the API; also does the catalog version sync.
          4. `BookRules.kt`: Validation of book, category, email, password and name input.
-         5. `CatalogSeed.kt`: Reads the bundled `assets/catalog\_seed.json` (skips invalid rows).
+         5. `CatalogSeed.kt`: Reads the bundled `assets/catalog_seed.json` (skips invalid rows).
          6. `CoverStorage.kt`: Converts a cover picture to a JPEG string and back.
          7. `NetworkMonitor.kt`: Reports whether the phone has internet.
          8. `UserPreferencesRepository.kt`: Stores the theme and sort preference.
@@ -86,10 +86,10 @@ The core task is tracking which books are available and which are currently borr
 
       1. `BookViewModel.kt`: The state holder and logic that connects the UI and the model.
    5. `MainActivity.kt`: The entry point of the app.
-2. `app/src/main/assets/catalog\_seed.json`: The book list that ships with the app.
+2. `app/src/main/assets/catalog_seed.json`: The book list that ships with the app.
 3. `firestore.rules`: The Firestore security rules.
 
-\---
+---
 
 ## Setup Requirements
 
@@ -102,7 +102,7 @@ The core task is tracking which books are available and which are currently borr
 * Internet connection: for sign in, borrowing, Firebase sync and Open Library
 * Barcode scanner: requires Google Play services
 
-\---
+---
 
 ## Firebase configuration
 
@@ -110,7 +110,7 @@ The core task is tracking which books are available and which are currently borr
 It is the client configuration file, not an admin or service-account key.
 
 To use your own Firebase project, create it, add an Android app with the package name
-`com.example.mad\_assignment`, replace `app/google-services.json`, and then:
+`com.example.mad_assignment`, replace `app/google-services.json`, and then:
 
 1. **Authentication -> Sign-in method -> Email/Password:** enable it. (Anonymous sign-in is not used.)
 2. **Firestore Database:** create it, then open the *Rules* tab, paste the content of `firestore.rules` and publish.
@@ -126,10 +126,10 @@ Collections:
 
 ### Changing the starting book list
 
-Edit `app/src/main/assets/catalog\_seed.json` (`{"version": 1, "categories": \[...], "books": \[{"title", "author", "isbn", "category"}]}`).
+Edit `app/src/main/assets/catalog_seed.json` (`{"version": 1, "categories": \[...], "books": \[{"title", "author", "isbn", "category"}]}`).
 The bundled list is used on first launch. Later changes to the catalog are made by an admin inside the app.
 
-\---
+---
 
 ## Build Steps
 
@@ -139,7 +139,7 @@ The bundled list is used on first launch. Later changes to the catalog are made 
 4. Waiting the Gradle sync
 5. Use **Build -> Make Project** to check
 
-\---
+---
 
 ## Run Steps
 
@@ -147,13 +147,13 @@ The bundled list is used on first launch. Later changes to the catalog are made 
 2. Click Run in Android Studio, then the app will launch in the phone.
 3. The book list appears immediately from the phone. Availability appears once the app reaches Firebase.
 
-\---
+---
 
 ## How to demonstrate the features
 
 **Accounts and roles**
 
-1. Open the app: the list works as a guest. Tap **Borrow**, and the sign-in screen opens.
+1. Open the app: the list works as a guest. Tap **Borrow** button, and the sign-in screen opens.
 2. **Menu -> Sign in / Create account**: create a student account and borrow a book.
 3. Sign in as an admin (see *Firebase configuration*): the menu shows "(admin)", the add button and the edit menu appear, and **Menu -> Loans (admin)** opens the loans screen.
 
