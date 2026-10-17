@@ -44,8 +44,12 @@ fun MyBookScreen(
 ) {
     if (vm.isAdminMode) {
         AdminLoansContent(
-            allLoans = vm.allLoans,
+            rows = vm.loanRows,
+            totalCount = vm.allLoans.size,
+            overdueCount = vm.overdueLoanCount,
+            selectedFilter = vm.loanFilter,
             pendingReturns = vm.pendingReturns,
+            onFilterChange = { vm.updateLoanFilter(it) },
             onConfirm = { vm.confirmReturn(it) },
             onNavigateBack = onNavigateBack
         )
@@ -176,4 +180,3 @@ private fun EmptyMessage(text: String) {
         )
     }
 }
-

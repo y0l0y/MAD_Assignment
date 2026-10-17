@@ -17,6 +17,9 @@ import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
 import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.LoanFilter
+import com.example.mad_assignment.model.other.LoanQuery
+import com.example.mad_assignment.model.other.LoanRow
 import com.example.mad_assignment.model.other.NetworkMonitor
 import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.model.other.SortOrder
@@ -48,6 +51,7 @@ class BookViewModel (
         const val WRITE_TIMEOUT_MS = 10_000L
         const val SYNC_TIMEOUT_MS = 15_000L
         const val OFFLINE_MESSAGE = "You are offline. Borrowing and returning need an internet connection."
+        const val ADMIN_OFFLINE_MESSAGE = "You are offline. Changing the catalog needs an internet connection."
         const val CONNECTION_MESSAGE = "Unable to reach the server. Please check your connection and try again."
     }
     var uiState by mutableStateOf<BookUiState>(BookUiState.Idle)
@@ -67,6 +71,10 @@ class BookViewModel (
 
     /* loans this user may read: admin = all, student = own */
     var allLoans by mutableStateOf(listOf<LoanEntity>())
+        private set
+
+    /* admin loan list: which filter chip is selected (kept here so it survives rotation) */
+    var loanFilter by mutableStateOf(LoanFilter.ALL)
         private set
 
     /* local search / filter/ sort state */
@@ -218,6 +226,16 @@ class BookViewModel (
         borrowErrorMessage = null
     }
 
+    /* admin catalog changes go straight to firebase, so they need a connection just like borrowing */
+    private fun adminOfflineError(): String? = if (isOnline) null else ADMIN_OFFLINE_MESSAGE
+
+    /* for changes that have no form to show an error in: show the shared "Action Failed" dialog */
+    private fun blockedWhileOffline(): Boolean {
+        val error = adminOfflineError() ?: return false
+        borrowErrorMessage = error
+        return true
+    }
+
     fun toggleDarkMode() = viewModelScope.launch {
         preferencesRepo.saveDarkMode(!isDarkMode)
     }
@@ -313,12 +331,14 @@ class BookViewModel (
     fun addCategory(name: String): String? {
         val error = BookRules.validateCategoryName(name)
             ?: duplicateCategoryError(name)
+            ?: adminOfflineError()
         if (error != null) return error
         launchWrite { repository.addCategory(name.trim()) }
         return null
     }
 
     fun deleteCategory(category: CategoryEntity) = launchWrite {
+        if (blockedWhileOffline()) return@launchWrite
         if (selectedCategoryId == category.id)
             selectedCategoryId = null
         repository.deleteCategory(category)
@@ -328,6 +348,7 @@ class BookViewModel (
         book: BookEntity,
         categoryId: String?
     ) = launchWrite {
+        if (blockedWhileOffline()) return@launchWrite
         repository.updateBook(book.copy(categoryId = categoryId))
     }
 
@@ -354,6 +375,7 @@ class BookViewModel (
             ?: BookRules.validateAuthor(author)
             ?: BookRules.validateIsbn(isbn)
             ?: duplicateIsbnError(isbn)
+            ?: adminOfflineError()
         if (error != null) {
             return error
         }
@@ -365,7 +387,8 @@ class BookViewModel (
                 BookEntity(
                     title = title.trim(),
                     author = author.trim(),
-                    isbn = isbn.trim(),
+                    /* store digits only (no hyphens or spaces): the server rule checks the raw length */
+                    isbn = BookRules.normaliseIsbn(isbn),
                     categoryId = categoryId,
                     coverBase64 = cover,
                     coverUrl = coverUrl
@@ -410,9 +433,17 @@ class BookViewModel (
 
     /* admin: loans whose return was requested, oldest request first */
     val pendingReturns: List<LoanEntity>
-        get() = allLoans
-            .filter { it.returnedAt == null && it.returnRequestedAt != null }
-            .sortedBy { it.returnRequestedAt }
+        get() = LoanQuery.pendingReturns(allLoans)
+
+    /* admin: the loans to show for the selected filter, each with its status already worked out */
+    val loanRows: List<LoanRow>
+        get() = LoanQuery.rows(allLoans, loanFilter)
+
+    /* admin: number shown on the Overdue chip (always counts every loan, not just the filtered ones) */
+    val overdueLoanCount: Int
+        get() = LoanQuery.overdueCount(allLoans)
+
+    fun updateLoanFilter(filter: LoanFilter) { loanFilter = filter }
 
     /* books the signed-in user currently holds (online data only) */
     val myLoans: List<BookWithLoans>
@@ -473,6 +504,7 @@ class BookViewModel (
     }
 
     fun deleteBook(book: BookEntity) = launchWrite {
+        if (blockedWhileOffline()) return@launchWrite
         if (books.find { it.book.id == book.id }?.isAvailable == false) {
             borrowErrorMessage = "This book is borrowed (or its status is unknown) and cannot be deleted."
             return@launchWrite
@@ -486,6 +518,7 @@ class BookViewModel (
          onError: (String) -> Unit = {}
     ) {
         launchWrite {
+            if (blockedWhileOffline()) return@launchWrite
             val encoded = withContext(Dispatchers.IO) { coverStorage.encode(uri) }
             if (encoded == null) {
                 onError("Unable to load the picture")
@@ -501,6 +534,7 @@ class BookViewModel (
 
     fun updateBookTitle(book: BookEntity, newTitle: String): String? {
         BookRules.validateTitle(newTitle)?.let { return it }
+        adminOfflineError()?.let { return it }
         launchWrite {
             repository.updateBook(
                 book.copy(
@@ -513,6 +547,7 @@ class BookViewModel (
 
     fun updateBookAuthor(book: BookEntity, newAuthor: String): String? {
         BookRules.validateAuthor(newAuthor)?.let { return it }
+        adminOfflineError()?.let { return it }
         launchWrite {
             repository.updateBook(
                 book.copy(
@@ -524,12 +559,14 @@ class BookViewModel (
     }
 
     fun updateBookIsbn(book: BookEntity, newIsbn: String): String? {
-        val error = BookRules.validateIsbn(newIsbn) ?: duplicateIsbnError(newIsbn, ignoreId = book.id)
+        val error = BookRules.validateIsbn(newIsbn)
+            ?: duplicateIsbnError(newIsbn, ignoreId = book.id)
+            ?: adminOfflineError()
         if (error != null) return error
         launchWrite {
             repository.updateBook(
                 book.copy(
-                    isbn = newIsbn.trim()
+                    isbn = BookRules.normaliseIsbn(newIsbn)
                 )
             )
         }

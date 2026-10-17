@@ -275,6 +275,13 @@ fun AddBookScreen(
         onDeleteCategory = { vm.deleteCategory(it) },
         onNavigateBack = onNavigateBack
     )
+    /* errors from changes that have no form field to show them (e.g. deleting a category offline) */
+    vm.borrowErrorMessage?.let { message ->
+        BookBorrowFailedDialog(
+            message = message,
+            onDismiss = { vm.clearBorrowError() }
+        )
+    }
 }
 
 @Composable
@@ -305,5 +312,3 @@ fun ErrorPopup(
         }
     }
 }
-
-

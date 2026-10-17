@@ -158,6 +158,13 @@ fun BookUpdateScreen(
             )
         }
     }
+    /* errors from changes that have no form field to show them (cover, category, offline) */
+    vm.borrowErrorMessage?.let { message ->
+        BookBorrowFailedDialog(
+            message = message,
+            onDismiss = { vm.clearBorrowError() }
+        )
+    }
 }
 
 @Composable

@@ -6,7 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import com.example.mad_assignment.model.entity.BookWithCategory
 import com.example.mad_assignment.model.entity.CatalogMetaEntity
+import com.example.mad_assignment.model.entity.CategoryWithBooks
 import com.example.mad_assignment.model.entity.LocalBookEntity
 import com.example.mad_assignment.model.entity.LocalCategoryEntity
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +20,15 @@ interface CatalogDao {
 
     @Query("SELECT * FROM catalog_categories ORDER BY name COLLATE NOCASE ASC")
     fun categories(): Flow<List<LocalCategoryEntity>>
+
+    /* relation queries: room joins books and categories through the foreign key */
+    @Transaction
+    @Query("SELECT * FROM catalog_categories ORDER BY name COLLATE NOCASE ASC")
+    fun categoriesWithBooks(): Flow<List<CategoryWithBooks>>
+
+    @Transaction
+    @Query("SELECT * FROM catalog_books")
+    fun booksWithCategory(): Flow<List<BookWithCategory>>
 
     @Query("SELECT * FROM catalog_books")
     suspend fun allBooks(): List<LocalBookEntity>
@@ -49,17 +60,28 @@ interface CatalogDao {
     @Query("DELETE FROM catalog_categories")
     suspend fun clearCategories()
 
-    /* swap the whole catalog and its version in one go */
+    /*
+     * swap the whole catalog and its version in one go
+     * the foreign key means a category must exist before a book can point at it, so:
+     * - categories are inserted before books
+     * - a book whose category is missing from the list (firebase data out of sync) is saved
+     *   with no category instead of failing the whole sync
+     */
     @Transaction
     suspend fun replaceCatalog(
         books: List<LocalBookEntity>,
         categories: List<LocalCategoryEntity>,
         version: Long
     ) {
+        val knownCategoryIds = categories.map { it.id }.toSet()
+        val safeBooks = books.map { book ->
+            if (book.categoryId == null || book.categoryId in knownCategoryIds) book
+            else book.copy(categoryId = null)
+        }
         clearBooks()
         clearCategories()
-        insertBooks(books)
         insertCategories(categories)
+        insertBooks(safeBooks)
         setMeta(CatalogMetaEntity(version = version))
     }
 }
