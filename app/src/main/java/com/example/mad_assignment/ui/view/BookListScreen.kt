@@ -590,7 +590,7 @@ fun BookListDrawerContent(
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "folio",
+                        text = "CIS Library",
                         fontFamily = FolioSerif,
                         fontSize = 28.sp,
                         color = MaterialTheme.colorScheme.primary
