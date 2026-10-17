@@ -10,7 +10,7 @@ import com.example.mad_assignment.model.entity.LocalCategoryEntity
 
 @Database(
     entities = [LocalBookEntity::class, LocalCategoryEntity::class, CatalogMetaEntity::class],
-    version = 7,
+    version = 8, // 8: foreign key between catalog_books.categoryId and catalog_categories.id
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
