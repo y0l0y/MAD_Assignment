@@ -70,6 +70,16 @@ class BookRepository(
     val categories: Flow<List<CategoryEntity>> =
         catalogDao.categories().map { list -> list.map { it.toCategory() } }
 
+    /*
+     * how many books each category holds (categoryId -> count)
+     * uses the Room relation CategoryWithBooks (catalog_categories 1 -> many catalog_books),
+     * so the one-to-many foreign key drives the numbers shown on the category chips
+     */
+    val categoryBookCounts: Flow<Map<String, Int>> =
+        catalogDao.categoriesWithBooks().map { list ->
+            list.associate { it.category.id to it.books.size }
+        }
+
     /* catalog sync */
 
     /* first start: copy the book list that ships in the app into room */
