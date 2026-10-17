@@ -369,7 +369,7 @@ private fun BookListHeader(
             )
             vm.categories.forEach { category ->
                 FolioChip(
-                    label = category.name,
+                    label = "${category.name} (${vm.categoryBookCounts[category.id] ?: 0})",
                     selected = vm.selectedCategoryId == category.id,
                     onClick = { vm.updateCategoryFilter(category.id) }
                 )

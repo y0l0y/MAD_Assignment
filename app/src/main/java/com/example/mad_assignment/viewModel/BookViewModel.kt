@@ -63,6 +63,10 @@ class BookViewModel (
     var categories by mutableStateOf(listOf<CategoryEntity>())
         private set
 
+    /* categoryId -> number of books in it, from the Room category-with-books relation */
+    var categoryBookCounts by mutableStateOf(mapOf<String, Int>())
+        private set
+
     /* loading / error state */
     var isLoading by mutableStateOf(true)
         private set
@@ -169,6 +173,15 @@ class BookViewModel (
                         throw e
                     } catch (_: Exception) {
                         // the book list show the error
+                    }
+                }
+                launch {
+                    try {
+                        repository.categoryBookCounts.collectLatest { categoryBookCounts = it }
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (_: Exception) {
+                        // the chips just show the category name without a count
                     }
                 }
                 launch {
