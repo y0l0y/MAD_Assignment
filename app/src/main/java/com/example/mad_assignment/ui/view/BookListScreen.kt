@@ -70,6 +70,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalConfiguration
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.other.BookRules
@@ -215,8 +216,13 @@ fun BookListContent(
                     /* portrait phone: 2 cover tiles per row. wide (landscape / tablet):
                        cards with the cover on the left and the details beside it */
                     val wide = isWideScreen()
+                    val screenWidthDp = LocalConfiguration.current.screenWidthDp
                     LazyVerticalGrid(
-                        columns = if (wide) GridCells.Adaptive(minSize = 360.dp) else GridCells.Fixed(2),
+                        columns = when {
+                            !wide -> GridCells.Fixed(2)                       // portrait phone
+                            screenWidthDp >= 1000 -> GridCells.Fixed(3)       // large tablet / desktop
+                            else -> GridCells.Fixed(2)                        // landscape phone / small tablet
+                        },
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .widthIn(max = 1200.dp)
@@ -529,7 +535,7 @@ fun BookListDrawerContent(
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "folio",
+                        text = "CIS Library",
                         fontFamily = FolioSerif,
                         fontSize = 28.sp,
                         color = MaterialTheme.colorScheme.primary
