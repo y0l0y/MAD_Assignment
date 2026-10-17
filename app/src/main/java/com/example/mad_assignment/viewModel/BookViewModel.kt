@@ -387,7 +387,8 @@ class BookViewModel (
                 BookEntity(
                     title = title.trim(),
                     author = author.trim(),
-                    isbn = isbn.trim(),
+                    /* store digits only (no hyphens or spaces): the server rule checks the raw length */
+                    isbn = BookRules.normaliseIsbn(isbn),
                     categoryId = categoryId,
                     coverBase64 = cover,
                     coverUrl = coverUrl
@@ -565,7 +566,7 @@ class BookViewModel (
         launchWrite {
             repository.updateBook(
                 book.copy(
-                    isbn = newIsbn.trim()
+                    isbn = BookRules.normaliseIsbn(newIsbn)
                 )
             )
         }
