@@ -26,6 +26,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -77,6 +78,9 @@ fun AddBookContent(
     onLookupIsbn: (String, (OnlineBook) -> Unit, (String) -> Unit) -> Unit,
     onAddCategory: (String) -> String?,
     onDeleteCategory: (CategoryEntity) -> Unit,
+    onSearchOnline: () -> Unit,
+    pickedBook: OnlineBook?,
+    onPickedBookConsumed: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
     var title by rememberSaveable { mutableStateOf(prefill.title) }
@@ -94,6 +98,17 @@ fun AddBookContent(
     ) { uri ->
         if (uri != null) {
             imageUri = uri
+        }
+    }
+
+    /* a book chosen on the online search screen: fill the form, then clear the hand-over */
+    LaunchedEffect(pickedBook) {
+        if (pickedBook != null) {
+            title = pickedBook.title
+            author = pickedBook.authors
+            coverUrl = pickedBook.coverUrl
+            pickedBook.isbn?.let { isbn = it }
+            onPickedBookConsumed()
         }
     }
 
@@ -162,7 +177,7 @@ fun AddBookContent(
                 Text("Add to the shelf", style = MaterialTheme.typography.displayMedium)
                 Spacer(Modifier.height(4.dp))
                 Muted(
-                    text = "Scan the barcode or fill in the details.",
+                    text = "Scan the barcode, search online, or fill in the details.",
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -208,6 +223,14 @@ fun AddBookContent(
                     text = if (isLookingUp) "Looking up book details..." else "Scan ISBN barcode",
                     onClick = { scanAndFill() },
                     icon = Icons.Outlined.QrCodeScanner,
+                    filled = false,
+                    enabled = !isLookingUp
+                )
+                Spacer(Modifier.height(8.dp))
+                FolioButton(
+                    text = "Search book online",
+                    onClick = onSearchOnline,
+                    icon = Icons.Outlined.Search,
                     filled = false,
                     enabled = !isLookingUp
                 )
@@ -301,6 +324,9 @@ fun AddBookContent(
 fun AddBookScreen(
     vm: BookViewModel,
     prefill: BookDraft = BookDraft(),
+    pickedBook: OnlineBook? = null,
+    onPickedBookConsumed: () -> Unit = {},
+    onSearchOnline: () -> Unit,
     onNavigateBack: () -> Unit
 ){
     AddBookContent(
@@ -324,6 +350,9 @@ fun AddBookScreen(
             ) },
         onAddCategory = { vm.addCategory(it) },
         onDeleteCategory = { vm.deleteCategory(it) },
+        onSearchOnline = onSearchOnline,
+        pickedBook = pickedBook,
+        onPickedBookConsumed = onPickedBookConsumed,
         onNavigateBack = onNavigateBack
     )
     /* errors from changes that have no form field to show them (e.g. deleting a category offline) */

@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.ui.components.EmptyState
 import com.example.mad_assignment.ui.components.FolioBackBar
 import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.FolioFieldShape
 import com.example.mad_assignment.ui.components.Muted
@@ -49,6 +50,7 @@ import com.example.mad_assignment.viewModel.BookViewModel
 @Composable
 fun ApiBookSearchScreen(
     vm: BookViewModel,
+    onBookSelected: (OnlineBook) -> Unit,
     onNavigateBack: () -> Unit
 ) {
     val uiState = vm.uiState
@@ -108,7 +110,7 @@ fun ApiBookSearchScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         EmptyState(
-                            message = "Enter a search term to query Open Library.",
+                            message = "Search Open Library, then tap a book to fill in the add-book form.",
                             icon = Icons.Outlined.Search
                         )
                     }
@@ -165,7 +167,10 @@ fun ApiBookSearchScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(state.books) { book ->
-                            FolioCard(contentPadding = 12.dp) {
+                            FolioCard(
+                                onClick = { onBookSelected(book) },
+                                contentPadding = 12.dp
+                            ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     BookCover(
                                         coverBase64 = null,

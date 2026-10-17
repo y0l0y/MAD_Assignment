@@ -101,7 +101,6 @@ import kotlinx.coroutines.launch
 fun BookListScreen(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
-    onNavigateToApiSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
@@ -110,7 +109,6 @@ fun BookListScreen(
     BookListContent(
         vm = vm,
         onNavigationToAdd = onNavigationToAdd,
-        onNavigateToApiSearch = onNavigateToApiSearch,
         onNavigateToMyBooks = onNavigateToMyBooks,
         onNavigateToAuth = onNavigateToAuth,
         onItemClick = onItemClick,
@@ -123,7 +121,6 @@ fun BookListScreen(
 fun BookListContent(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
-    onNavigateToApiSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
@@ -153,7 +150,6 @@ fun BookListContent(
             BookListDrawerContent(
                 isDarkMode = vm.isDarkMode,
                 accountLabel = accountLabel,
-                onNavigateToApiSearch = onNavigateToApiSearch,
                 onNavigateToMyBooks = {
                     if (vm.currentUserId == null) onNavigateToAuth() else onNavigateToMyBooks()
                 },
@@ -570,7 +566,6 @@ fun BookItemCard(
 fun BookListDrawerContent(
     isDarkMode: Boolean,
     accountLabel: String?,
-    onNavigateToApiSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onToggleDarkMode: () -> Unit,
     onSignIn: () -> Unit,
@@ -595,7 +590,7 @@ fun BookListDrawerContent(
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "CIS Library",
+                        text = "folio",
                         fontFamily = FolioSerif,
                         fontSize = 28.sp,
                         color = MaterialTheme.colorScheme.primary
@@ -621,21 +616,6 @@ fun BookListDrawerContent(
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 color = MaterialTheme.colorScheme.outline
-            )
-            NavigationDrawerItem(
-                label = { Text("Search Book Online") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Public,
-                        contentDescription = "Search Online"
-                    )
-                },
-                selected = false,
-                onClick = {
-                    onNavigateToApiSearch()
-                    onClose()
-                },
-                modifier = Modifier.padding(horizontal = 12.dp)
             )
             NavigationDrawerItem(
                 label = { Text(if (accountLabel?.endsWith("(admin)") == true) "Loans (admin)" else "My Books") },
