@@ -17,6 +17,9 @@ import com.example.mad_assignment.model.other.BookQuery
 import com.example.mad_assignment.model.other.BookRepository
 import com.example.mad_assignment.model.other.BookRules
 import com.example.mad_assignment.model.other.CoverStorage
+import com.example.mad_assignment.model.other.LoanFilter
+import com.example.mad_assignment.model.other.LoanQuery
+import com.example.mad_assignment.model.other.LoanRow
 import com.example.mad_assignment.model.other.NetworkMonitor
 import com.example.mad_assignment.model.other.OnlineBook
 import com.example.mad_assignment.model.other.SortOrder
@@ -67,6 +70,10 @@ class BookViewModel (
 
     /* loans this user may read: admin = all, student = own */
     var allLoans by mutableStateOf(listOf<LoanEntity>())
+        private set
+
+    /* admin loan list: which filter chip is selected (kept here so it survives rotation) */
+    var loanFilter by mutableStateOf(LoanFilter.ALL)
         private set
 
     /* local search / filter/ sort state */
@@ -410,9 +417,17 @@ class BookViewModel (
 
     /* admin: loans whose return was requested, oldest request first */
     val pendingReturns: List<LoanEntity>
-        get() = allLoans
-            .filter { it.returnedAt == null && it.returnRequestedAt != null }
-            .sortedBy { it.returnRequestedAt }
+        get() = LoanQuery.pendingReturns(allLoans)
+
+    /* admin: the loans to show for the selected filter, each with its status already worked out */
+    val loanRows: List<LoanRow>
+        get() = LoanQuery.rows(allLoans, loanFilter)
+
+    /* admin: number shown on the Overdue chip (always counts every loan, not just the filtered ones) */
+    val overdueLoanCount: Int
+        get() = LoanQuery.overdueCount(allLoans)
+
+    fun updateLoanFilter(filter: LoanFilter) { loanFilter = filter }
 
     /* books the signed-in user currently holds (online data only) */
     val myLoans: List<BookWithLoans>

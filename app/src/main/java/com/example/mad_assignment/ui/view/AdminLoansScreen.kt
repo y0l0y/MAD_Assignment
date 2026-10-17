@@ -28,7 +28,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,24 +36,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.model.entity.LoanEntity
-import com.example.mad_assignment.model.other.BookRules
+import com.example.mad_assignment.model.other.LoanFilter
+import com.example.mad_assignment.model.other.LoanRow
+import com.example.mad_assignment.model.other.LoanStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-private enum class LoanFilter(val label: String) {
-    ALL("All"),
-    BORROWED("Borrowed"),
-    OVERDUE("Overdue"),
-    RETURNED("Returned")
+/* display text only: which loans match a filter and what status a loan has is decided in LoanQuery */
+private fun LoanFilter.label() = when (this) {
+    LoanFilter.ALL -> "All"
+    LoanFilter.BORROWED -> "Borrowed"
+    LoanFilter.OVERDUE -> "Overdue"
+    LoanFilter.RETURNED -> "Returned"
 }
 
-private fun LoanEntity.isReturned() = returnedAt != null
-private fun LoanEntity.isOverdueNow() = !isReturned() && BookRules.isOverdue(dueAt)
-private fun LoanEntity.statusLabel() = when {
-    isReturned() -> "Returned"
-    returnRequestedAt != null -> "Return requested"
-    else -> "Borrowed"
+private fun LoanStatus.label() = when (this) {
+    LoanStatus.BORROWED -> "Borrowed"
+    LoanStatus.RETURN_REQUESTED -> "Return requested"
+    LoanStatus.RETURNED -> "Returned"
 }
 
 private fun dateTime(millis: Long): String =
@@ -64,15 +64,17 @@ private fun dateTime(millis: Long): String =
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminLoansContent(
-    allLoans: List<LoanEntity>,
+    rows: List<LoanRow>,
+    totalCount: Int,
+    overdueCount: Int,
+    selectedFilter: LoanFilter,
     pendingReturns: List<LoanEntity>,
+    onFilterChange: (LoanFilter) -> Unit,
     onConfirm: (String) -> Unit,
     onNavigateBack: () -> Unit
 ) {
+    /* which tab is open is pure screen state, so it stays here */
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
-    var filterName by rememberSaveable { mutableStateOf(LoanFilter.ALL.name) }
-    val filter = LoanFilter.valueOf(filterName)
-    val overdueCount = allLoans.count { it.isOverdueNow() }
 
     Scaffold(
         topBar = {
@@ -103,7 +105,7 @@ fun AdminLoansContent(
                 Tab(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
-                    text = { Text("All loans (${allLoans.size})") }
+                    text = { Text("All loans ($totalCount)") }
                 )
             }
             if (selectedTab == 0) {
@@ -129,26 +131,18 @@ fun AdminLoansContent(
                 ) {
                     LoanFilter.entries.forEach { option ->
                         FilterChip(
-                            selected = filter == option,
-                            onClick = { filterName = option.name },
+                            selected = selectedFilter == option,
+                            onClick = { onFilterChange(option) },
                             label = {
                                 Text(
                                     if (option == LoanFilter.OVERDUE) "Overdue ($overdueCount)"
-                                    else option.label
+                                    else option.label()
                                 )
                             }
                         )
                     }
                 }
-                val shown = allLoans.filter {
-                    when (filter) {
-                        LoanFilter.ALL -> true
-                        LoanFilter.BORROWED -> !it.isReturned()
-                        LoanFilter.OVERDUE -> it.isOverdueNow()
-                        LoanFilter.RETURNED -> it.isReturned()
-                    }
-                }
-                if (shown.isEmpty()) {
+                if (rows.isEmpty()) {
                     EmptyText("No loans to show.")
                 } else {
                     LazyColumn(
@@ -156,7 +150,7 @@ fun AdminLoansContent(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(shown, key = { it.id }) { loan -> LoanRowCard(loan) }
+                        items(rows, key = { it.loan.id }) { row -> LoanRowCard(row) }
                     }
                 }
             }
@@ -220,8 +214,9 @@ private fun PendingReturnCard(loan: LoanEntity, onConfirm: () -> Unit) {
 }
 
 @Composable
-private fun LoanRowCard(loan: LoanEntity) {
-    val overdue = loan.isOverdueNow()
+private fun LoanRowCard(row: LoanRow) {
+    val loan = row.loan
+    val overdue = row.isOverdue
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -252,12 +247,12 @@ private fun LoanRowCard(loan: LoanEntity) {
                 )
             }
             Text(
-                text = if (overdue) "${loan.statusLabel()} (overdue)" else loan.statusLabel(),
+                text = if (overdue) "${row.status.label()} (overdue)" else row.status.label(),
                 style = MaterialTheme.typography.bodyMedium,
                 color = when {
                     overdue -> MaterialTheme.colorScheme.error
-                    loan.isReturned() -> MaterialTheme.colorScheme.onSurfaceVariant
-                    loan.returnRequestedAt != null -> MaterialTheme.colorScheme.tertiary
+                    row.status == LoanStatus.RETURNED -> MaterialTheme.colorScheme.onSurfaceVariant
+                    row.status == LoanStatus.RETURN_REQUESTED -> MaterialTheme.colorScheme.tertiary
                     else -> MaterialTheme.colorScheme.primary
                 }
             )
