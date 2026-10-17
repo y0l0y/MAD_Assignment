@@ -23,6 +23,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.mad_assignment.model.entity.CategoryEntity
+import com.example.mad_assignment.ui.components.FolioFieldShape
+import com.example.mad_assignment.ui.components.folioFieldColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +53,8 @@ fun CategoryPicker(
             value = selectedName,
             onValueChange = {},
             readOnly = true,
+            shape = FolioFieldShape,
+            colors = folioFieldColors(),
             label = { Text("Category") },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
@@ -114,6 +118,8 @@ fun CategoryPicker(
                         error = null
                     },
                     label = { Text("Category Name") },
+                    shape = FolioFieldShape,
+                    colors = folioFieldColors(),
                     singleLine = true,
                     isError = error != null,
                     supportingText = error?.let { { Text(it) } }

@@ -1,41 +1,50 @@
 package com.example.mad_assignment.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.mad_assignment.ui.components.Eyebrow
+import com.example.mad_assignment.ui.components.FolioBackBar
+import com.example.mad_assignment.ui.components.FolioBanner
+import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.ui.components.FolioFieldShape
+import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.Tone
+import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 
 /* sign in / create account, opened on demand (guests can browse without it) */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthScreen(
     vm: BookViewModel,
@@ -49,34 +58,36 @@ fun AuthScreen(
     LaunchedEffect(Unit) { vm.clearAuthError() }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            TopAppBar(
-                title = { Text(if (isSignUp) "Create account" else "Sign in") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
+            FolioBackBar(
+                title = if (isSignUp) "Create account" else "Sign in",
+                onBack = onNavigateBack
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        val hero: @Composable ColumnScope.() -> Unit = {
+            Eyebrow(if (isSignUp) "Join the club" else "Welcome back")
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = if (isSignUp) "Create your\naccount." else "Good to see\nyou again.",
+                style = MaterialTheme.typography.displayLarge
+            )
+            Spacer(Modifier.height(8.dp))
+            Muted(
+                text = "Guests can browse the shelf. Sign in to borrow books.",
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+        val form: @Composable ColumnScope.() -> Unit = {
             if (isSignUp) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
                     label = { Text("Full name") },
                     singleLine = true,
+                    shape = FolioFieldShape,
+                    colors = folioFieldColors(),
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -85,6 +96,8 @@ fun AuthScreen(
                 onValueChange = { email = it },
                 label = { Text("Email") },
                 singleLine = true,
+                shape = FolioFieldShape,
+                colors = folioFieldColors(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -93,30 +106,28 @@ fun AuthScreen(
                 onValueChange = { password = it },
                 label = { Text("Password") },
                 singleLine = true,
+                shape = FolioFieldShape,
+                colors = folioFieldColors(),
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier.fillMaxWidth()
             )
             vm.authError?.let {
-                Text(text = it, color = MaterialTheme.colorScheme.error)
+                FolioBanner(
+                    body = it,
+                    tone = Tone.Danger,
+                    icon = Icons.Outlined.ErrorOutline
+                )
             }
-            Button(
+            FolioButton(
+                text = if (isSignUp) "Create account" else "Sign in",
                 onClick = {
                     if (isSignUp) vm.signUp(name, email, password, onNavigateBack)
                     else vm.signIn(email, password, onNavigateBack)
                 },
                 enabled = !vm.authBusy,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (vm.authBusy) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        strokeWidth = 2.dp
-                    )
-                } else {
-                    Text(if (isSignUp) "Create account" else "Sign in")
-                }
-            }
+                loading = vm.authBusy
+            )
             TextButton(
                 onClick = {
                     isSignUp = !isSignUp
@@ -124,7 +135,49 @@ fun AuthScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (isSignUp) "Already have an account? Sign in" else "No account? Create one")
+                Text(
+                    text = if (isSignUp) "Already have an account? Sign in" else "No account? Create one",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .imePadding()
+        ) {
+            if (isWideScreen()) {
+                /* landscape / tablet: welcome text on the left, form on the right */
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .widthIn(max = 1000.dp)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(40.dp)
+                ) {
+                    Column(modifier = Modifier.weight(1f), content = hero)
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        content = form
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Column(content = hero)
+                    form()
+                }
             }
         }
     }
