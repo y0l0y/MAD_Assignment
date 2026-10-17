@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -43,6 +45,7 @@ import com.example.mad_assignment.ui.components.FolioButton
 import com.example.mad_assignment.ui.components.FolioFieldShape
 import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 
 @Composable
@@ -72,22 +75,17 @@ fun BookUpdateScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .imePadding()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 20.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                if (book == null) {
-                    Text(
-                        text = "Book not found or has been deleted.",
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                } else {
-                    BookUpdateInfoCard(book)
+            if (book == null) {
+                Text(
+                    text = "Book not found or has been deleted.",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(20.dp)
+                )
+            } else {
+                val wide = isWideScreen()
+                /* category + change buttons, or the edit field while editing */
+                val actions: @Composable ColumnScope.() -> Unit = {
                     if (editingField == null) {
                         CategoryPicker(
                             categories = vm.categories,
@@ -136,6 +134,40 @@ fun BookUpdateScreen(
                                 }
                             }
                         )
+                    }
+                }
+                if (wide) {
+                    /* landscape / tablet: book on the left, what to change on the right */
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .widthIn(max = 1000.dp)
+                            .fillMaxSize()
+                            .imePadding()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 20.dp, vertical = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(32.dp)
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            BookUpdateInfoCard(book)
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            content = actions
+                        )
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .imePadding()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 20.dp, vertical = 24.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        BookUpdateInfoCard(book)
+                        actions()
                     }
                 }
             }

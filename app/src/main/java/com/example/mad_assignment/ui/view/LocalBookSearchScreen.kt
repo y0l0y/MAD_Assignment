@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -37,6 +39,7 @@ import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.StatusChip
 import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 
 @Composable
@@ -46,15 +49,23 @@ fun LocalBookSearchScreen(
 ) {
     val booksToDisplay = vm.visibleBook
     val categories = vm.categories
+    val wide = isWideScreen()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = { FolioBackBar(title = "Local Book Search", onBack = onNavigateBack) }
     ) { paddingValues ->
-        Column(
+        /* on a wide screen the whole page is centred and results sit two per row */
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+        ) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .widthIn(max = 1100.dp)
+                .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
             OutlinedTextField(
@@ -134,7 +145,9 @@ fun LocalBookSearchScreen(
                     )
                 }
             } else {
-                LazyColumn(
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(if (wide) 2 else 1),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -175,6 +188,7 @@ fun LocalBookSearchScreen(
                     }
                 }
             }
+        }
         }
     }
 }

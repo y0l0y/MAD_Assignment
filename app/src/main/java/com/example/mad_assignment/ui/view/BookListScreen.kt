@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -76,6 +78,7 @@ import com.example.mad_assignment.ui.components.CommitteeBadge
 import com.example.mad_assignment.ui.components.EmptyState
 import com.example.mad_assignment.ui.components.Eyebrow
 import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.FolioChip
 import com.example.mad_assignment.ui.components.FolioHomeBar
 import com.example.mad_assignment.ui.components.Muted
@@ -83,6 +86,7 @@ import com.example.mad_assignment.ui.components.SearchEntry
 import com.example.mad_assignment.ui.components.StatusChip
 import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.ui.components.initialsOf
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.ui.theme.FolioSerif
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.launch
@@ -208,9 +212,15 @@ fun BookListContent(
                     )
                 } else {
                     val availableCount = books.count { it.isAvailable }
+                    /* portrait phone: 2 cover tiles per row. wide (landscape / tablet):
+                       cards with the cover on the left and the details beside it */
+                    val wide = isWideScreen()
                     LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        modifier = Modifier.fillMaxSize(),
+                        columns = if (wide) GridCells.Adaptive(minSize = 360.dp) else GridCells.Fixed(2),
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .widthIn(max = 1200.dp)
+                            .fillMaxSize(),
                         contentPadding = PaddingValues(
                             start = 20.dp,
                             end = 20.dp,
@@ -218,13 +228,14 @@ fun BookListContent(
                             bottom = if (vm.isAdminMode) 96.dp else 24.dp
                         ),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                        verticalArrangement = Arrangement.spacedBy(if (wide) 16.dp else 20.dp)
                     ) {
                         item(span = { GridItemSpan(maxLineSpan) }) {
                             BookListHeader(
                                 isAdminMode = vm.isAdminMode,
                                 total = books.size,
                                 available = availableCount,
+                                wide = wide,
                                 onSearch = onNavigateToLocalSearch
                             )
                         }
@@ -246,7 +257,8 @@ fun BookListContent(
                                     else vm.requestReturn(item.book.id)
                                 },
                                 onDelete = { deleteBookId = item.book.id },
-                                onLoanShow = { onLoanShow(item.book) }
+                                onLoanShow = { onLoanShow(item.book) },
+                                horizontal = wide
                             )
                         }
                     }
@@ -288,9 +300,10 @@ private fun BookListHeader(
     isAdminMode: Boolean,
     total: Int,
     available: Int,
+    wide: Boolean,
     onSearch: () -> Unit
 ) {
-    Column {
+    val hero: @Composable ColumnScope.() -> Unit = {
         Eyebrow(if (isAdminMode) "Committee desk" else "The club's shared shelf")
         Spacer(Modifier.height(8.dp))
         Text("A good book,\na little closer.", style = MaterialTheme.typography.displayLarge)
@@ -299,11 +312,28 @@ private fun BookListHeader(
             text = "$total ${if (total == 1) "book" else "books"}. Shared stories. Yours to borrow.",
             style = MaterialTheme.typography.bodyLarge
         )
-        Spacer(Modifier.height(20.dp))
-        SearchEntry(
-            placeholder = "Search by title, author, or ISBN",
-            onClick = onSearch
-        )
+    }
+    val searchPlaceholder = "Search by title, author, or ISBN"
+    Column {
+        if (wide) {
+            /* hero on the left, search beside it */
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(32.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Column(modifier = Modifier.weight(1f), content = hero)
+                SearchEntry(
+                    placeholder = searchPlaceholder,
+                    onClick = onSearch,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        } else {
+            Column(content = hero)
+            Spacer(Modifier.height(20.dp))
+            SearchEntry(placeholder = searchPlaceholder, onClick = onSearch)
+        }
         Spacer(Modifier.height(20.dp))
         Text(
             text = "The collection · $available available",
@@ -313,7 +343,11 @@ private fun BookListHeader(
     }
 }
 
-/* one book in the grid: cover tile, title, author, status and the action for this user */
+/*
+ one book in the grid: status chip + the action for this user.
+ horizontal = false: cover tile on top, details underneath (portrait phones)
+ horizontal = true : cover on the left, details beside it (landscape / tablets)
+*/
 @Composable
 fun BookItemCard(
     item: BookWithLoans,
@@ -323,7 +357,8 @@ fun BookItemCard(
     onBorrowClick: () -> Unit,
     onReturnClick: () -> Unit,
     onDelete: () -> Unit,
-    onLoanShow: () -> Unit
+    onLoanShow: () -> Unit,
+    horizontal: Boolean = false
 ){
     val book = item.book
     val loan = item.activeLoan
@@ -337,47 +372,11 @@ fun BookItemCard(
     }
     val isBorrowed = !item.isAvailable && item.availabilityKnown
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .let {
-                if (isAdminMode)
-                    it.clickable(onClick = onLoanShow)
-                else
-                    it
-            }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .padding(vertical = 20.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            BookCover(
-                coverBase64 = book.coverBase64,
-                coverUrl = book.coverUrl,
-                title = book.title,
-                author = book.author,
-                modifier = Modifier
-                    .width(110.dp)
-                    .aspectRatio(0.72f)
-            )
-            if (isAdminMode) {
-                BookActionMenu(
-                    onEdit = onItemClick,
-                    onDelete = onDelete,
-                    onReturn = if (item.isReturnRequested) onReturnClick else null,
-                    modifier = Modifier.align(Alignment.TopEnd)
-                )
-            }
-        }
-        Spacer(Modifier.height(10.dp))
+    val details: @Composable ColumnScope.() -> Unit = {
         Text(
             text = book.title,
             style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
+            maxLines = if (horizontal) 2 else 1,
             overflow = TextOverflow.Ellipsis
         )
         Muted(book.author, maxLines = 1)
@@ -413,6 +412,89 @@ fun BookItemCard(
                     height = 40.dp
                 )
             }
+        }
+    }
+
+    if (horizontal) {
+        FolioCard(
+            onClick = if (isAdminMode) onLoanShow else null,
+            contentPadding = 12.dp
+        ) {
+            Box {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(10.dp)
+                    ) {
+                        BookCover(
+                            coverBase64 = book.coverBase64,
+                            coverUrl = book.coverUrl,
+                            title = book.title,
+                            author = book.author,
+                            modifier = Modifier
+                                .width(88.dp)
+                                .aspectRatio(0.72f)
+                        )
+                    }
+                    Spacer(Modifier.width(14.dp))
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = if (isAdminMode) 36.dp else 0.dp),
+                        content = details
+                    )
+                }
+                if (isAdminMode) {
+                    BookActionMenu(
+                        onEdit = onItemClick,
+                        onDelete = onDelete,
+                        onReturn = if (item.isReturnRequested) onReturnClick else null,
+                        modifier = Modifier.align(Alignment.TopEnd)
+                    )
+                }
+            }
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .let {
+                    if (isAdminMode)
+                        it.clickable(onClick = onLoanShow)
+                    else
+                        it
+                }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(vertical = 20.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                BookCover(
+                    coverBase64 = book.coverBase64,
+                    coverUrl = book.coverUrl,
+                    title = book.title,
+                    author = book.author,
+                    modifier = Modifier
+                        .width(110.dp)
+                        .aspectRatio(0.72f)
+                )
+                if (isAdminMode) {
+                    BookActionMenu(
+                        onEdit = onItemClick,
+                        onDelete = onDelete,
+                        onReturn = if (item.isReturnRequested) onReturnClick else null,
+                        modifier = Modifier.align(Alignment.TopEnd)
+                    )
+                }
+            }
+            Spacer(Modifier.height(10.dp))
+            details()
         }
     }
 }

@@ -1,13 +1,17 @@
 package com.example.mad_assignment.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -24,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,6 +41,7 @@ import com.example.mad_assignment.ui.components.FolioFieldShape
 import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 
 /* sign in / create account, opened on demand (guests can browse without it) */
@@ -60,29 +66,20 @@ fun AuthScreen(
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .imePadding()
-                .padding(horizontal = 20.dp, vertical = 24.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Column {
-                Eyebrow(if (isSignUp) "Join the club" else "Welcome back")
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = if (isSignUp) "Create your\naccount." else "Good to see\nyou again.",
-                    style = MaterialTheme.typography.displayLarge
-                )
-                Spacer(Modifier.height(8.dp))
-                Muted(
-                    text = "Guests can browse the shelf. Sign in to borrow books.",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Spacer(Modifier.height(12.dp))
-            }
+        val hero: @Composable ColumnScope.() -> Unit = {
+            Eyebrow(if (isSignUp) "Join the club" else "Welcome back")
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = if (isSignUp) "Create your\naccount." else "Good to see\nyou again.",
+                style = MaterialTheme.typography.displayLarge
+            )
+            Spacer(Modifier.height(8.dp))
+            Muted(
+                text = "Guests can browse the shelf. Sign in to borrow books.",
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+        val form: @Composable ColumnScope.() -> Unit = {
             if (isSignUp) {
                 OutlinedTextField(
                     value = name,
@@ -142,6 +139,45 @@ fun AuthScreen(
                     text = if (isSignUp) "Already have an account? Sign in" else "No account? Create one",
                     style = MaterialTheme.typography.bodyMedium
                 )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .imePadding()
+        ) {
+            if (isWideScreen()) {
+                /* landscape / tablet: welcome text on the left, form on the right */
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .widthIn(max = 1000.dp)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(40.dp)
+                ) {
+                    Column(modifier = Modifier.weight(1f), content = hero)
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        content = form
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Column(content = hero)
+                    form()
+                }
             }
         }
     }

@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlaylistRemove
@@ -40,6 +42,7 @@ import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.FolioFieldShape
 import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookUiState
 import com.example.mad_assignment.viewModel.BookViewModel
 
@@ -50,15 +53,23 @@ fun ApiBookSearchScreen(
 ) {
     val uiState = vm.uiState
     var searchQuery by rememberSaveable { mutableStateOf(vm.currentQuery) }
+    val wide = isWideScreen()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = { FolioBackBar(title = "Search Online", onBack = onNavigateBack) }
     ) { paddingValues ->
-        Column(
+        /* on a wide screen the whole page is centred and results sit two per row */
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+        ) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .widthIn(max = 1100.dp)
+                .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
             OutlinedTextField(
@@ -147,8 +158,10 @@ fun ApiBookSearchScreen(
                 }
 
                 is BookUiState.Success -> {
-                    LazyColumn(
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(if (wide) 2 else 1),
                         modifier = Modifier.fillMaxSize(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(state.books) { book ->
@@ -180,6 +193,7 @@ fun ApiBookSearchScreen(
                     }
                 }
             }
+        }
         }
     }
 }

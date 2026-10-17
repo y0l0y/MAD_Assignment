@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Undo
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +39,7 @@ import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.StatusChip
 import com.example.mad_assignment.ui.components.Tone
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -100,12 +105,20 @@ private fun BorrowedBookList(
     val today = remember {
         SimpleDateFormat("EEEE, d MMMM", Locale.getDefault()).format(Date())
     }
-    LazyColumn(
-        modifier = modifier,
+    /* one loan card per row on a phone, two per row when the screen is wide */
+    val wide = isWideScreen()
+    Box(modifier = modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(if (wide) 2 else 1),
+        modifier = Modifier
+            .align(Alignment.TopCenter)
+            .widthIn(max = 1100.dp)
+            .fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             Column {
                 Eyebrow("Your reading chapter")
                 Spacer(Modifier.height(8.dp))
@@ -118,7 +131,7 @@ private fun BorrowedBookList(
             }
         }
         if (loans.isEmpty()) {
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 EmptyState(
                     message = "You have no unreturned books.",
                     modifier = Modifier.fillMaxWidth()
@@ -128,13 +141,14 @@ private fun BorrowedBookList(
             items(loans, key = { it.second.id }) { (book, loan) ->
                 LoanCard(book = book, loan = loan, onReturn = { onReturn(book.id) })
             }
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 FolioBanner(
                     title = "Returning a book?",
                     body = "Hand it in to the committee, then tap Return book. Your loan stays open until the committee confirms receipt."
                 )
             }
         }
+    }
     }
 }
 

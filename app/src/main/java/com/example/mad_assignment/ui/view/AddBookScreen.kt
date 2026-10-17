@@ -9,6 +9,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,6 +54,7 @@ import com.example.mad_assignment.ui.components.FolioButton
 import com.example.mad_assignment.ui.components.FolioFieldShape
 import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -152,28 +155,24 @@ fun AddBookContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 20.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Column {
-                    Eyebrow("New arrival")
-                    Spacer(Modifier.height(8.dp))
-                    Text("Add to the shelf", style = MaterialTheme.typography.displayMedium)
-                    Spacer(Modifier.height(4.dp))
-                    Muted(
-                        text = "Scan the barcode or fill in the details.",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
+            val wide = isWideScreen()
+            val header: @Composable ColumnScope.() -> Unit = {
+                Eyebrow("New arrival")
+                Spacer(Modifier.height(8.dp))
+                Text("Add to the shelf", style = MaterialTheme.typography.displayMedium)
+                Spacer(Modifier.height(4.dp))
+                Muted(
+                    text = "Scan the barcode or fill in the details.",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            /* cover picker + barcode scan */
+            val coverPart: @Composable ColumnScope.() -> Unit = {
                 val coverShape = RoundedCornerShape(16.dp)
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .height(if (wide) 240.dp else 200.dp)
                         .clip(coverShape)
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .border(1.dp, MaterialTheme.colorScheme.outline, coverShape)
@@ -204,6 +203,7 @@ fun AddBookContent(
                         }
                     }
                 }
+                Spacer(Modifier.height(16.dp))
                 FolioButton(
                     text = if (isLookingUp) "Looking up book details..." else "Scan ISBN barcode",
                     onClick = { scanAndFill() },
@@ -211,6 +211,9 @@ fun AddBookContent(
                     filled = false,
                     enabled = !isLookingUp
                 )
+            }
+            /* text fields + category */
+            val fieldsPart: @Composable ColumnScope.() -> Unit = {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
@@ -247,6 +250,41 @@ fun AddBookContent(
                     onDeleteCategory = onDeleteCategory,
                     modifier = Modifier.fillMaxWidth()
                 )
+            }
+            if (wide) {
+                /* landscape / tablet: heading + cover on the left, fields on the right */
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .widthIn(max = 1000.dp)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        header()
+                        Spacer(Modifier.height(16.dp))
+                        coverPart()
+                    }
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        content = fieldsPart
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Column(content = header)
+                    Column(content = coverPart)
+                    fieldsPart()
+                }
             }
             ErrorPopup(
                 message = errorMessage,

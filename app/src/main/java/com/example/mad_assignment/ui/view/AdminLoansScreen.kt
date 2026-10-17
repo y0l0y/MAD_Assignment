@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +47,7 @@ import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.StatTile
 import com.example.mad_assignment.ui.components.StatusChip
 import com.example.mad_assignment.ui.components.Tone
+import com.example.mad_assignment.ui.components.isWideScreen
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -89,14 +94,24 @@ fun AdminLoansContent(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        /* loan cards: one per row on a phone, two per row when the screen is wide */
+        val wide = isWideScreen()
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+        ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(if (wide) 2 else 1),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .widthIn(max = 1100.dp)
+                .fillMaxSize(),
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
                     Eyebrow("Committee desk")
                     Spacer(Modifier.height(8.dp))
@@ -126,7 +141,7 @@ fun AdminLoansContent(
                     }
                 }
             }
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 FolioChipRow {
                     FolioChip(
                         label = "Pending returns · ${pendingReturns.size}",
@@ -141,14 +156,14 @@ fun AdminLoansContent(
                 }
             }
             if (selectedTab == 0) {
-                item {
+                item(span = { GridItemSpan(maxLineSpan) }) {
                     FolioBanner(
                         title = "Book in hand? Then confirm.",
                         body = "Only confirm after checking physical receipt. This closes the loan and makes the copy available again."
                     )
                 }
                 if (pendingReturns.isEmpty()) {
-                    item {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
                         EmptyState(
                             message = "No returns are waiting for confirmation.",
                             modifier = Modifier.fillMaxWidth()
@@ -160,7 +175,7 @@ fun AdminLoansContent(
                     }
                 }
             } else {
-                item {
+                item(span = { GridItemSpan(maxLineSpan) }) {
                     FolioChipRow {
                         LoanFilter.entries.forEach { option ->
                             FolioChip(
@@ -173,7 +188,7 @@ fun AdminLoansContent(
                     }
                 }
                 if (rows.isEmpty()) {
-                    item {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
                         EmptyState(
                             message = "No loans to show.",
                             modifier = Modifier.fillMaxWidth()
@@ -183,6 +198,7 @@ fun AdminLoansContent(
                     items(rows, key = { it.loan.id }) { row -> LoanRowCard(row) }
                 }
             }
+        }
         }
     }
 }

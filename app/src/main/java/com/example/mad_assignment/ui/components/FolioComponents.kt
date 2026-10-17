@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,6 +58,17 @@ import com.example.mad_assignment.ui.theme.FolioSerif
  They only read MaterialTheme.colorScheme / typography (see ui/theme), so they
  follow the light / dark switch automatically. No data or logic lives here.
 */
+
+/* ------------------------------------------------------------------ */
+/* Screen size                                                         */
+/* ------------------------------------------------------------------ */
+
+/* phones in landscape, tablets and wide multi-window panes count as "wide" */
+const val WIDE_SCREEN_DP = 600
+
+/* re-evaluated on rotation / window resize */
+@Composable
+fun isWideScreen(): Boolean = LocalConfiguration.current.screenWidthDp >= WIDE_SCREEN_DP
 
 /* ------------------------------------------------------------------ */
 /* Text helpers                                                        */
@@ -127,11 +139,11 @@ fun FolioHomeBar(
             }
             Icon(Icons.Outlined.MenuBook, null, Modifier.size(24.dp), tint = cs.primary)
             Spacer(Modifier.width(6.dp))
-            Text("folio", fontFamily = FolioSerif, fontSize = 28.sp, color = cs.primary)
+            Text("CIS", fontFamily = FolioSerif, fontSize = 28.sp, color = cs.primary)
             Spacer(Modifier.width(10.dp))
             Column {
-                Text("CAMPUS", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
-                Text("BOOK CLUB", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
+                Text("CURTIN ISLAMIC SOCIETY", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
+                Text("LIBRARY", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
             }
             Spacer(Modifier.weight(1f))
             trailing()

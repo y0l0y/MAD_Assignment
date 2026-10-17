@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.Muted
 import com.example.mad_assignment.ui.components.StatusChip
 import com.example.mad_assignment.ui.components.Tone
+import com.example.mad_assignment.ui.components.isWideScreen
 import com.example.mad_assignment.viewModel.BookViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -89,12 +93,19 @@ fun LoanHistoryContent(
                     }
                 }
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
+                    /* one card per row on a phone, two per row when the screen is wide */
+                    val wide = isWideScreen()
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(if (wide) 2 else 1),
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .widthIn(max = 1100.dp)
+                            .fillMaxSize(),
                         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        item {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
                             Column(modifier = Modifier.padding(bottom = 8.dp)) {
                                 Eyebrow("Loan history")
                                 Spacer(Modifier.height(8.dp))
