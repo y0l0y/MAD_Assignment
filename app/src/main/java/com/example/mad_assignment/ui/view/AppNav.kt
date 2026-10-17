@@ -20,8 +20,6 @@ data class AddBook(
 @Serializable
 data class BookDetail(val bookID: String)
 @Serializable
-data object LocalBookSearch
-@Serializable
 data object ApiBookSearch
 @Serializable
 data class LoanHistory(val bookID: String)
@@ -45,9 +43,6 @@ fun AppNav(viewModel: BookViewModel) {
                 vm = viewModel,
                 onNavigationToAdd = {
                     navController.navigate(AddBook())
-                },
-                onNavigateToLocalSearch = {
-                    navController.navigate(LocalBookSearch)
                 },
                 onNavigateToApiSearch = {
                     navController.navigate(ApiBookSearch)
@@ -84,12 +79,6 @@ fun AppNav(viewModel: BookViewModel) {
             BookUpdateScreen(
                 vm = viewModel,
                 bookID = detailRoute.bookID,
-                onNavigateBack = { goBack() }
-            )
-        }
-        composable<LocalBookSearch> {
-            LocalBookSearchScreen(
-                vm = viewModel,
                 onNavigateBack = { goBack() }
             )
         }

@@ -141,10 +141,7 @@ fun FolioHomeBar(
             Spacer(Modifier.width(6.dp))
             Text("CIS", fontFamily = FolioSerif, fontSize = 28.sp, color = cs.primary)
             Spacer(Modifier.width(10.dp))
-            Column {
-                Text("CURTIN ISLAMIC", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
-                Text("SOCIETY LIBRARY", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
-            }
+            Text("LIBRARY", style = MaterialTheme.typography.labelSmall, color = cs.onBackground, fontSize = 10.sp)
             Spacer(Modifier.weight(1f))
             trailing()
         }

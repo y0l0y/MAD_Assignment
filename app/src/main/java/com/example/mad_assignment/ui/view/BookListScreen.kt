@@ -70,7 +70,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalConfiguration
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.other.BookRules
@@ -81,9 +80,15 @@ import com.example.mad_assignment.ui.components.Eyebrow
 import com.example.mad_assignment.ui.components.FolioButton
 import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.FolioChip
+import com.example.mad_assignment.ui.components.FolioChipRow
+import com.example.mad_assignment.ui.components.FolioFieldShape
+import com.example.mad_assignment.ui.components.folioFieldColors
+import com.example.mad_assignment.model.other.SortOrder
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.platform.LocalConfiguration
 import com.example.mad_assignment.ui.components.FolioHomeBar
 import com.example.mad_assignment.ui.components.Muted
-import com.example.mad_assignment.ui.components.SearchEntry
 import com.example.mad_assignment.ui.components.StatusChip
 import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.ui.components.initialsOf
@@ -97,7 +102,6 @@ fun BookListScreen(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
-    onNavigateToLocalSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
@@ -107,7 +111,6 @@ fun BookListScreen(
         vm = vm,
         onNavigationToAdd = onNavigationToAdd,
         onNavigateToApiSearch = onNavigateToApiSearch,
-        onNavigateToLocalSearch = onNavigateToLocalSearch,
         onNavigateToMyBooks = onNavigateToMyBooks,
         onNavigateToAuth = onNavigateToAuth,
         onItemClick = onItemClick,
@@ -121,7 +124,6 @@ fun BookListContent(
     vm: BookViewModel,
     onNavigationToAdd: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
-    onNavigateToLocalSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
@@ -151,7 +153,6 @@ fun BookListContent(
             BookListDrawerContent(
                 isDarkMode = vm.isDarkMode,
                 accountLabel = accountLabel,
-                onNavigateToLocalSearch = onNavigateToLocalSearch,
                 onNavigateToApiSearch = onNavigateToApiSearch,
                 onNavigateToMyBooks = {
                     if (vm.currentUserId == null) onNavigateToAuth() else onNavigateToMyBooks()
@@ -217,11 +218,12 @@ fun BookListContent(
                        cards with the cover on the left and the details beside it */
                     val wide = isWideScreen()
                     val screenWidthDp = LocalConfiguration.current.screenWidthDp
+                    val shownBooks = vm.visibleBook
                     LazyVerticalGrid(
                         columns = when {
-                            !wide -> GridCells.Fixed(2)                       // portrait phone
-                            screenWidthDp >= 1000 -> GridCells.Fixed(3)       // large tablet / desktop
-                            else -> GridCells.Fixed(2)                        // landscape phone / small tablet
+                            !wide -> GridCells.Fixed(2)
+                            screenWidthDp >= 1000 -> GridCells.Fixed(3)
+                            else -> GridCells.Fixed(2)
                         },
                         modifier = Modifier
                             .align(Alignment.TopCenter)
@@ -236,19 +238,27 @@ fun BookListContent(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalArrangement = Arrangement.spacedBy(if (wide) 16.dp else 20.dp)
                     ) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
+                        item(key = "header", span = { GridItemSpan(maxLineSpan) }) {
                             BookListHeader(
+                                vm = vm,
                                 isAdminMode = vm.isAdminMode,
                                 total = books.size,
                                 available = availableCount,
-                                wide = wide,
-                                onSearch = onNavigateToLocalSearch
+                                wide = wide
                             )
                         }
                         if (!vm.isOnline) {
                             item(span = { GridItemSpan(maxLineSpan) }) { OfflineBanner() }
                         }
-                        items(vm.sortedBooks, key = { it.book.id }) { item ->
+                        if (shownBooks.isEmpty()) {
+                            item(key = "no-match", span = { GridItemSpan(maxLineSpan) }) {
+                                EmptyState(
+                                    message = "No matching books found.",
+                                    modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp)
+                                )
+                            }
+                        }
+                        items(shownBooks, key = { it.book.id }) { item ->
                             BookItemCard(
                                 item = item,
                                 isAdminMode = vm.isAdminMode,
@@ -300,14 +310,14 @@ fun BookListContent(
     }
 }
 
-/* hero text, search entry and section title above the grid */
+/* hero text, search field, sort/category chips and section title above the grid */
 @Composable
 private fun BookListHeader(
+    vm: BookViewModel,
     isAdminMode: Boolean,
     total: Int,
     available: Int,
-    wide: Boolean,
-    onSearch: () -> Unit
+    wide: Boolean
 ) {
     val hero: @Composable ColumnScope.() -> Unit = {
         Eyebrow(if (isAdminMode) "Committee desk" else "The club's shared shelf")
@@ -319,7 +329,6 @@ private fun BookListHeader(
             style = MaterialTheme.typography.bodyLarge
         )
     }
-    val searchPlaceholder = "Search by title, author, or ISBN"
     Column {
         if (wide) {
             /* hero on the left, search beside it */
@@ -329,17 +338,48 @@ private fun BookListHeader(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Column(modifier = Modifier.weight(1f), content = hero)
-                SearchEntry(
-                    placeholder = searchPlaceholder,
-                    onClick = onSearch,
-                    modifier = Modifier.weight(1f)
-                )
+                BookSearchField(vm, Modifier.weight(1f))
             }
         } else {
             Column(content = hero)
             Spacer(Modifier.height(20.dp))
-            SearchEntry(placeholder = searchPlaceholder, onClick = onSearch)
+            BookSearchField(vm, Modifier.fillMaxWidth())
         }
+
+        Spacer(Modifier.height(12.dp))
+        FolioChipRow(Modifier.fillMaxWidth()) {
+            FolioChip(
+                label = "Title",
+                selected = vm.sortOrder == SortOrder.TITLE,
+                onClick = { vm.updateSortOrder(SortOrder.TITLE) }
+            )
+            FolioChip(
+                label = "Author",
+                selected = vm.sortOrder == SortOrder.AUTHOR,
+                onClick = { vm.updateSortOrder(SortOrder.AUTHOR) }
+            )
+            FolioChip(
+                label = "Available First",
+                selected = vm.sortOrder == SortOrder.AVAILABLE_FIRST,
+                onClick = { vm.updateSortOrder(SortOrder.AVAILABLE_FIRST) }
+            )
+        }
+        Spacer(Modifier.height(8.dp))
+        FolioChipRow(Modifier.fillMaxWidth()) {
+            FolioChip(
+                label = "All Categories",
+                selected = vm.selectedCategoryId == null,
+                onClick = { vm.updateCategoryFilter(null) }
+            )
+            vm.categories.forEach { category ->
+                FolioChip(
+                    label = category.name,
+                    selected = vm.selectedCategoryId == category.id,
+                    onClick = { vm.updateCategoryFilter(category.id) }
+                )
+            }
+        }
+
         Spacer(Modifier.height(20.dp))
         Text(
             text = "The collection · $available available",
@@ -347,6 +387,27 @@ private fun BookListHeader(
             fontWeight = FontWeight.SemiBold
         )
     }
+}
+
+@Composable
+private fun BookSearchField(vm: BookViewModel, modifier: Modifier = Modifier) {
+    OutlinedTextField(
+        value = vm.searchQuery,
+        onValueChange = { vm.updateSearchQuery(it) },
+        label = { Text("Search by title, author, or ISBN") },
+        modifier = modifier,
+        singleLine = true,
+        shape = FolioFieldShape,
+        colors = folioFieldColors(),
+        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+        trailingIcon = {
+            if (vm.searchQuery.isNotEmpty() || vm.selectedCategoryId != null) {
+                IconButton(onClick = { vm.clearFilter() }) {
+                    Icon(Icons.Default.Clear, contentDescription = "Clear search and filters")
+                }
+            }
+        }
+    )
 }
 
 /*
@@ -509,7 +570,6 @@ fun BookItemCard(
 fun BookListDrawerContent(
     isDarkMode: Boolean,
     accountLabel: String?,
-    onNavigateToLocalSearch: () -> Unit,
     onNavigateToApiSearch: () -> Unit,
     onNavigateToMyBooks: () -> Unit,
     onToggleDarkMode: () -> Unit,
@@ -561,21 +621,6 @@ fun BookListDrawerContent(
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 color = MaterialTheme.colorScheme.outline
-            )
-            NavigationDrawerItem(
-                label = { Text("Search Book Local") },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search Local"
-                    )
-                },
-                selected = false,
-                onClick = {
-                    onNavigateToLocalSearch()
-                    onClose()
-                },
-                modifier = Modifier.padding(horizontal = 12.dp)
             )
             NavigationDrawerItem(
                 label = { Text("Search Book Online") },
