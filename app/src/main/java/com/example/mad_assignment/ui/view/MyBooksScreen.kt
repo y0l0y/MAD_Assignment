@@ -198,11 +198,7 @@ private fun LoanCard(
             }
         }
         Spacer(Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
-        ) {
+        Column {
             if (loan.dueAt > 0) {
                 Column {
                     Text(
