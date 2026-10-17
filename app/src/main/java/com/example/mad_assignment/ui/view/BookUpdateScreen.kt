@@ -2,48 +2,49 @@ package com.example.mad_assignment.ui.view
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.QrCode
+import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.BookEntity
-import com.example.mad_assignment.model.other.decodeCover
+import com.example.mad_assignment.ui.components.Eyebrow
+import com.example.mad_assignment.ui.components.FolioBackBar
+import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.ui.components.FolioFieldShape
+import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.folioFieldColors
 import com.example.mad_assignment.viewModel.BookViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookUpdateScreen(
     vm: BookViewModel,
@@ -63,19 +64,8 @@ fun BookUpdateScreen(
     }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Update Book") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
-            )
-        }
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = { FolioBackBar(title = "Update Book", onBack = onNavigateBack) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -86,18 +76,18 @@ fun BookUpdateScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .imePadding()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 if (book == null) {
                     Text(
                         text = "Book not found or has been deleted.",
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 } else {
                     BookUpdateInfoCard(book)
-                    Spacer(modifier = Modifier.height(8.dp))
                     if (editingField == null) {
                         CategoryPicker(
                             categories = vm.categories,
@@ -167,51 +157,34 @@ fun BookUpdateScreen(
     }
 }
 
+/* cover on a sand tile, then title, author and ISBN */
 @Composable
 fun BookUpdateInfoCard(book: BookEntity) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(24.dp),
+            contentAlignment = Alignment.Center
         ) {
-            val coverBitmap = remember(book.coverBase64) { decodeCover(book.coverBase64) }
-            val coverImage: Any? = coverBitmap ?: book.coverUrl
-            if (coverImage != null) {
-                Text(
-                    text = "Current Book Cover",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                AsyncImage(
-                    model = coverImage,
-                    contentDescription = "Cover of ${book.title}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    contentScale = ContentScale.Fit
-                )
-            } else {
-                Text(
-                    text = "No cover yet",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Text(
-                text = "Current Title: ${book.title}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Current Author: ${book.author}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Current ISBN: ${book.isbn}",
-                style = MaterialTheme.typography.bodyMedium
+            BookCover(
+                coverBase64 = book.coverBase64,
+                coverUrl = book.coverUrl,
+                title = book.title,
+                author = book.author,
+                modifier = Modifier
+                    .width(170.dp)
+                    .aspectRatio(0.72f)
             )
         }
+        Spacer(Modifier.height(16.dp))
+        Text(book.title, style = MaterialTheme.typography.displayMedium)
+        Spacer(Modifier.height(4.dp))
+        Muted("by ${book.author}", style = MaterialTheme.typography.bodyLarge)
+        Spacer(Modifier.height(4.dp))
+        Muted("ISBN: ${book.isbn}")
     }
 }
 
@@ -223,33 +196,33 @@ fun BookUpdateActions(
     onChangeIsbn: () -> Unit
 ) {
     Text(
-        text = "Select what you want to change: ",
-        style = MaterialTheme.typography.titleMedium
+        text = "Select what you want to change",
+        style = MaterialTheme.typography.titleLarge
     )
-    Button(
+    FolioButton(
+        text = "Change Book Cover",
         onClick = onChangeCover,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text("Change Book Cover")
-    }
-    Button(
+        icon = Icons.Outlined.Image,
+        filled = false
+    )
+    FolioButton(
+        text = "Change Book Title",
         onClick = onChangeTitle,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text("Change Book Title")
-    }
-    Button(
+        icon = Icons.Outlined.Title,
+        filled = false
+    )
+    FolioButton(
+        text = "Change Book Author",
         onClick = onChangeAuthor,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text("Change Book Author")
-    }
-    Button(
+        icon = Icons.Outlined.Person,
+        filled = false
+    )
+    FolioButton(
+        text = "Change Book ISBN",
         onClick = onChangeIsbn,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text("Change Book ISBN")
-    }
+        icon = Icons.Outlined.QrCode,
+        filled = false
+    )
 }
 
 @Composable
@@ -266,32 +239,34 @@ fun BookFieldEditSection(
         "isbn" -> "New ISBN"
         else -> "Something Wrong"
     }
+    Eyebrow("Editing")
     Text(
-        text = "Editing: $label",
-        style = MaterialTheme.typography.titleMedium
+        text = label,
+        style = MaterialTheme.typography.titleLarge
     )
     OutlinedTextField(
         value = fieldValue,
         onValueChange = onValueChange,
         label = { Text(label) },
         modifier = Modifier.fillMaxWidth(),
+        shape = FolioFieldShape,
+        colors = folioFieldColors(),
         singleLine = true
     )
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        OutlinedButton(
+        FolioButton(
+            text = "Cancel",
             onClick = onCancel,
+            filled = false,
             modifier = Modifier.weight(1f)
-        ) {
-            Text("Cancel")
-        }
-        Button(
+        )
+        FolioButton(
+            text = "Save",
             onClick = onSave,
             modifier = Modifier.weight(1f)
-        ) {
-            Text("Save")
-        }
+        )
     }
 }

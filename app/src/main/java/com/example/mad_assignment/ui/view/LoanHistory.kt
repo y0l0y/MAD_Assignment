@@ -4,22 +4,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +22,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.entity.LoanEntity
+import com.example.mad_assignment.ui.components.EmptyState
+import com.example.mad_assignment.ui.components.Eyebrow
+import com.example.mad_assignment.ui.components.FolioBackBar
+import com.example.mad_assignment.ui.components.FolioCard
+import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.StatusChip
+import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.viewModel.BookViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -44,30 +46,18 @@ fun LoanHistoryScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoanHistoryContent(
     item: BookWithLoans?,
     onNavigateBack: () -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Loan History") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
-            )
-        }
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = { FolioBackBar(title = "Loan History", onBack = onNavigateBack) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(paddingValues)
         ) {
             when {
@@ -75,6 +65,7 @@ fun LoanHistoryContent(
                     Text(
                         text = "Book not found",
                         color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -85,45 +76,39 @@ fun LoanHistoryContent(
                     Column(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .padding(16.dp),
+                            .padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
                             text = item.book.title,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.headlineMedium,
                             textAlign = TextAlign.Center
                         )
-                        Text(
-                            text = "This book has never been borrow",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
+                        Spacer(Modifier.height(8.dp))
+                        EmptyState(message = "This book has never been borrowed")
                     }
                 }
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         item {
-                            Column(
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            ) {
+                            Column(modifier = Modifier.padding(bottom = 8.dp)) {
+                                Eyebrow("Loan history")
+                                Spacer(Modifier.height(8.dp))
                                 Text(
                                     text = item.book.title,
-                                    style = MaterialTheme.typography.titleLarge
+                                    style = MaterialTheme.typography.displayMedium
                                 )
-                                Text(
-                                    text = "Author: ${item.book.author}",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                Spacer(Modifier.height(4.dp))
+                                Muted(
+                                    text = "by ${item.book.author}",
+                                    style = MaterialTheme.typography.bodyLarge
                                 )
-                                Text(
-                                    text = "Total loans: ${item.loans.size}",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
+                                Spacer(Modifier.height(4.dp))
+                                Muted("Total loans: ${item.loans.size}")
                             }
                         }
                         items(
@@ -142,43 +127,27 @@ fun LoanHistoryContent(
 @Composable
 fun LoanItemCard(loan: LoanEntity) {
     val returned = loan.returnedAt != null
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+    FolioCard {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = loan.borrowerName,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
             )
-            Text(
-                text = "Borrow: ${formateDateTime(loan.borrowedAt)}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            if (loan.dueAt > 0) {
-                Text(
-                    text = "Due: ${formatDay(loan.dueAt)}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-            Text(
-                text =
-                    if (returned)
-                        "Returned: ${formateDateTime(loan.returnedAt)}"
-                    else
-                        "No return yet",
-                style = MaterialTheme.typography.bodyMedium,
-                color =
-                    if (returned)
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    else
-                        MaterialTheme.colorScheme.error
-            )
+            if (returned) StatusChip("Returned", Tone.Good)
+            else StatusChip("No return yet", Tone.Warn)
+        }
+        Spacer(Modifier.height(10.dp))
+        Muted("Borrowed ${formateDateTime(loan.borrowedAt)}")
+        if (loan.dueAt > 0) {
+            Muted("Due ${formatDay(loan.dueAt)}")
+        }
+        if (returned) {
+            Muted("Returned ${formateDateTime(loan.returnedAt)}")
         }
     }
 }

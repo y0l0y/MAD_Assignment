@@ -3,32 +3,33 @@ package com.example.mad_assignment.ui.view
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
+import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +38,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,6 +46,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mad_assignment.model.entity.CategoryEntity
 import com.example.mad_assignment.model.other.OnlineBook
+import com.example.mad_assignment.ui.components.Eyebrow
+import com.example.mad_assignment.ui.components.FolioBackBar
+import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.ui.components.FolioFieldShape
+import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.folioFieldColors
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -58,7 +66,6 @@ data class BookDraft(
 )
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookContent(
     categories: List<CategoryEntity>,
@@ -112,40 +119,31 @@ fun AddBookContent(
     }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Add Book") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
-            )
-        },
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = { FolioBackBar(title = "Add Book", onBack = onNavigateBack) },
         bottomBar = {
-            Button(
-                onClick = {
-                    val error = onSaveBook(
-                        BookDraft(
-                            title = title,
-                            author = author,
-                            isbn = isbn,
-                            categoryId = categoryId,
-                            coverUrl = coverUrl,
-                            coverUri = imageUri
+            Column(Modifier.background(MaterialTheme.colorScheme.surface)) {
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+                FolioButton(
+                    text = "Save Book",
+                    onClick = {
+                        val error = onSaveBook(
+                            BookDraft(
+                                title = title,
+                                author = author,
+                                isbn = isbn,
+                                categoryId = categoryId,
+                                coverUrl = coverUrl,
+                                coverUri = imageUri
+                            )
                         )
-                    )
-                    if (error == null) onNavigateBack() else errorMessage = error
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .imePadding()
-            ) {
-                Text("Save Book")
+                        if (error == null) onNavigateBack() else errorMessage = error
+                    },
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .imePadding()
+                        .padding(16.dp)
+                )
             }
         }
     ) { paddingValues ->
@@ -157,58 +155,69 @@ fun AddBookContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Card(
-                    onClick = {
-                        photoPickerLauncher.launch("image/*")
-                    },
+                Column {
+                    Eyebrow("New arrival")
+                    Spacer(Modifier.height(8.dp))
+                    Text("Add to the shelf", style = MaterialTheme.typography.displayMedium)
+                    Spacer(Modifier.height(4.dp))
+                    Muted(
+                        text = "Scan the barcode or fill in the details.",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+                val coverShape = RoundedCornerShape(16.dp)
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
+                        .height(200.dp)
+                        .clip(coverShape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, coverShape)
+                        .clickable { photoPickerLauncher.launch("image/*") },
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        val preview: Any? = imageUri ?: coverUrl
-                        if (preview != null) {
-                            AsyncImage(
-                                model = preview,
-                                contentDescription = "Selected Cover",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Fit
+                    val preview: Any? = imageUri ?: coverUrl
+                    if (preview != null) {
+                        AsyncImage(
+                            model = preview,
+                            contentDescription = "Selected Cover",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Fit
+                        )
+                    } else {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(
+                                imageVector = Icons.Outlined.AddPhotoAlternate,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
                             )
-                        } else {
+                            Spacer(Modifier.height(8.dp))
                             Text(
                                 text = "Tap to add book cover",
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         }
                     }
                 }
-                OutlinedButton(
+                FolioButton(
+                    text = if (isLookingUp) "Looking up book details..." else "Scan ISBN barcode",
                     onClick = { scanAndFill() },
-                    enabled = !isLookingUp,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        if (isLookingUp)
-                            "Looking up book details..."
-                        else
-                            "Scan ISBN barcode"
-                    )
-                }
+                    icon = Icons.Outlined.QrCodeScanner,
+                    filled = false,
+                    enabled = !isLookingUp
+                )
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
                     label = { Text("Book Title") },
                     modifier = Modifier.fillMaxWidth(),
+                    shape = FolioFieldShape,
+                    colors = folioFieldColors(),
                     singleLine = true
                 )
                 OutlinedTextField(
@@ -216,6 +225,8 @@ fun AddBookContent(
                     onValueChange = { author = it },
                     label = { Text("Author") },
                     modifier = Modifier.fillMaxWidth(),
+                    shape = FolioFieldShape,
+                    colors = folioFieldColors(),
                     singleLine = true
                 )
                 OutlinedTextField(
@@ -223,6 +234,8 @@ fun AddBookContent(
                     onValueChange = { isbn = it },
                     label = { Text("ISBN") },
                     modifier = Modifier.fillMaxWidth(),
+                    shape = FolioFieldShape,
+                    colors = folioFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     singleLine = true
                 )
@@ -297,11 +310,11 @@ fun ErrorPopup(
         }
     }
     if (message != null) {
-        Card(
-            modifier = modifier.widthIn(max = 260.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer
-            )
+        Box(
+            modifier = modifier
+                .widthIn(max = 260.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.errorContainer)
         ) {
             Text(
                 text = message,

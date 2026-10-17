@@ -1,41 +1,44 @@
 package com.example.mad_assignment.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.outlined.Undo
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.LoanEntity
+import com.example.mad_assignment.model.other.BookRules
+import com.example.mad_assignment.ui.components.EmptyState
+import com.example.mad_assignment.ui.components.Eyebrow
+import com.example.mad_assignment.ui.components.FolioBackBar
+import com.example.mad_assignment.ui.components.FolioBanner
+import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.ui.components.FolioCard
+import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.StatusChip
+import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.viewModel.BookViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun MyBookScreen(
@@ -68,7 +71,6 @@ fun MyBookScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyBookContent(
     loans: List<Pair<BookEntity, LoanEntity>>,
@@ -76,107 +78,145 @@ fun MyBookContent(
     onNavigateBack: () -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("My Books") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
-            )
-        }
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = { FolioBackBar(title = "My Books", onBack = onNavigateBack) }
     ) { paddingValues ->
-        Column(
+        BorrowedBookList(
+            loans = loans,
+            onReturn = onReturn,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-        ) {
-            BorrowedBookList(
-                loans = loans,
-                onReturn = onReturn
-            )
-        }
+        )
     }
 }
 
 @Composable
 private fun BorrowedBookList(
     loans: List<Pair<BookEntity, LoanEntity>>,
-    onReturn: (String) -> Unit
+    onReturn: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    if (loans.isEmpty()) {
-        EmptyMessage("You have no unreturned books.")
-        return
+    val today = remember {
+        SimpleDateFormat("EEEE, d MMMM", Locale.getDefault()).format(Date())
     }
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(loans, key = { it.second.id }) { (book, loan) ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    BookCover(
-                        coverBase64 = book.coverBase64,
-                        coverUrl = book.coverUrl,
-                        title = book.title,
-                        modifier = Modifier.size(60.dp, 80.dp)
-                    )
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 12.dp)
-                    ) {
-                        Text(
-                            text = book.title,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = "Author: ${book.author}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = "Borrowed: ${formatDay(loan.borrowedAt)}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        DueDateText(dueAt = loan.dueAt)
-                    }
-                    if (loan.returnRequestedAt != null) {
-                        Text(
-                            text = "Return requested",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                    } else {
-                        TextButton(onClick = { onReturn(book.id) }) {
-                            Text("Request return")
-                        }
-                    }
-                }
+        item {
+            Column {
+                Eyebrow("Your reading chapter")
+                Spacer(Modifier.height(8.dp))
+                Text("My borrowed books", style = MaterialTheme.typography.displayLarge)
+                Spacer(Modifier.height(8.dp))
+                Muted(
+                    text = "${loans.size} open ${if (loans.size == 1) "loan" else "loans"} · $today",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+        if (loans.isEmpty()) {
+            item {
+                EmptyState(
+                    message = "You have no unreturned books.",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        } else {
+            items(loans, key = { it.second.id }) { (book, loan) ->
+                LoanCard(book = book, loan = loan, onReturn = { onReturn(book.id) })
+            }
+            item {
+                FolioBanner(
+                    title = "Returning a book?",
+                    body = "Hand it in to the committee, then tap Return book. Your loan stays open until the committee confirms receipt."
+                )
             }
         }
     }
 }
 
 @Composable
-private fun EmptyMessage(text: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+private fun LoanCard(
+    book: BookEntity,
+    loan: LoanEntity,
+    onReturn: () -> Unit
+) {
+    val cs = MaterialTheme.colorScheme
+    val returnRequested = loan.returnRequestedAt != null
+    val overdue = BookRules.isOverdue(loan.dueAt)
+    val soon = loan.dueAt > 0 && daysLeft(loan.dueAt) <= 3
+    val (chipText, tone) = when {
+        returnRequested -> "Return pending" to Tone.Neutral
+        overdue -> "Overdue" to Tone.Danger
+        soon -> {
+            val days = daysLeft(loan.dueAt)
+            "Due soon · $days ${if (days == 1) "day" else "days"} left" to Tone.Warn
+        }
+        else -> "On loan" to Tone.Neutral
+    }
+    val dueColor = when {
+        returnRequested -> cs.onSurface
+        overdue -> cs.error
+        soon -> cs.tertiary
+        else -> cs.onSurface
+    }
+
+    FolioCard {
+        Row {
+            BookCover(
+                coverBase64 = book.coverBase64,
+                coverUrl = book.coverUrl,
+                title = book.title,
+                author = book.author,
+                modifier = Modifier
+                    .width(64.dp)
+                    .aspectRatio(0.72f)
+            )
+            Spacer(Modifier.width(16.dp))
+            Column {
+                Text(book.title, style = MaterialTheme.typography.titleLarge)
+                Muted(book.author)
+                Spacer(Modifier.height(6.dp))
+                StatusChip(chipText, tone)
+            }
+        }
+        Spacer(Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            if (loan.dueAt > 0) {
+                Column {
+                    Text(
+                        "RETURN BY",
+                        color = cs.onSurfaceVariant,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                    Text(
+                        text = formatDay(loan.dueAt),
+                        color = dueColor,
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
+            } else {
+                Spacer(Modifier.width(1.dp))
+            }
+            Muted("Borrowed ${formatDay(loan.borrowedAt)}")
+        }
+        Spacer(Modifier.height(14.dp))
+        if (returnRequested) {
+            Muted("Waiting for the committee to confirm they received it.")
+        } else {
+            FolioButton(
+                text = "Request return",
+                onClick = onReturn,
+                icon = Icons.Outlined.Undo,
+                filled = false
+            )
+        }
     }
 }

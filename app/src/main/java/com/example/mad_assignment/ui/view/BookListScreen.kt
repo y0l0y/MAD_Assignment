@@ -1,6 +1,7 @@
 package com.example.mad_assignment.ui.view
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,14 +9,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -25,32 +31,28 @@ import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,10 +63,27 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mad_assignment.model.entity.BookEntity
 import com.example.mad_assignment.model.entity.BookWithLoans
 import com.example.mad_assignment.model.other.BookRules
+import com.example.mad_assignment.ui.components.Avatar
+import com.example.mad_assignment.ui.components.CommitteeBadge
+import com.example.mad_assignment.ui.components.EmptyState
+import com.example.mad_assignment.ui.components.Eyebrow
+import com.example.mad_assignment.ui.components.FolioButton
+import com.example.mad_assignment.ui.components.FolioChip
+import com.example.mad_assignment.ui.components.FolioHomeBar
+import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.SearchEntry
+import com.example.mad_assignment.ui.components.StatusChip
+import com.example.mad_assignment.ui.components.Tone
+import com.example.mad_assignment.ui.components.initialsOf
+import com.example.mad_assignment.ui.theme.FolioSerif
 import com.example.mad_assignment.viewModel.BookViewModel
 import kotlinx.coroutines.launch
 
@@ -140,20 +159,21 @@ fun BookListContent(
         }
     ) {
         Scaffold(
+            containerColor = MaterialTheme.colorScheme.background,
             topBar = {
-                TopAppBar(
-                    title = { Text("Club Book Library") },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.open()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Open Menu"
+                FolioHomeBar(
+                    onMenu = { scope.launch { drawerState.open() } },
+                    trailing = {
+                        when {
+                            vm.isAdminMode -> CommitteeBadge()
+                            vm.currentUserId == null -> FolioChip(
+                                label = "Sign in",
+                                selected = false,
+                                onClick = onNavigateToAuth
+                            )
+                            else -> Avatar(
+                                initials = initialsOf(vm.profile?.name.orEmpty()),
+                                onClick = onNavigateToMyBooks
                             )
                         }
                     }
@@ -161,7 +181,12 @@ fun BookListContent(
             },
             floatingActionButton = {
                 if (vm.isAdminMode) {
-                    FloatingActionButton(onClick = onNavigationToAdd) {
+                    FloatingActionButton(
+                        onClick = onNavigationToAdd,
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add Book"
@@ -174,7 +199,6 @@ fun BookListContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp)
             ) {
                 if (books.isEmpty()) {
                     BookListEmptyState(
@@ -183,13 +207,29 @@ fun BookListContent(
                         onRetry = { vm.reload() }
                     )
                 } else {
-                    LazyColumn(
+                    val availableCount = books.count { it.isAvailable }
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        contentPadding = PaddingValues(
+                            start = 20.dp,
+                            end = 20.dp,
+                            top = 24.dp,
+                            bottom = if (vm.isAdminMode) 96.dp else 24.dp
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            BookListHeader(
+                                isAdminMode = vm.isAdminMode,
+                                total = books.size,
+                                available = availableCount,
+                                onSearch = onNavigateToLocalSearch
+                            )
+                        }
                         if (!vm.isOnline) {
-                            item { OfflineBanner() }
+                            item(span = { GridItemSpan(maxLineSpan) }) { OfflineBanner() }
                         }
                         items(vm.sortedBooks, key = { it.book.id }) { item ->
                             BookItemCard(
@@ -242,6 +282,38 @@ fun BookListContent(
     }
 }
 
+/* hero text, search entry and section title above the grid */
+@Composable
+private fun BookListHeader(
+    isAdminMode: Boolean,
+    total: Int,
+    available: Int,
+    onSearch: () -> Unit
+) {
+    Column {
+        Eyebrow(if (isAdminMode) "Committee desk" else "The club's shared shelf")
+        Spacer(Modifier.height(8.dp))
+        Text("A good book,\na little closer.", style = MaterialTheme.typography.displayLarge)
+        Spacer(Modifier.height(8.dp))
+        Muted(
+            text = "$total ${if (total == 1) "book" else "books"}. Shared stories. Yours to borrow.",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Spacer(Modifier.height(20.dp))
+        SearchEntry(
+            placeholder = "Search by title, author, or ISBN",
+            onClick = onSearch
+        )
+        Spacer(Modifier.height(20.dp))
+        Text(
+            text = "The collection · $available available",
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+/* one book in the grid: cover tile, title, author, status and the action for this user */
 @Composable
 fun BookItemCard(
     item: BookWithLoans,
@@ -254,7 +326,18 @@ fun BookItemCard(
     onLoanShow: () -> Unit
 ){
     val book = item.book
-    Card(
+    val loan = item.activeLoan
+    val (chipText, tone) = when {
+        item.isAvailable -> "Available" to Tone.Good
+        !item.availabilityKnown -> "Checking…" to Tone.Neutral
+        item.isReturnRequested -> "Return pending" to Tone.Neutral
+        loan != null && BookRules.isOverdue(loan.dueAt) -> "Overdue" to Tone.Danger
+        canReturn -> "Your loan" to Tone.Warn
+        else -> "On loan" to Tone.Neutral
+    }
+    val isBorrowed = !item.isAvailable && item.availabilityKnown
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .let {
@@ -262,98 +345,73 @@ fun BookItemCard(
                     it.clickable(onClick = onLoanShow)
                 else
                     it
-                 },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            }
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(vertical = 20.dp),
+            contentAlignment = Alignment.Center
         ) {
             BookCover(
                 coverBase64 = book.coverBase64,
                 coverUrl = book.coverUrl,
                 title = book.title,
+                author = book.author,
                 modifier = Modifier
-                    .padding(start = 16.dp)
-                    .size(60.dp, 80.dp)
+                    .width(110.dp)
+                    .aspectRatio(0.72f)
             )
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = book.title,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Author: ${book.author}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "ISBN: ${book.isbn}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                if (item.isAvailable) {
-                    Text(
-                        text = "Status: Available",
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                } else if (!item.availabilityKnown) {
-                    Text(
-                        text = "Status: Checking availability...",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                } else {
-                    val borrower = if (isAdminMode) {
-                        " (By: ${item.activeLoan?.borrowerName ?: "Unknown"})"
-                    } else ""
-                    Text(
-                        text = "Status: Borrowed$borrower",
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    if (item.isReturnRequested) {
-                        Text(
-                            text = "Return requested",
-                            color = MaterialTheme.colorScheme.tertiary,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                    if (isAdminMode || canReturn) {
-                        DueDateText(dueAt = item.activeLoan?.dueAt ?: 0L)
-                    }
-                }
-            }
             if (isAdminMode) {
                 BookActionMenu(
                     onEdit = onItemClick,
                     onDelete = onDelete,
-                    onReturn = if (item.isReturnRequested) onReturnClick else null
+                    onReturn = if (item.isReturnRequested) onReturnClick else null,
+                    modifier = Modifier.align(Alignment.TopEnd)
                 )
-            } else {
-                if (item.isAvailable) {
-                    TextButton(onClick = onBorrowClick) {
-                        Text("Borrow")
-                    }
-                } else if (canReturn) {
-                    TextButton(
-                        onClick = onReturnClick,
-                        enabled = !item.isReturnRequested
-                    ) {
-                        Text(
-                            text = "Request return",
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                    }
-                }
+            }
+        }
+        Spacer(Modifier.height(10.dp))
+        Text(
+            text = book.title,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Muted(book.author, maxLines = 1)
+        Spacer(Modifier.height(8.dp))
+        StatusChip(chipText, tone)
+        if (isAdminMode && isBorrowed) {
+            Spacer(Modifier.height(4.dp))
+            Muted(
+                text = "By ${loan?.borrowerName ?: "Unknown"}",
+                style = MaterialTheme.typography.labelMedium,
+                maxLines = 1
+            )
+        }
+        if (isBorrowed && (isAdminMode || canReturn)) {
+            Spacer(Modifier.height(2.dp))
+            DueDateText(dueAt = loan?.dueAt ?: 0L)
+        }
+        if (!isAdminMode) {
+            if (item.isAvailable) {
+                Spacer(Modifier.height(10.dp))
+                FolioButton(
+                    text = "Borrow",
+                    onClick = onBorrowClick,
+                    height = 40.dp
+                )
+            } else if (canReturn) {
+                Spacer(Modifier.height(10.dp))
+                FolioButton(
+                    text = if (item.isReturnRequested) "Return requested" else "Request return",
+                    onClick = onReturnClick,
+                    filled = false,
+                    enabled = !item.isReturnRequested,
+                    height = 40.dp
+                )
             }
         }
     }
@@ -376,15 +434,25 @@ fun BookListDrawerContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp),
+                    .padding(start = 24.dp, end = 4.dp, top = 12.dp, bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Menu",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Outlined.MenuBook,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = "folio",
+                        fontFamily = FolioSerif,
+                        fontSize = 28.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
                 IconButton(onClick = onClose) {
                     Icon(
                         imageVector = Icons.Default.Close,
@@ -392,6 +460,20 @@ fun BookListDrawerContent(
                     )
                 }
             }
+            if (accountLabel != null) {
+                Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
+                    Eyebrow("Signed in as", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = accountLabel,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+            }
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                color = MaterialTheme.colorScheme.outline
+            )
             NavigationDrawerItem(
                 label = { Text("Search Book Local") },
                 icon = {
@@ -469,11 +551,6 @@ fun BookListDrawerContent(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
             } else {
-                Text(
-                    text = accountLabel,
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
-                )
                 NavigationDrawerItem(
                     label = { Text("Sign out") },
                     icon = {
@@ -571,7 +648,8 @@ fun BookActionMenu(
         ) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
-                contentDescription = "More Action"
+                contentDescription = "More Action",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         DropdownMenu(
@@ -632,21 +710,27 @@ fun BookListEmptyState(
         contentAlignment = Alignment.Center
     ) {
         when {
-            isLoading -> CircularProgressIndicator()
-            error != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            isLoading -> CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            error != null -> Column(
+                modifier = Modifier.padding(horizontal = 40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = error,
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyLarge
                 )
-                Button(onClick = onRetry) {
-                    Text("Retry")
-                }
+                Spacer(Modifier.height(16.dp))
+                FolioButton(
+                    text = "Retry",
+                    onClick = onRetry,
+                    filled = false,
+                    modifier = Modifier.width(160.dp)
+                )
             }
-            else -> Text(
-                text = "No book available. Please contact admin to add the book.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            else -> EmptyState(
+                message = "No book available. Please contact admin to add the book."
             )
         }
     }
 }
-
