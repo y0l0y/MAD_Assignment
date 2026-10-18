@@ -1,5 +1,6 @@
 package com.example.mad_assignment.ui.view
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
@@ -10,13 +11,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.mad_assignment.ui.components.Eyebrow
 import com.example.mad_assignment.ui.components.FolioBackBar
+import com.example.mad_assignment.ui.components.FolioBanner
 import com.example.mad_assignment.ui.components.FolioCard
 import com.example.mad_assignment.ui.components.Muted
+import com.example.mad_assignment.ui.components.Tone
 import com.example.mad_assignment.viewModel.BookViewModel
 
 @Composable
@@ -27,6 +34,18 @@ fun ContactScreen(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
     val cs = MaterialTheme.colorScheme
+
+    // message shown in the error banner; null means no error
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    // starts another app; if none can handle the intent, show a banner instead of crashing
+    fun openLink(intent: Intent, failMessage: String) {
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            errorMessage = failMessage
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -42,6 +61,15 @@ fun ContactScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // error banner; tap it to dismiss
+            errorMessage?.let { message ->
+                FolioBanner(
+                    body = message,
+                    tone = Tone.Danger,
+                    modifier = Modifier.clickable { errorMessage = null }
+                )
+            }
+
             FolioCard(contentPadding = 20.dp) {
                 Text(
                     text = "Get in Touch",
@@ -77,8 +105,10 @@ fun ContactScreen(
                     modifier = Modifier
                         .padding(top = 2.dp, bottom = 10.dp)
                         .clickable {
-                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+601116396026"))
-                            context.startActivity(intent)
+                            openLink(
+                                Intent(Intent.ACTION_DIAL, Uri.parse("tel:+601116396026")),
+                                "No phone app found to call this number."
+                            )
                         }
                 )
             }
@@ -89,8 +119,10 @@ fun ContactScreen(
                     style = MaterialTheme.typography.labelLarge,
                     color = cs.primary,
                     modifier = Modifier.clickable {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/601116396026"))
-                        context.startActivity(intent)
+                        openLink(
+                            Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/601116396026")),
+                            "No app found to open this link."
+                        )
                     }
                 )
             }
@@ -101,10 +133,12 @@ fun ContactScreen(
                     style = MaterialTheme.typography.labelLarge,
                     color = cs.primary,
                     modifier = Modifier.clickable {
-                        val intent = Intent(Intent.ACTION_SENDTO).apply {
-                            data = Uri.parse("mailto:700053678@student.curtin.edu.my")
-                        }
-                        context.startActivity(intent)
+                        openLink(
+                            Intent(Intent.ACTION_SENDTO).apply {
+                                data = Uri.parse("mailto:700053678@student.curtin.edu.my")
+                            },
+                            "No email app found to send a message."
+                        )
                     }
                 )
             }
