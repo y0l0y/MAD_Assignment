@@ -24,7 +24,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.border
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bookmarks
@@ -772,13 +774,24 @@ fun BookActionMenu(
 
     Box(modifier = modifier) {
         IconButton(
-            onClick = { expanded = true }
+            onClick = { expanded = true },
+            modifier = Modifier
+                .size(48.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.MoreVert,
-                contentDescription = "More Action",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Box (
+                modifier = Modifier
+                    .size(30.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surface)
+                    .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "More Action",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
         DropdownMenu(
             expanded = expanded,
