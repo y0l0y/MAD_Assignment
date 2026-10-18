@@ -35,7 +35,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material3.AlertDialog
@@ -85,6 +84,7 @@ import com.example.mad_assignment.ui.components.FolioFieldShape
 import com.example.mad_assignment.ui.components.folioFieldColors
 import com.example.mad_assignment.model.other.SortOrder
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.platform.LocalConfiguration
 import com.example.mad_assignment.ui.components.FolioHomeBar
@@ -104,7 +104,8 @@ fun BookListScreen(
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
-    onLoanShow: (BookEntity) -> Unit
+    onLoanShow: (BookEntity) -> Unit,
+    onNavigateToContact: () -> Unit
 ){
     BookListContent(
         vm = vm,
@@ -112,7 +113,8 @@ fun BookListScreen(
         onNavigateToMyBooks = onNavigateToMyBooks,
         onNavigateToAuth = onNavigateToAuth,
         onItemClick = onItemClick,
-        onLoanShow = onLoanShow
+        onLoanShow = onLoanShow,
+        onNavigateToContact = onNavigateToContact
     )
 }
 
@@ -124,7 +126,8 @@ fun BookListContent(
     onNavigateToMyBooks: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onItemClick: (BookEntity) -> Unit,
-    onLoanShow: (BookEntity) -> Unit
+    onLoanShow: (BookEntity) -> Unit,
+    onNavigateToContact: () -> Unit
 ) {
     var borrowBookId by rememberSaveable { mutableStateOf<String?>(null) }
     var deleteBookId by rememberSaveable { mutableStateOf<String?>(null) }
@@ -155,6 +158,7 @@ fun BookListContent(
                 },
                 onToggleDarkMode = { vm.toggleDarkMode() },
                 onSignIn = onNavigateToAuth,
+                onNavigateToContact = { onNavigateToContact() },
                 onSignOut = { vm.signOut() },
                 onClose = { scope.launch { drawerState.close() }}
             )
@@ -568,6 +572,7 @@ fun BookListDrawerContent(
     accountLabel: String?,
     onNavigateToMyBooks: () -> Unit,
     onToggleDarkMode: () -> Unit,
+    onNavigateToContact: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onClose: () -> Unit
@@ -643,6 +648,16 @@ fun BookListDrawerContent(
                 selected = false,
                 onClick = {
                     onToggleDarkMode()
+                    onClose()
+                },
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            NavigationDrawerItem(
+                label = { Text("Contact Us") },
+                icon = { Icon(imageVector = Icons.Default.Mail, contentDescription = "Contact Us") },
+                selected = false,
+                onClick = {
+                    onNavigateToContact()
                     onClose()
                 },
                 modifier = Modifier.padding(horizontal = 12.dp)

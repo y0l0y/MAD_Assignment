@@ -34,6 +34,8 @@ data object MyBooks
 @Serializable
 data object Auth
 
+@Serializable
+data object Contact
 @Composable
 fun AppNav(viewModel: BookViewModel) {
     val navController = rememberNavController()
@@ -61,6 +63,9 @@ fun AppNav(viewModel: BookViewModel) {
                 },
                 onLoanShow = { book ->
                     navController.navigate(LoanHistory(bookID = book.id))
+                },
+                onNavigateToContact = {
+                    navController.navigate(Contact)
                 }
             )
         }
@@ -129,6 +134,12 @@ fun AppNav(viewModel: BookViewModel) {
             val route = backStackEntry.toRoute<LoanHistory>()
             LoanHistoryScreen(
                 bookID = route.bookID,
+                vm = viewModel,
+                onNavigateBack = { goBack() }
+            )
+        }
+        composable<Contact> {
+            ContactScreen(
                 vm = viewModel,
                 onNavigateBack = { goBack() }
             )
