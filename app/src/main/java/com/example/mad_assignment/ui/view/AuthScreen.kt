@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -118,6 +119,14 @@ fun AuthScreen(
                     tone = Tone.Danger,
                     icon = Icons.Outlined.ErrorOutline
                 )
+            }
+            if (isSignUp) {
+                FolioBanner(
+                    title = "Check your details",
+                    body = "Your account details can't be changed after you create your account, so please make sure they're correct before continuing.",
+                    icon = Icons.Outlined.Info
+                )
+                Spacer(Modifier.height(16.dp))
             }
             FolioButton(
                 text = if (isSignUp) "Create account" else "Sign in",
