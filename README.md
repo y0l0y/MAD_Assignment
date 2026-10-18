@@ -89,17 +89,18 @@ Tap **+** to open *Add book*, then tap **Search book online**.
 
 1. **Loading and success:** type a title and tap **Search**. A spinner shows while the data loads, then the results. Tap a result to fill the add-book form.
 2. **Empty state:** search for a nonsense word such as `xtfrgb` (the request succeeds with no results).
-3. **Error and Retry:** turn on aeroplane mode, search, then turn aeroplane mode off and tap **Retry**.
+3. **Error and Retry:** turn on airplane mode, search, then turn airplane mode off and tap **Retry**.
 4. **Bad data:** results with no title are skipped, a missing author is shown as "Unknown author", and repeated title/author pairs appear once.
 
-### Device and inter-app features — signed in as admin, **+** (Add book)
+### Device and inter-app features 
 
-1. **Gallery:** tap the cover area and choose an image. Press Back in the picker to cancel; the form is unchanged. (The picker needs no storage permission.)
-2. **Barcode scanner:** tap **Scan ISBN barcode** and scan the EAN-13 barcode on the back of a book. The ISBN, title, author and cover are filled in from Open Library. If the lookup fails or the network is off, a message is shown and the scanned ISBN is kept. Closing the scanner cancels it. If the scanner is not available, a message asks the user to type the ISBN. (The Google code scanner needs no camera permission from the app.)
+1. **Contact screen:** tap the phone number to open the phone app’s dialer with the number filled in. The call only starts when you press the call button there. Tap **Chat with Us Now** to open WhatsApp at the Curtin number. If WhatsApp isn’t installed, the link opens in the browser. Tap the email address to open your mail app with a new message addressed to Curtin. Each action hands off to another app, so the app asks for no permissions. If no app can handle an action, a message is shown on the Contact screen instead.
+2. **Gallery (as an Admin on '+' add books):** tap the cover area and choose an image. Press Back in the picker to cancel; the form is unchanged. (The picker needs no storage permission.)
+3. **Barcode scanner (as an Admin on '+' add books):** tap **Scan ISBN barcode** and scan the EAN-13 barcode on the back of a book. The ISBN, title, author and cover are filled in from Open Library. If the lookup fails or the network is off, a message is shown and the scanned ISBN is kept. Closing the scanner cancels it. If the scanner is not available, a message asks the user to type the ISBN. (The Google code scanner needs no camera permission from the app.)
 
 ### Offline use
 
-Turn on aeroplane mode and open the app. The whole book list, search, filter and sorting still work. A banner says you are offline. Borrowing, requesting or confirming a return, and admin catalogue changes show a message instead (they need internet).
+Turn on airplane mode and open the app. The whole book list, search, filter and sorting still work. A banner says you are offline. Borrowing, requesting or confirming a return, and admin catalogue changes show a message instead (they need internet).
 
 ### Rotation, screen size and text size
 
@@ -172,11 +173,12 @@ Code is under `app/src/main/java/com/example/mad_assignment`.
      * `AddBookScreen.kt`: add a book (admin).
      * `AdminLoansScreen.kt`: pending returns and the all-loans list (admin).
      * `ApiBookSearchScreen.kt`: search books online with Open Library.
-     * `AppNav.kt`: navigation between screens (seven routes).
+     * `AppNav.kt`: navigation between screens (eight routes).
      * `AuthScreen.kt`: sign in and create account.
      * `BookListScreen.kt`: the main screen (search, filter, sort, side menu).
      * `BookUpdateScreen.kt`: book detail and edit (admin), opened with the book ID.
      * `CategoryPicker.kt`: the category drop-down menu.
+     * `ContactScreen.kt`: the contact screen.
      * `IsbnScanner.kt`: calls Google's barcode scanner.
      * `LoanHistory.kt`: the loan history of one book (admin), opened with the book ID.
      * `MyBooksScreen.kt`: a student's unreturned books (admins see the loans screen instead).
